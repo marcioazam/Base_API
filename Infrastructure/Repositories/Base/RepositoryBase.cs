@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories.Base
 
         public async Task<bool> Exist<TFilter>(TFilter filter) => await GetExist<TFilter>(filter);
 
-        public async Task<TReturn?> GetById<TReturn>(long id) => await Get<TReturn>(id);
+        public async Task<TReturn?> GetById<TReturn>(long id) => await GetDataById<TReturn>(id);
 
         public async Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize) => await GetPagedList<TReturn, TFilter>(filter, pageNumber, pageSize);
 

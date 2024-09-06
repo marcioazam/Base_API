@@ -58,7 +58,7 @@ namespace Infrastructure.Repositories.Default
             return await query.AnyAsync();
         }
 
-        protected async Task<TReturn?> Get<TReturn>(long id)
+        protected async Task<TReturn?> GetDataById<TReturn>(long id)
         {
             // Utilizar metodo FindAsync (Melhor desempenho ao buscar pela PK)
             // Ex: estava buscando local por FirstOrDefault() tempo de 700ms, já FindAsync() tempo de 17ms
@@ -123,7 +123,7 @@ namespace Infrastructure.Repositories.Default
 
         public virtual async Task<bool> Delete(long id)
         {
-            var entity = Mapper.Map<TTable>(await Get<TGenericEntity>(id));
+            var entity = Mapper.Map<TTable>(await GetDataById<TGenericEntity>(id));
 
             DbContext.Entry(entity).State = EntityState.Deleted;
             DbSet.Remove(entity);
