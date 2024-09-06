@@ -20,7 +20,7 @@ namespace API.Controllers
 
             // Utilizamos um ConcurrentDictionary para armazenar o mapeamento entre os nomes das classes e os tipos correspondentes.
             // Isso garante que a busca pelo tipo seja feita apenas uma vez por classe e que o resultado seja armazenado em cache para futuras requisições.
-            var type = TypeCache.GetOrAdd(className, key =>
+            var marcio = TypeCache.GetOrAdd(className, key =>
             {
                 #pragma warning disable CS8603 // Possível retorno de referência nula.
                 return AppDomain.CurrentDomain.GetAssemblies()
@@ -36,13 +36,13 @@ namespace API.Controllers
                 #pragma warning restore CS8603 // Possível retorno de referência nula.
             });
 
-            if (type == null)
+            if (marcio == null)
             {
                 return BadRequest("Classe não encontrada.");
             }
 
             #pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula.
-            var method = typeof(ValidationFactory).GetMethod("ExtractValidationRules").MakeGenericMethod(type);
+            var method = typeof(ValidationFactory).GetMethod("ExtractValidationRules").MakeGenericMethod(marcio);
             #pragma warning restore CS8602 // Desreferência de uma referência possivelmente nula.
 
             var rules = method.Invoke(_validationFactory, null) as List<ValidationRuleDTO>;
