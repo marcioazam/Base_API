@@ -1,10 +1,8 @@
 ﻿using Application.Interfaces.Services;
 using Application.Interfaces.UoW;
 using Application.Services;
-using Application.Handlers.Base;
 using Domain.Commands.Base;
 using Domain.Commands.Supplier;
-using Domain.Models;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Repositories.Base;
@@ -16,11 +14,11 @@ using Infrastructure.UoW;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Handlers.Bases;
-using Domain.Models.Base;
 using Application.Factories;
 using FluentValidation;
 using Application.Interfaces.Factories;
 using Domain.Validators;
+using Domain.Entities;
 
 namespace Infrastructure
 {

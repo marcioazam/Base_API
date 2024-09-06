@@ -4,7 +4,6 @@ using Application.Factories;
 using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.Supplier;
-using Domain.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 

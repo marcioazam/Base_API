@@ -1,13 +1,12 @@
-﻿using Application.Handlers.Base;
-using Application.Interfaces.UoW;
+﻿using Application.Interfaces.UoW;
 using Domain.Commands.Base;
 using Domain.Commands.Supplier;
-using Domain.Models;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Domain.Interfaces.Repositories.Base;
 using Domain.Interfaces.Entities.Base;
 using AutoMapper;
+using Application.Handlers.Default;
 
 namespace Application.Handlers.Bases
 {

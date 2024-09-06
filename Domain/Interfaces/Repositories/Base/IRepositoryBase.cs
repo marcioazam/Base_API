@@ -1,5 +1,4 @@
-﻿using Domain.Models.Base;
-using Domain.Interfaces.Entities.Base;
+﻿using Domain.Interfaces.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

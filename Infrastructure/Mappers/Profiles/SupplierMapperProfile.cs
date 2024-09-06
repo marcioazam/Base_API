@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Supplier;
 using Domain.Commands.Supplier;
-using Domain.Models;
+using Domain.Entities;
 using Infrastructure.Context.Tables;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;

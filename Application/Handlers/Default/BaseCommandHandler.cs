@@ -4,7 +4,7 @@ using Domain.Interfaces.Entities.Base;
 using FluentValidation.Results;
 using MediatR;
 
-namespace Application.Handlers.Base
+namespace Application.Handlers.Default
 {
     public abstract class BaseCommandHandler<TCommand, TResponse, TRepository, TModel>(IUnitOfWork unitOfWork) : IRequestHandler<TCommand, TResponse>
         where TCommand : IRequest<TResponse>

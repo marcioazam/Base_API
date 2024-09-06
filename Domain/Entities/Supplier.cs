@@ -1,5 +1,4 @@
-﻿using Domain.Models.Base;
-using Domain.Interfaces.Entities.Base;
+﻿using Domain.Interfaces.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using Domain.Validators;
+using Domain.Entities.Base;
 
-namespace Domain.Models
+namespace Domain.Entities
 {
     public class Supplier(string apiUrl, string nome, string apiKey) : EntityBase
     {
@@ -18,7 +18,7 @@ namespace Domain.Models
 
         public string ApiKey { get; set; } = apiKey;
 
-        public override Task<ValidationResult> Validate() 
+        public override Task<ValidationResult> Validate()
         {
             var validator = new SupplierValidator();
 

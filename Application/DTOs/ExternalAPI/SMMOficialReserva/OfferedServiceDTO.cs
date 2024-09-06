@@ -1,12 +1,11 @@
-﻿using Domain.Models.Base;
-using Domain.EnumTypes.SMMOficialReserva;
+﻿using Domain.EnumTypes.SMMOficialReserva;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.ExternalAPI.SMMOficialReserva
+namespace Application.DTOs.ExternalAPI.SMMOficialReserva
 {
     public class OfferedServiceDTO(string? service, string? name, string? type, string? rate, string? min, string? max, bool dripfeed, bool refill, bool cancel, string? category)
     {

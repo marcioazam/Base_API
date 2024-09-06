@@ -1,7 +1,6 @@
 ﻿using Application.DTOs.Validation;
 using Application.Factories;
 using Application.Interfaces.Factories;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
