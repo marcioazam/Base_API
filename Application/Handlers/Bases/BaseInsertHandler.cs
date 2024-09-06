@@ -30,7 +30,7 @@ namespace Application.Handlers.Bases
 
             await Commit();
 
-            return new CommandResult(true, result.Value);
+            return new CommandResult(true, result.Id);
         }
     }
 }

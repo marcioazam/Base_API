@@ -8,5 +8,6 @@ namespace Domain.Interfaces.Tables
 {
     public interface ITable
     {
+        public long Id { get; set; }
     }
 }

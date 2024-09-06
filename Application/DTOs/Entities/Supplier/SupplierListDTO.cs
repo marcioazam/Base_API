@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Supplier
+namespace Application.DTOs.Entities.Supplier
 {
     public class SupplierListDTO(int? id, string nome)
     {

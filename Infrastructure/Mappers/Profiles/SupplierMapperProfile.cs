@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Supplier;
+﻿using Application.DTOs.Entities.Supplier;
+using Application.DTOs.Filters;
 using Domain.Commands.Supplier;
 using Domain.Entities;
 using Infrastructure.Context.Tables;

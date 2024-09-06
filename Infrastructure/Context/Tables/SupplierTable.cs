@@ -9,7 +9,7 @@ namespace Infrastructure.Context.Tables
 {
     public class SupplierTable : ITable
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public required string Nome { get; set; }
 

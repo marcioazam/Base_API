@@ -1,4 +1,5 @@
-using Application.DTOs.Supplier;
+using Application.DTOs.Entities.Supplier;
+using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;
 using Application.Interfaces.Factories;
@@ -15,44 +16,42 @@ namespace API.Controllers
     {
         private readonly ISupplierService _supplierService = supplierService;
 
-        [HttpGet("ListAll")]
-        public async Task<IActionResult> List()
+        [HttpGet("List")]
+        public async Task<IActionResult> List([FromQuery]SupplierFilterDTO filter)
         {
-            SupplierListDTO dTO = new SupplierListDTO(null, "string");
-
-            var resultado = await _supplierService.List<SupplierListDTO>(dTO);
-
-            return Ok(resultado);
-        }
-
-        //[HttpGet]
-        //public async Task<IActionResult> Get(int id)
-        //{
-        //    var resultado = await _supplierService.Get<SupplierListDTO>(x => x.Id == id);
-
-        //    return Ok(resultado);
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> Exist(int id)
-        //{
-        //    var resultado = await _supplierService.Exist<SupplierListDTO>(x => x.Id == id);
-
-        //    return Ok(resultado);
-        //}
-
-        [HttpGet("count")]
-        public async Task<IActionResult> Count(int id)
-        {
-            var resultado = await _supplierService.Count<SupplierListDTO>(null);
+            var resultado = await _supplierService.List<SupplierListDTO, SupplierFilterDTO>(filter);
 
             return Ok(resultado);
         }
 
         [HttpGet]
-        public async Task<IActionResult> PagedList(string nome, int pageNumber, int pageSize)
+        public async Task<IActionResult> Get(int id)
         {
-            var resultado = await _supplierService.PagedList<SupplierListDTO>(x => x.Nome.Contains(nome), pageNumber, pageSize);
+            var resultado = await _supplierService.GetById<SupplierListDTO>(id);
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("exist")]
+        public async Task<IActionResult> Exist([FromQuery] SupplierFilterDTO filter)
+        {
+            var resultado = await _supplierService.Exist<SupplierFilterDTO>(filter);
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> Count([FromQuery] SupplierFilterDTO filter)
+        {
+            var resultado = await _supplierService.Count<SupplierFilterDTO>(filter);
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("PagedList")]
+        public async Task<IActionResult> PagedList([FromQuery] SupplierFilterDTO filter, int pageNumber, int pageSize)
+        {
+            var resultado = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
 
             return Ok(resultado);
         }

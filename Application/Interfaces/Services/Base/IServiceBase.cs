@@ -13,15 +13,15 @@ namespace Application.Interfaces.Services.Base
 {
     public interface IServiceBase
     {
-        Task<TEntity?> Get<TEntity>(Expression<Func<TEntity, bool>> expression);
+        Task<TEntity?> GetById<TEntity>(int id);
 
-        Task<PagedResult<TEntity>> PagedList<TEntity>(Expression<Func<TEntity, bool>>? expression, int pageNumber, int pageSize);
+        Task<PagedResult<TReturnDTO>> PagedList<TReturnDTO, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
-        Task<List<TGenericDTO>> List<TGenericDTO>(TGenericDTO expression) where TGenericDTO : class;
+        Task<List<TReturnDTO>> List<TReturnDTO, TFilter>(TFilter filter);
 
-        Task<int> Count<TEntity>(Expression<Func<TEntity, bool>> expression);
+        Task<int> Count<TFilter>(TFilter filter);
 
-        Task<bool> Exist<TEntity>(Expression<Func<TEntity, bool>> expression);
+        Task<bool> Exist<TFilter>(TFilter filter);
 
         Task<TResponse> Post<TResponse>(IRequest<TResponse> command);
     }
