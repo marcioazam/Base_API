@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.Supplier
 {
-    public class SupplierDeleteCommand(int id) : IRequest<CommandResult>
+    public class SupplierDeleteCommand(long id) : IRequest<CommandResult>
     {
         [Required]
-        public int Id { get; set; } = id;
+        public long Id { get; set; } = id;
     }
 }

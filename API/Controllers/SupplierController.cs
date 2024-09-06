@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(long id)
         {
             var resultado = await _supplierService.GetById<SupplierListDTO>(id);
 
@@ -55,11 +55,19 @@ namespace API.Controllers
 
             return Ok(resultado);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Post(SupplierInsertCommand command)
         {
             var resultado = await _supplierService.Post(command);
+
+            return BuildActionResult(resultado);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(SupplierUpdateCommand command)
+        {
+            var resultado = await _supplierService.Update(command);
 
             return BuildActionResult(resultado);
         }

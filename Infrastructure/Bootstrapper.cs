@@ -26,25 +26,28 @@ namespace Infrastructure
     {
         public static void AddDependencies(this IServiceCollection services)
         {
+            // Generics
             services.AddTransient<IGenericRepository<Supplier>, SupplierRepository>();
-
-            services.AddTransient<IRequestHandler<SupplierInsertCommand, CommandResult>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
-
-            //services.AddTransient<IRequestHandler<AtualizarProdutoCommand, CommandResult>, AtualizarProdutoHandler>();
-            //services.AddTransient<IRequestHandler<ExcluirProdutoCommand, CommandResult>, ExcluirProdutoHandler>();
-
-
-
-            services.AddTransient<ISupplierRepository, SupplierRepository>();
-
-            services.AddTransient<ISupplierService, SupplierService>();
-
-            services.AddTransient<IValidator<Supplier>, SupplierValidator>();
-
             services.AddTransient<IValidationFactory, ValidationFactory>();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            // Handlers e Commands
+            services.AddTransient<IRequestHandler<SupplierInsertCommand, CommandResult>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
+            services.AddTransient<IRequestHandler<SupplierUpdateCommand, CommandResult>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
+            //services.AddTransient<IRequestHandler<ExcluirProdutoCommand, CommandResult>, ExcluirProdutoHandler>();
 
+            // Repositories
+            services.AddTransient<ISupplierRepository, SupplierRepository>();
+
+            // Services
+            services.AddTransient<ISupplierService, SupplierService>();
+
+            // Validators
+            services.AddTransient<IValidator<Supplier>, SupplierValidator>();
+
+            // Factories
+
+            // Others
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<DefaultContext>();
 
             services.RegisterMappings();

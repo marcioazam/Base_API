@@ -25,12 +25,14 @@ namespace Application.Services.Base
 
         public async Task<bool> Exist<TFilter>(TFilter filter) => await _genericRepository.Exist(filter);
 
-        public async Task<TFilter?> GetById<TFilter>(int id) => await _genericRepository.GetById<TFilter>(id);
+        public async Task<TFilter?> GetById<TFilter>(long id) => await _genericRepository.GetById<TFilter>(id);
 
-        public async Task<PagedResult<TReturnDTO>> PagedList<TReturnDTO, TFilter>(TFilter filter, int pageNumber, int pageSize) => await _genericRepository.PagedList<TReturnDTO, TFilter>(filter, pageNumber, pageSize);
+        public async Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize) => await _genericRepository.PagedList<TReturn, TFilter>(filter, pageNumber, pageSize);
 
-        public async Task<List<TReturnDTO>> List<TReturnDTO, TFilter>(TFilter filter) => await _genericRepository.List<TReturnDTO, TFilter>(filter);
+        public async Task<List<TReturn>> List<TReturn, TFilter>(TFilter filter) => await _genericRepository.List<TReturn, TFilter>(filter);
 
         public async Task<TResponse> Post<TResponse>(IRequest<TResponse> command) => await _mediator.Send(command);
+
+        public async Task<TResponse> Update<TResponse>(IRequest<TResponse> command) => await _mediator.Send(command);
     }
 }

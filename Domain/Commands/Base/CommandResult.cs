@@ -14,7 +14,7 @@ namespace Domain.Commands.Base
             Sucesso = sucesso;
         }
 
-        public CommandResult(bool sucesso, int id)
+        public CommandResult(bool sucesso, long id)
         {
             Sucesso = sucesso;
             Id = id;
@@ -38,7 +38,7 @@ namespace Domain.Commands.Base
 
         public bool Sucesso { get; set; }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public IList<CommandResultErro>? Erros { get; private set; }
     }

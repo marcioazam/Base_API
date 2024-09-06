@@ -20,7 +20,13 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey)).ReverseMap();
+                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+
+            CreateMap<Supplier, SupplierTable>()
+                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
+                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey))
+                .ForMember(x => x.Id, opt => opt.Ignore());
 
             CreateMap<SupplierTable, SupplierListDTO>()
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
@@ -30,6 +36,14 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+
+            CreateMap<SupplierUpdateCommand, Supplier>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
+                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+
+            CreateMap<Supplier, Supplier>();
         }
     }
 }

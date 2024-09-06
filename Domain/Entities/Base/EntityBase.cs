@@ -12,7 +12,7 @@ namespace Domain.Entities.Base
     public class EntityBase : IEntity
     {
         [JsonPropertyOrder(0)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         private bool IDValid => Id > 0;
 

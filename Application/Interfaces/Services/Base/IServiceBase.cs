@@ -13,16 +13,18 @@ namespace Application.Interfaces.Services.Base
 {
     public interface IServiceBase
     {
-        Task<TEntity?> GetById<TEntity>(int id);
+        Task<TEntity?> GetById<TEntity>(long id);
 
-        Task<PagedResult<TReturnDTO>> PagedList<TReturnDTO, TFilter>(TFilter filter, int pageNumber, int pageSize);
+        Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
-        Task<List<TReturnDTO>> List<TReturnDTO, TFilter>(TFilter filter);
+        Task<List<TReturn>> List<TReturn, TFilter>(TFilter filter);
 
         Task<int> Count<TFilter>(TFilter filter);
 
         Task<bool> Exist<TFilter>(TFilter filter);
 
         Task<TResponse> Post<TResponse>(IRequest<TResponse> command);
+
+        Task<TResponse> Update<TResponse>(IRequest<TResponse> command);
     }
 }

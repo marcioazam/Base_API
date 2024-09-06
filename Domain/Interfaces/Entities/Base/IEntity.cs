@@ -9,6 +9,8 @@ namespace Domain.Interfaces.Entities.Base
 {
     public interface IEntity
     {
+        public long Id { get; set; }
+
         public bool IsIDValid();
 
         public Task<ValidationResult> Validate();
