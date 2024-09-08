@@ -28,7 +28,6 @@ namespace Infrastructure
         public static void AddDependencies(this IServiceCollection services)
         {
             // Generics
-            services.AddTransient<IGenericRepository<Supplier>, SupplierRepository>();
             services.AddTransient<IValidationFactory, ValidationFactory>();
             services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Supplier, BaseDeleteCommand>>();
             services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Cliente, BaseDeleteCommand>>();
@@ -40,6 +39,9 @@ namespace Infrastructure
             services.AddTransient<IRequestHandler<SupplierUpdateCommand, CommandResult>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
 
             // Repositories
+            services.AddTransient<IRepositoryBase<Cliente>, ClienteRepository>();
+            services.AddTransient<IRepositoryBase<Supplier>, SupplierRepository>();
+
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
 
@@ -56,8 +58,6 @@ namespace Infrastructure
             // Others
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<DefaultContext>();
-
-            services.AddScoped<IGenericRepository<Cliente>, IRepositoryBase<Cliente>>();
 
             services.RegisterMappings();
         }

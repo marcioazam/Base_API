@@ -14,12 +14,11 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers.Bases
 {
-    public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IGenericRepository<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, CommandResult, IGenericRepository<TModel>, TModel>(unitOfWork)
-        where TModel : class, IEntity
-        where TCommand : IRequest<CommandResult>, IDeleteCommand
+    public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, CommandResult, IRepositoryBase<TModel>, TModel>(unitOfWork)
+            where TModel : class, IEntity
+            where TCommand : IRequest<CommandResult>, IDeleteCommand
     {
-        private readonly IGenericRepository<TModel> _repository = repository;
-        private readonly IMapper _mapper = mapper;
+        private readonly IRepositoryBase<TModel> _repository = repository;
 
         public override async Task<CommandResult> Handle(TCommand command, CancellationToken cancellationToken)
         {

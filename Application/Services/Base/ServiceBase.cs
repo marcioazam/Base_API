@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Application.Services.Base
 {
-    public class ServiceBase<TRepository, TModel>(IMediator mediator, TRepository genericRepository) : IServiceBase where TRepository : IGenericRepository<TModel>
+    public class ServiceBase<TRepository, TModel>(IMediator mediator, TRepository genericRepository) : IServiceBase where TRepository : IRepositoryBase<TModel>
         where TModel : class, IEntity
     {
         private readonly IMediator _mediator = mediator;

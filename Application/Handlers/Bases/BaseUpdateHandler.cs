@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers.Bases
 {
-    public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IGenericRepository<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, CommandResult, IGenericRepository<TModel>, TModel>(unitOfWork)
+    public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, CommandResult, IRepositoryBase<TModel>, TModel>(unitOfWork)
         where TModel : class, IEntity
         where TCommand : IRequest<CommandResult>
     {
-        private readonly IGenericRepository<TModel> _repository = repository;
+        private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;
 
         public override async Task<CommandResult> Handle(TCommand command, CancellationToken cancellationToken)
