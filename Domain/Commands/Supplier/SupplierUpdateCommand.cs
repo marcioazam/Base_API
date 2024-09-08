@@ -8,10 +8,11 @@ using MediatR;
 using Domain.EnumTypes;
 using FluentValidation.Results;
 using Domain.Validators;
+using Domain.ValueObjects.ResultInfo;
 
 namespace Domain.Commands.Supplier
 {
-    public class SupplierUpdateCommand(long id, string nome, string apiUrl, string apiKey) : IRequest<CommandResult>
+    public class SupplierUpdateCommand(long id, string nome, string apiUrl, string apiKey) : IRequest<Result>
     {
         public long Id { get; set; } = id;
 

@@ -20,6 +20,7 @@ using Application.Interfaces.Factories;
 using Domain.Validators;
 using Domain.Entities;
 using Domain.Commands.Cliente;
+using Domain.ValueObjects.ResultInfo;
 
 namespace Infrastructure
 {
@@ -29,14 +30,14 @@ namespace Infrastructure
         {
             // Generics
             services.AddTransient<IValidationFactory, ValidationFactory>();
-            services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Supplier, BaseDeleteCommand>>();
-            services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Cliente, BaseDeleteCommand>>();
+            services.AddTransient<IRequestHandler<BaseDeleteCommand, Result>, BaseDeleteHandler<Supplier, BaseDeleteCommand>>();
+            services.AddTransient<IRequestHandler<BaseDeleteCommand, Result>, BaseDeleteHandler<Cliente, BaseDeleteCommand>>();
 
             // Handlers e Commands
-            services.AddTransient<IRequestHandler<ClienteInsertCommand, CommandResult>, BaseInsertHandler<Cliente, ClienteInsertCommand>>();
-            services.AddTransient<IRequestHandler<ClienteUpdateCommand, CommandResult>, BaseUpdateHandler<Cliente, ClienteUpdateCommand>>();
-            services.AddTransient<IRequestHandler<SupplierInsertCommand, CommandResult>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
-            services.AddTransient<IRequestHandler<SupplierUpdateCommand, CommandResult>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
+            services.AddTransient<IRequestHandler<ClienteInsertCommand, Result>, BaseInsertHandler<Cliente, ClienteInsertCommand>>();
+            services.AddTransient<IRequestHandler<ClienteUpdateCommand, Result>, BaseUpdateHandler<Cliente, ClienteUpdateCommand>>();
+            services.AddTransient<IRequestHandler<SupplierInsertCommand, Result>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
+            services.AddTransient<IRequestHandler<SupplierUpdateCommand, Result>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
 
             // Repositories
             services.AddTransient<IRepositoryBase<Cliente>, ClienteRepository>();

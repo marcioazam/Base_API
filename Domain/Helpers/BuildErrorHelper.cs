@@ -17,7 +17,7 @@ namespace Domain.Helpers
 
         private static string GetEnumDescription(Enum ValidateError)
         {
-            string? description = EnumHelper.GetDescription(ValidateError);
+            string? description = EnumHelper.GetDesc(ValidateError);
 
             if (string.IsNullOrEmpty(description))
             {

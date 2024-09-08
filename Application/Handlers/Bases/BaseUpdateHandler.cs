@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Commands.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
+using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,32 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers.Bases
 {
-    public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, CommandResult, IRepositoryBase<TModel>, TModel>(unitOfWork)
+    public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
         where TModel : class, IEntity
-        where TCommand : IRequest<CommandResult>
+        where TCommand : IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;
 
-        public override async Task<CommandResult> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<TModel>(_mapper.Map<TModel>(command));
 
             await Validate(entity);
 
-            if (IsInvalid)
-                return new CommandResult(false, ValidationErrors);
+            if (result.Failed())
+                return result;
 
-            var result = await _repository.Update(entity);
+            result.Errors.Add(await _repository.Update(entity));
+
+            if (result.Failed())
+            {
+                return result;
+            }
 
             await Commit();
 
-            return new CommandResult(true);
+            return result;
         }
     }
 }

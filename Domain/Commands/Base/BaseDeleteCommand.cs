@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Command;
+using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.Base
 {
-    public class BaseDeleteCommand(long id) : IRequest<CommandResult>, IDeleteCommand
+    public class BaseDeleteCommand(long id) : IRequest<Result>, IDeleteCommand
     {
         public long Id { get; set; } = id;
     }

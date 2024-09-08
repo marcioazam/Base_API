@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.UoW;
 using Domain.Commands.Base;
 using Domain.Interfaces.Entities.Base;
+using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
 using MediatR;
 
@@ -12,30 +13,20 @@ namespace Application.Handlers.Default
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-        private ValidationResult validationResult = new();
+        public Result result = new(null, []);
 
         public abstract Task<TResponse> Handle(TCommand command, CancellationToken cancellationToken);
 
         public async Task Validate(TModel model)
         {
-            validationResult = await model.Validate();
-        }
+            ValidationResult validationResult = await model.Validate();
 
-        public bool IsInvalid => validationResult.IsValid == false;
-
-        public IList<CommandResultErro> ValidationErrors
-        {
-            get
-            {
-                return validationResult.Errors
-                        .Select(x => new CommandResultErro(x.PropertyName, x.ErrorMessage))
-                        .ToList();
-            }
+            validationResult.Errors.ToList().ForEach(x => result.Errors.Add(new ResultError(x.PropertyName, x.AttemptedValue?.ToString(), x.ErrorMessage)));
         }
 
         public async Task<bool> Commit()
         {
-            if (IsInvalid)
+            if (result.Failed())
                 return false;
 
             if (await _unitOfWork.Commit())

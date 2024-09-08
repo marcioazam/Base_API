@@ -6,6 +6,7 @@ using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.Base;
 using Domain.Commands.Supplier;
+using Domain.ValueObjects.ResultInfo;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,75 +21,75 @@ namespace API.Controllers
         [HttpGet("List")]
         public async Task<IActionResult> List([FromQuery]SupplierFilterDTO filter)
         {
-            var resultado = await _supplierService.List<SupplierListDTO, SupplierFilterDTO>(filter);
+            var result = await _supplierService.List<SupplierListDTO, SupplierFilterDTO>(filter);
 
-            return Ok(resultado);
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(long id)
         {
-            var resultado = await _supplierService.GetById<SupplierListDTO>(id);
+            var result = await _supplierService.GetById<SupplierListDTO>(id);
 
-            return Ok(resultado);
+            return Ok(result);
         }
 
         [HttpGet("exist")]
         public async Task<IActionResult> Exist([FromQuery] SupplierFilterDTO filter)
         {
-            var resultado = await _supplierService.Exist<SupplierFilterDTO>(filter);
+            var result = await _supplierService.Exist<SupplierFilterDTO>(filter);
 
-            return Ok(resultado);
+            return Ok(result);
         }
 
         [HttpGet("count")]
         public async Task<IActionResult> Count([FromQuery] SupplierFilterDTO filter)
         {
-            var resultado = await _supplierService.Count<SupplierFilterDTO>(filter);
+            var result = await _supplierService.Count<SupplierFilterDTO>(filter);
 
-            return Ok(resultado);
+            return Ok(result);
         }
 
         [HttpGet("PagedList")]
         public async Task<IActionResult> PagedList([FromQuery] SupplierFilterDTO filter, int pageNumber, int pageSize)
         {
-            var resultado = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
+            var result = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
 
-            return Ok(resultado);
+            return Ok(result);
         }
         
         [HttpPost]
         public async Task<IActionResult> Post(SupplierInsertCommand command)
         {
-            var resultado = await _supplierService.Post(command);
+            Result result = await _supplierService.Post(command);
 
-            return BuildActionResult(resultado);
+            return BuildActionResult(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(SupplierUpdateCommand command)
         {
-            var resultado = await _supplierService.Update(command);
+            Result result = await _supplierService.Update(command);
 
-            return BuildActionResult(resultado);
+            return BuildActionResult(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(BaseDeleteCommand command)
         {
-            var resultado = await _supplierService.Delete(command);
+            Result result = await _supplierService.Delete(command);
 
-            return BuildActionResult(resultado);
+            return BuildActionResult(result);
         }
 
-        private IActionResult BuildActionResult(Domain.Commands.Base.CommandResult resultado)
+        private IActionResult BuildActionResult(Result result)
         {
-            if (!resultado.Sucesso)
+            if (result.Failed())
             {
-                return BadRequest(resultado.Erros);
+                return BadRequest(result.Errors);
             }
 
-            return CreatedAtAction("Get", new { id = resultado.Id }, resultado.Id);
+            return CreatedAtAction("Get", new { id = result.Data }, result.Data);
         }
     }
 }

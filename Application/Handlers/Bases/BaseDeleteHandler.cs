@@ -5,6 +5,7 @@ using Domain.Commands.Base;
 using Domain.Interfaces.Command;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
+using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,19 +15,24 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers.Bases
 {
-    public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, CommandResult, IRepositoryBase<TModel>, TModel>(unitOfWork)
+    public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
             where TModel : class, IEntity
-            where TCommand : IRequest<CommandResult>, IDeleteCommand
+            where TCommand : IRequest<Result>, IDeleteCommand
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
 
-        public override async Task<CommandResult> Handle(TCommand command, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            var result = await _repository.Delete(command.Id);
+            result.Errors.Add(await _repository.Delete(command.Id));
+
+            if (result.Failed())
+            {
+                return result;
+            }
 
             await Commit();
 
-            return new CommandResult(true);
+            return result;
         }
     }
 }

@@ -10,11 +10,14 @@ namespace Domain.Helpers
 {
     public static class EnumHelper
     {
-        public static string? GetDescription(Enum value)
+        public static string? GetDesc(Enum value)
         {
             if (value == null) return null;
 
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            FieldInfo? fi = value.GetType().GetField(value.ToString());
+
+            if (fi == null) return value.ToString();
+
             DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
             if (attributes.Length > 0)
@@ -27,17 +30,17 @@ namespace Domain.Helpers
             }
         }
 
-        public static bool ValidaEnum<TEnum>(this int enumValue, TEnum retValue)
+        public static bool ValidaEnum<TEnum>(this int enumValue, out TEnum? retValue) where TEnum : struct
         {
-            if (retValue == null) return false;
-
-            retValue = default(TEnum);
-
             bool success = Enum.IsDefined(typeof(TEnum), enumValue);
 
             if (success)
             {
                 retValue = (TEnum)Enum.ToObject(typeof(TEnum), enumValue);
+            }
+            else
+            {
+                retValue = null;
             }
 
             return success;
