@@ -26,5 +26,7 @@ namespace Application.Interfaces.Services.Base
         Task<TResponse> Post<TResponse>(IRequest<TResponse> command);
 
         Task<TResponse> Update<TResponse>(IRequest<TResponse> command);
+
+        Task<TResponse> Delete<TResponse>(IRequest<TResponse> command);
     }
 }

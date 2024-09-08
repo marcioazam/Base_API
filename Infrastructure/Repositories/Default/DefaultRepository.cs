@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -121,9 +122,13 @@ namespace Infrastructure.Repositories.Default
             return true;
         }
 
-        public virtual async Task<bool> Delete(long id)
+        public virtual async Task<bool> DeleteData(long id)
         {
-            var entity = Mapper.Map<TTable>(await GetDataById<TGenericEntity>(id));
+            var entity = await DbSet.FindAsync(id);
+
+            // Não achou
+            if (entity == null)
+                return false;
 
             DbContext.Entry(entity).State = EntityState.Deleted;
             DbSet.Remove(entity);

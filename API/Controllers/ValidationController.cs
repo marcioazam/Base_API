@@ -13,6 +13,8 @@ namespace API.Controllers
         private readonly IValidationFactory _validationFactory = validationFactory;
         private static readonly ConcurrentDictionary<string, Type> TypeCache = new();
 
+        // Talvez este nao sej ao melhor jeito para buscar regras de validação, porem so saberamos apos utilização em grande escala.
+        // Se necessario pode trocar isso por um dicionario declarando cada classe e suas regras de validação.
         [HttpGet]
         public ActionResult<List<ValidationRuleDTO>> ValidationRulesModel(string className)
         {

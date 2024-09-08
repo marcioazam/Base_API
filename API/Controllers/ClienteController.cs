@@ -1,11 +1,11 @@
-using Application.DTOs.Entities.Supplier;
+﻿using Application.DTOs.Entities.Supplier;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;
 using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.Base;
-using Domain.Commands.Supplier;
+using Domain.Commands.Cliente;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,14 +13,14 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SupplierController(ISupplierService supplierService) : ControllerBase
+    public class ClienteController(IClienteService ClienteService) : ControllerBase
     {
-        private readonly ISupplierService _supplierService = supplierService;
+        private readonly IClienteService _ClienteService = ClienteService;
 
         [HttpGet("List")]
-        public async Task<IActionResult> List([FromQuery]SupplierFilterDTO filter)
+        public async Task<IActionResult> List([FromQuery] ClienteFilterDTO filter)
         {
-            var resultado = await _supplierService.List<SupplierListDTO, SupplierFilterDTO>(filter);
+            var resultado = await _ClienteService.List<ClienteListDTO, ClienteFilterDTO>(filter);
 
             return Ok(resultado);
         }
@@ -28,47 +28,47 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(long id)
         {
-            var resultado = await _supplierService.GetById<SupplierListDTO>(id);
+            var resultado = await _ClienteService.GetById<ClienteListDTO>(id);
 
             return Ok(resultado);
         }
 
         [HttpGet("exist")]
-        public async Task<IActionResult> Exist([FromQuery] SupplierFilterDTO filter)
+        public async Task<IActionResult> Exist([FromQuery] ClienteFilterDTO filter)
         {
-            var resultado = await _supplierService.Exist<SupplierFilterDTO>(filter);
+            var resultado = await _ClienteService.Exist<ClienteFilterDTO>(filter);
 
             return Ok(resultado);
         }
 
         [HttpGet("count")]
-        public async Task<IActionResult> Count([FromQuery] SupplierFilterDTO filter)
+        public async Task<IActionResult> Count([FromQuery] ClienteFilterDTO filter)
         {
-            var resultado = await _supplierService.Count<SupplierFilterDTO>(filter);
+            var resultado = await _ClienteService.Count<ClienteFilterDTO>(filter);
 
             return Ok(resultado);
         }
 
         [HttpGet("PagedList")]
-        public async Task<IActionResult> PagedList([FromQuery] SupplierFilterDTO filter, int pageNumber, int pageSize)
+        public async Task<IActionResult> PagedList([FromQuery] ClienteFilterDTO filter, int pageNumber, int pageSize)
         {
-            var resultado = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
+            var resultado = await _ClienteService.PagedList<ClienteListDTO, ClienteFilterDTO>(filter, pageNumber, pageSize);
 
             return Ok(resultado);
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> Post(SupplierInsertCommand command)
+        public async Task<IActionResult> Post(ClienteInsertCommand command)
         {
-            var resultado = await _supplierService.Post(command);
+            var resultado = await _ClienteService.Post(command);
 
             return BuildActionResult(resultado);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(SupplierUpdateCommand command)
+        public async Task<IActionResult> Update(ClienteUpdateCommand command)
         {
-            var resultado = await _supplierService.Update(command);
+            var resultado = await _ClienteService.Update(command);
 
             return BuildActionResult(resultado);
         }
@@ -76,7 +76,7 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(BaseDeleteCommand command)
         {
-            var resultado = await _supplierService.Delete(command);
+            var resultado = await _ClienteService.Delete(command);
 
             return BuildActionResult(resultado);
         }

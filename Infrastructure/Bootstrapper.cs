@@ -19,6 +19,7 @@ using FluentValidation;
 using Application.Interfaces.Factories;
 using Domain.Validators;
 using Domain.Entities;
+using Domain.Commands.Cliente;
 
 namespace Infrastructure
 {
@@ -29,19 +30,25 @@ namespace Infrastructure
             // Generics
             services.AddTransient<IGenericRepository<Supplier>, SupplierRepository>();
             services.AddTransient<IValidationFactory, ValidationFactory>();
+            services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Supplier, BaseDeleteCommand>>();
+            services.AddTransient<IRequestHandler<BaseDeleteCommand, CommandResult>, BaseDeleteHandler<Cliente, BaseDeleteCommand>>();
 
             // Handlers e Commands
+            services.AddTransient<IRequestHandler<ClienteInsertCommand, CommandResult>, BaseInsertHandler<Cliente, ClienteInsertCommand>>();
+            services.AddTransient<IRequestHandler<ClienteUpdateCommand, CommandResult>, BaseUpdateHandler<Cliente, ClienteUpdateCommand>>();
             services.AddTransient<IRequestHandler<SupplierInsertCommand, CommandResult>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
             services.AddTransient<IRequestHandler<SupplierUpdateCommand, CommandResult>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
-            //services.AddTransient<IRequestHandler<ExcluirProdutoCommand, CommandResult>, ExcluirProdutoHandler>();
 
             // Repositories
+            services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
 
             // Services
+            services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<ISupplierService, SupplierService>();
 
             // Validators
+            services.AddTransient<IValidator<Cliente>, ClienteValidator>();
             services.AddTransient<IValidator<Supplier>, SupplierValidator>();
 
             // Factories
@@ -49,6 +56,8 @@ namespace Infrastructure
             // Others
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<DefaultContext>();
+
+            services.AddScoped<IGenericRepository<Cliente>, IRepositoryBase<Cliente>>();
 
             services.RegisterMappings();
         }

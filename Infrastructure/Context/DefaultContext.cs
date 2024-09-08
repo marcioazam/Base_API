@@ -14,6 +14,8 @@ namespace Infrastructure.Context
     {
         public DbSet<SupplierTable> Supplier { get; set; }
 
+        public DbSet<ClienteTable> Cliente { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

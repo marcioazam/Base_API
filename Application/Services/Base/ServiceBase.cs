@@ -34,5 +34,7 @@ namespace Application.Services.Base
         public async Task<TResponse> Post<TResponse>(IRequest<TResponse> command) => await _mediator.Send(command);
 
         public async Task<TResponse> Update<TResponse>(IRequest<TResponse> command) => await _mediator.Send(command);
+
+        public async Task<TResponse> Delete<TResponse>(IRequest<TResponse> command) => await _mediator.Send(command);
     }
 }

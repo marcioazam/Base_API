@@ -1,3 +1,4 @@
+using Domain.Interfaces.Repositories.Base;
 using Infrastructure;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDependencies();
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 builder.Services.AddDbContext<DefaultContext>(options =>

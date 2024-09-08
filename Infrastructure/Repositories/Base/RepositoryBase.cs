@@ -20,9 +20,9 @@ namespace Infrastructure.Repositories.Base
         where TTable : class, ITable
         where TModel : class, IEntity
     {
-        public async Task<int> Count<TFilter>(TFilter filter) => await GetCountList<TFilter>(filter);
+        public async Task<int> Count<TFilter>(TFilter filter) => await GetCountList(filter);
 
-        public async Task<bool> Exist<TFilter>(TFilter filter) => await GetExist<TFilter>(filter);
+        public async Task<bool> Exist<TFilter>(TFilter filter) => await GetExist(filter);
 
         public async Task<TReturn?> GetById<TReturn>(long id) => await GetDataById<TReturn>(id);
 
@@ -34,9 +34,6 @@ namespace Infrastructure.Repositories.Base
 
         public Task<bool> Update(TModel model) => UpdateData(model);
 
-        Task<bool> IGenericRepository<TModel>.Delete<TEntity>(long id)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<bool> Delete(long id) => DeleteData(id);
     }
 }

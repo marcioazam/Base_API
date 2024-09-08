@@ -1,4 +1,4 @@
-﻿using Domain.Commands.Base;
+﻿using Domain.Interfaces.Command;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.Supplier
+namespace Domain.Commands.Base
 {
-    public class SupplierDeleteCommand(long id) : IRequest<CommandResult>
+    public class BaseDeleteCommand(long id) : IRequest<CommandResult>, IDeleteCommand
     {
-        [Required]
         public long Id { get; set; } = id;
     }
 }
