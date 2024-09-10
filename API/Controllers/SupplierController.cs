@@ -37,7 +37,7 @@ namespace API.Controllers
         [HttpGet("exist")]
         public async Task<IActionResult> Exist([FromQuery] SupplierFilterDTO filter)
         {
-            var result = await _supplierService.Exist<SupplierFilterDTO>(filter);
+            var result = await _supplierService.Exist(filter);
 
             return Ok(result);
         }
@@ -45,7 +45,7 @@ namespace API.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> Count([FromQuery] SupplierFilterDTO filter)
         {
-            var result = await _supplierService.Count<SupplierFilterDTO>(filter);
+            var result = await _supplierService.Count(filter);
 
             return Ok(result);
         }
