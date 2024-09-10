@@ -1,11 +1,15 @@
+using API.Controllers.Extension;
 using Application.DTOs.Entities.Supplier;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;
 using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
+using Application.Services;
 using Domain.Commands.Base;
+using Domain.Commands.Cliente;
 using Domain.Commands.Supplier;
+using Domain.Helpers;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -59,11 +63,12 @@ namespace API.Controllers
         }
         
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Post(SupplierInsertCommand command)
         {
-            Result result = await _supplierService.Post(command);
+            var result = await _supplierService.Post(command);
 
-            return BuildActionResult(result);
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.Created);
         }
 
         [HttpPut]
@@ -71,25 +76,15 @@ namespace API.Controllers
         {
             Result result = await _supplierService.Update(command);
 
-            return BuildActionResult(result);
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(BaseDeleteCommand command)
+        public async Task<IActionResult> Delete(SupplierDeleteCommand command)
         {
             Result result = await _supplierService.Delete(command);
 
-            return BuildActionResult(result);
-        }
-
-        private IActionResult BuildActionResult(Result result)
-        {
-            if (result.Failed())
-            {
-                return BadRequest(result.Errors);
-            }
-
-            return CreatedAtAction("Get", new { id = result.Data }, result.Data);
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
         }
     }
 }

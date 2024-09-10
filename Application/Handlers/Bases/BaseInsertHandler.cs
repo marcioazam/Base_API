@@ -27,14 +27,11 @@ namespace Application.Handlers.Bases
             if (result.Failed())
                 return result;
 
-            result = await _repository.Insert(entity);
-
-            if (result.Failed())
-                return result;
+            var entityId = await _repository.Insert(entity);
 
             await Commit();
 
-            return result;
+            return new Result(entityId, []);
         }
     }
 }

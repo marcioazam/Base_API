@@ -2,6 +2,8 @@
 using Application.Interfaces.UoW;
 using AutoMapper;
 using Domain.Commands.Base;
+using Domain.EnumTypes;
+using Domain.Helpers;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.ValueObjects.ResultInfo;
@@ -23,19 +25,23 @@ namespace Application.Handlers.Bases
 
         public override async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            var entity = _mapper.Map<TModel>(_mapper.Map<TModel>(command));
+            var newEntity = _mapper.Map<TModel>(_mapper.Map<TModel>(command));
 
-            await Validate(entity);
+            await Validate(newEntity);
 
             if (result.Failed())
                 return result;
 
-            result.Errors.Add(await _repository.Update(entity));
+            var oldEntity = await _repository.GetById<TModel>(newEntity.Id);
 
-            if (result.Failed())
+            // Não achou
+            if (oldEntity == null)
             {
+                result.Errors.Add(new ResultError("Id", newEntity.Id.ToString(), EnumHelper.GetDesc(Error.NotFound)));
                 return result;
             }
+
+            _repository.Update(newEntity, newEntity);
 
             await Commit();
 

@@ -28,16 +28,14 @@ namespace Infrastructure
     {
         public static void AddDependencies(this IServiceCollection services)
         {
-            // Generics
-            services.AddTransient<IValidationFactory, ValidationFactory>();
-            services.AddTransient<IRequestHandler<BaseDeleteCommand, Result>, BaseDeleteHandler<Supplier, BaseDeleteCommand>>();
-            services.AddTransient<IRequestHandler<BaseDeleteCommand, Result>, BaseDeleteHandler<Cliente, BaseDeleteCommand>>();
-
             // Handlers e Commands
             services.AddTransient<IRequestHandler<ClienteInsertCommand, Result>, BaseInsertHandler<Cliente, ClienteInsertCommand>>();
             services.AddTransient<IRequestHandler<ClienteUpdateCommand, Result>, BaseUpdateHandler<Cliente, ClienteUpdateCommand>>();
+            services.AddTransient<IRequestHandler<ClienteDeleteCommand, Result>, BaseDeleteHandler<Cliente, ClienteDeleteCommand>>();
+            
             services.AddTransient<IRequestHandler<SupplierInsertCommand, Result>, BaseInsertHandler<Supplier, SupplierInsertCommand>>();
             services.AddTransient<IRequestHandler<SupplierUpdateCommand, Result>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
+            services.AddTransient<IRequestHandler<SupplierDeleteCommand, Result>, BaseDeleteHandler<Supplier, SupplierDeleteCommand>>();
 
             // Repositories
             services.AddTransient<IRepositoryBase<Cliente>, ClienteRepository>();
@@ -55,6 +53,7 @@ namespace Infrastructure
             services.AddTransient<IValidator<Supplier>, SupplierValidator>();
 
             // Factories
+            services.AddTransient<IValidationFactory, ValidationFactory>();
 
             // Others
             services.AddTransient<IUnitOfWork, UnitOfWork>();

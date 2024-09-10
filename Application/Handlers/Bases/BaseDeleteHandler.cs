@@ -2,6 +2,8 @@
 using Application.Interfaces.UoW;
 using AutoMapper;
 using Domain.Commands.Base;
+using Domain.EnumTypes;
+using Domain.Helpers;
 using Domain.Interfaces.Command;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
@@ -23,14 +25,18 @@ namespace Application.Handlers.Bases
 
         public override async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            result.Errors.Add(await _repository.Delete(command.Id));
-
-            if (result.Failed())
+            try
             {
+                await _repository.Delete(command.Id);
+
+                await Commit();
+            }
+            catch(Exception ex)
+            {
+                result.Errors.Add(new ResultError("Id", command.Id.ToString(), ex.Message));
+
                 return result;
             }
-
-            await Commit();
 
             return result;
         }

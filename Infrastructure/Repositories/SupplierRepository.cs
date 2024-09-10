@@ -5,7 +5,6 @@ using Domain.Interfaces.Repositories;
 using Infrastructure.Context;
 using Infrastructure.Context.Tables;
 using Infrastructure.Repositories.Base;
-using Infrastructure.Repositories.Default;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Repositories
 {
-    public class SupplierRepository(DefaultContext context, IMapper imapper) : RepositoryBase<SupplierTable, Supplier>(context, imapper), ISupplierRepository
+    public class SupplierRepository(DefaultContext context, IMapper imapper) : BaseRepository<SupplierTable, Supplier>(context, imapper), ISupplierRepository
     {
     }
 }

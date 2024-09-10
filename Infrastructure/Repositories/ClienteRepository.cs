@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class ClienteRepository(DefaultContext context, IMapper imapper) : RepositoryBase<ClienteTable, Cliente>(context, imapper), IClienteRepository
+    public class ClienteRepository(DefaultContext context, IMapper imapper) : BaseRepository<ClienteTable, Cliente>(context, imapper), IClienteRepository
     {
     }
 }

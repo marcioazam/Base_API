@@ -26,7 +26,7 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
                 .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey))
-                .ForMember(x => x.Id, opt => opt.Ignore());
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<SupplierTable, SupplierListDTO>()
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))

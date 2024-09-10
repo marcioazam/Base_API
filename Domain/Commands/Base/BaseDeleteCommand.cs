@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.Base
 {
-    public class BaseDeleteCommand(long id) : IRequest<Result>, IDeleteCommand
+    public class BaseDeleteCommand(long id) : IDeleteCommand
     {
         public long Id { get; set; } = id;
     }

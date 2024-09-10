@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Entities.Supplier;
+﻿using API.Controllers.Extension;
+using Application.DTOs.Entities.Supplier;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;
@@ -6,6 +7,7 @@ using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.Base;
 using Domain.Commands.Cliente;
+using Domain.Helpers;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +65,7 @@ namespace API.Controllers
         {
             var result = await _ClienteService.Post(command);
 
-            return BuildActionResult(result);
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.Created);
         }
 
         [HttpPut]
@@ -71,25 +73,15 @@ namespace API.Controllers
         {
             Result result = await _ClienteService.Update(command);
 
-            return BuildActionResult(result);
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(BaseDeleteCommand command)
+        public async Task<IActionResult> Delete(ClienteDeleteCommand command)
         {
             Result result = await _ClienteService.Delete(command);
 
-            return BuildActionResult(result);
-        }
-
-        private IActionResult BuildActionResult(Result result)
-        {
-            if (result.Failed())
-            {
-                return BadRequest(result.Errors);
-            }
-
-            return CreatedAtAction("Get", new { id = result.Data }, result.Data);
-        }
+            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
+        } 
     }
 }
