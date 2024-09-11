@@ -16,12 +16,12 @@ namespace Application.Interfaces.Services.Base
     {
         Task<Result> GetById<TEntity>(long id);
 
-        Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
+        Task<Result> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
-        Task<List<TReturn>> List<TReturn, TFilter>(TFilter filter);
+        Task<Result> List<TReturn, TFilter>(TFilter filter);
 
-        Task<int> Count<TFilter>(TFilter filter);
+        Task<Result> Count<TFilter>(TFilter filter);
 
-        Task<bool> Exist<TFilter>(TFilter filter);
+        Task<Result> Exist<TFilter>(TFilter filter);
     }
 }

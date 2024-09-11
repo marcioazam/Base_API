@@ -50,43 +50,34 @@ namespace API.Controllers.Extension
         [HttpGet("List")]
         public virtual async Task<IActionResult> List([FromQuery] TFilter filter)
         {
-            var result = await _service.List<TEntityListDTO, TFilter>(filter);
-
-            return Ok(result);
+            return BuildResult(await _service.List<TEntityListDTO, TFilter>(filter), ResponseStatus.Ok);
         }
 
         [HttpGet]
         public virtual async Task<IActionResult> Get(long id)
         {
-            var result = await _service.GetById<TEntity>(id);
-
-            return Ok(result);
+            return BuildResult(await _service.GetById<TEntity>(id), ResponseStatus.Ok);
         }
 
         [HttpGet("exist")]
         public virtual async Task<IActionResult> Exist([FromQuery] TFilter filter)
         {
-            var result = await _service.Exist(filter);
-
-            return Ok(result);
+            return BuildResult(await _service.Exist(filter), ResponseStatus.Ok);
         }
 
         [HttpGet("count")]
         public virtual async Task<IActionResult> Count([FromQuery] TFilter filter)
         {
-            var result = await _service.Count(filter);
-
-            return Ok(result);
+            return BuildResult(await _service.Count(filter), ResponseStatus.Ok);
         }
 
         [HttpGet("PagedList")]
-        public virtual async Task<IActionResult> PagedList([FromQuery] TFilter filter, int pageNumber, int pageSize)
+        public virtual async Task<IActionResult> PagedList([FromQuery] TFilter filter, int pageNumber = 1, int pageSize = 10)
         {
-            var result = await _service.PagedList<TEntityPagedListDTO, TFilter>(filter, pageNumber, pageSize);
-
-            return Ok(result);
+            return BuildResult(await _service.PagedList<TEntityPagedListDTO, TFilter>(filter, pageNumber, pageSize), ResponseStatus.Ok);
         }
 
+        #region Private Methods
         [NonAction]
         public async Task<IActionResult> MediatorSend<TCommand>(TCommand command, ResponseStatus responseStatus) where TCommand : IRequest<Result>
         {
@@ -98,12 +89,15 @@ namespace API.Controllers.Extension
         [NonAction]
         public IActionResult BuildResult(Result result, ResponseStatus responseStatus, string routeGet = "Get")
         {
-            // Bad request 400
-            if (result.Failed())
+            if (result.Data == null && responseStatus != ResponseStatus.NoContent)
+            {
+                return NotFound(result.Errors);
+            }
+            else if (result.Failed())
             {
                 return BadRequest(result.Errors);
             }
-
+            
             switch (responseStatus)
             {
                 case ResponseStatus.NoContent:
@@ -123,5 +117,6 @@ namespace API.Controllers.Extension
                     return Ok(result.Data);
             }
         }
+        #endregion
     }
 }

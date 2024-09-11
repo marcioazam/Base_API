@@ -37,7 +37,7 @@ namespace Application.Handlers.Bases
             // Não achou
             if (oldEntity == null)
             {
-                result.Errors.Add(new ResultError("Id", newEntity.Id.ToString(), EnumHelper.GetDesc(Error.NotFound)));
+                result.Errors.Add(new ResultError("Id", newEntity.Id.ToString(), EnumHelper.GetDesc(ErrorMessage.NotFound)));
                 return result;
             }
 

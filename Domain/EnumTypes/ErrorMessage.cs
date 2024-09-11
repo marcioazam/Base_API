@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EnumTypes
 {
-    public enum Error
+    public enum ErrorMessage
     {
         [Description("O campo [PROPERTY_NAME] é obrigatório.")]
         RequiredProperty = 0,

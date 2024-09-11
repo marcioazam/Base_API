@@ -154,7 +154,7 @@ namespace Infrastructure.Repositories.Base
             // Não achou
             if (entity == null)
             {
-                throw new InvalidOperationException(EnumHelper.GetDesc(Error.NotFound));
+                throw new InvalidOperationException(EnumHelper.GetDesc(ErrorMessage.NotFound));
             }
 
             DbContext.Entry(entity).State = EntityState.Deleted;
