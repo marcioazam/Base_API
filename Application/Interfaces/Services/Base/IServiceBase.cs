@@ -1,6 +1,7 @@
 ﻿using Domain.Aggregates;
 using Domain.Commands.Base;
 using Domain.Commands.Supplier;
+using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Application.Interfaces.Services.Base
 {
     public interface IServiceBase
     {
-        Task<TEntity?> GetById<TEntity>(long id);
+        Task<Result> GetById<TEntity>(long id);
 
         Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
@@ -22,11 +23,5 @@ namespace Application.Interfaces.Services.Base
         Task<int> Count<TFilter>(TFilter filter);
 
         Task<bool> Exist<TFilter>(TFilter filter);
-
-        Task<TResponse> Post<TResponse>(IRequest<TResponse> command);
-
-        Task<TResponse> Update<TResponse>(IRequest<TResponse> command);
-
-        Task<TResponse> Delete<TResponse>(IRequest<TResponse> command);
     }
 }

@@ -60,28 +60,28 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(ClienteInsertCommand command)
-        {
-            var result = await _ClienteService.Post(command);
+        //[HttpPost]
+        //public async Task<IActionResult> Post(ClienteInsertCommand command)
+        //{
+        //    var result = await _ClienteService.Post(command);
 
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.Created);
-        }
+        //    return ControllerExtension.BuildResult(this, result, ResponseStatus.Created);
+        //}
 
-        [HttpPut]
-        public async Task<IActionResult> Update(ClienteUpdateCommand command)
-        {
-            Result result = await _ClienteService.Update(command);
+        //[HttpPut]
+        //public async Task<IActionResult> Update(ClienteUpdateCommand command)
+        //{
+        //    Result result = await _ClienteService.Update(command);
 
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
-        }
+        //    return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
+        //}
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(ClienteDeleteCommand command)
-        {
-            Result result = await _ClienteService.Delete(command);
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete(ClienteDeleteCommand command)
+        //{
+        //    Result result = await _ClienteService.Delete(command);
 
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
-        } 
+        //    return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
+        //} 
     }
 }

@@ -1,4 +1,5 @@
 using API.Controllers.Extension;
+using API.Interfaces;
 using Application.DTOs.Entities.Supplier;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
@@ -12,13 +13,15 @@ using Domain.Commands.Supplier;
 using Domain.Helpers;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SupplierController(ISupplierService supplierService) : ControllerBase
+    public class SupplierController(ISupplierService supplierService, IMediator mediator) : 
+        ControllerExtension<SupplierInsertCommand>(mediator)
     {
         private readonly ISupplierService _supplierService = supplierService;
 
@@ -60,31 +63,6 @@ namespace API.Controllers
             var result = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
 
             return Ok(result);
-        }
-        
-        [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> Post(SupplierInsertCommand command)
-        {
-            var result = await _supplierService.Post(command);
-
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.Created);
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> Update(SupplierUpdateCommand command)
-        {
-            Result result = await _supplierService.Update(command);
-
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete(SupplierDeleteCommand command)
-        {
-            Result result = await _supplierService.Delete(command);
-
-            return ControllerExtension.BuildResult(this, result, ResponseStatus.NoContent);
         }
     }
 }

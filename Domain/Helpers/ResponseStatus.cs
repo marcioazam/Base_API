@@ -9,7 +9,6 @@ namespace Domain.Helpers
     public enum ResponseStatus
     {
         Unauthorized = 401,
-        Forbidden = 403,
         Created = 201,
         NoContent = 204,
         NotFound = 404,

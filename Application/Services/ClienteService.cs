@@ -13,7 +13,7 @@ using Domain.Entities;
 
 namespace Application.Services
 {
-    public class ClienteService(IMediator mediator, IClienteRepository genericRepository) : ServiceBase<IClienteRepository, Cliente>(mediator, genericRepository), IClienteService
+    public class ClienteService(IClienteRepository genericRepository) : ServiceBase<IClienteRepository, Cliente>(genericRepository), IClienteService
     {
     }
 }
