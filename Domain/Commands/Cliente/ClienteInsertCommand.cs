@@ -1,4 +1,5 @@
 ﻿using Domain.Commands.Base;
+using Domain.Interfaces.Command.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.Cliente
 {
-    public class ClienteInsertCommand(string nome, string email, char sexo, string? endereco = null) : IRequest<Result>
+    public class ClienteInsertCommand(string nome, string email, char sexo, string? endereco = null) : IRequest<Result>, IBaseInsertCommand
     {
         public string Nome { get; set; } = nome;
 
@@ -17,6 +18,6 @@ namespace Domain.Commands.Cliente
 
         public char Sexo { get; set; } = sexo;
 
-        public string? Endereço { get; set; } = endereco;
+        public string? Endereco { get; set; } = endereco;
     }
 }

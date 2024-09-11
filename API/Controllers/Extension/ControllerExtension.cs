@@ -1,18 +1,33 @@
 ﻿using API.Interfaces;
+using Application.DTOs.Entities.Supplier;
+using Application.DTOs.Filters;
+using Application.Interfaces.DTOs;
+using Application.Interfaces.Filters;
+using Application.Interfaces.Services;
+using Application.Interfaces.Services.Base;
+using Application.Services;
 using Domain.Commands.Supplier;
 using Domain.Helpers;
+using Domain.Interfaces.Command.Base;
+using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Controllers.Extension
 {
-    public class ControllerExtension<TInsertCommand>(IMediator mediator) : ControllerBase
-        where TInsertCommand : IRequest<Result>
+    public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
+        where TInsertCommand : IRequest<Result>, IBaseInsertCommand
+        where TUpdateCommand : IRequest<Result>, IBaseUpdateCommand
+        where TDeleteCommand : IRequest<Result>
+        where TFilter : IFilter
+        where TEntityListDTO : IEntityDTO
+        where TEntityPagedListDTO : IEntityDTO
+        where TEntity : IEntity
     {
         private readonly IMediator _mediator = mediator;
+        private readonly IServiceBase _service = service;
 
         [HttpPost]
         public virtual async Task<IActionResult> Post(TInsertCommand command)
@@ -21,15 +36,55 @@ namespace API.Controllers.Extension
         }
 
         [HttpPut]
-        public virtual async Task<IActionResult> Update(SupplierUpdateCommand command)
+        public virtual async Task<IActionResult> Update(TUpdateCommand command)
         {
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
         [HttpDelete]
-        public virtual async Task<IActionResult> Delete(SupplierDeleteCommand command)
+        public virtual async Task<IActionResult> Delete(TDeleteCommand command)
         {
             return await MediatorSend(command, ResponseStatus.NoContent);
+        }
+
+        [HttpGet("List")]
+        public virtual async Task<IActionResult> List([FromQuery] TFilter filter)
+        {
+            var result = await _service.List<TEntityListDTO, TFilter>(filter);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> Get(long id)
+        {
+            var result = await _service.GetById<TEntity>(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet("exist")]
+        public virtual async Task<IActionResult> Exist([FromQuery] TFilter filter)
+        {
+            var result = await _service.Exist(filter);
+
+            return Ok(result);
+        }
+
+        [HttpGet("count")]
+        public virtual async Task<IActionResult> Count([FromQuery] TFilter filter)
+        {
+            var result = await _service.Count(filter);
+
+            return Ok(result);
+        }
+
+        [HttpGet("PagedList")]
+        public virtual async Task<IActionResult> PagedList([FromQuery] TFilter filter, int pageNumber, int pageSize)
+        {
+            var result = await _service.PagedList<TEntityPagedListDTO, TFilter>(filter, pageNumber, pageSize);
+
+            return Ok(result);
         }
 
         [NonAction]

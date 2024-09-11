@@ -20,13 +20,13 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereço, opt => opt.MapFrom(src => src.Endereço));
+                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
 
             CreateMap<Cliente, ClienteTable>()
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereço, opt => opt.MapFrom(src => src.Endereço))
+                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco))
                 .ForMember(x => x.Id, opt => opt.Ignore());
 
             CreateMap<ClienteTable, ClienteListDTO>()
@@ -37,14 +37,14 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereço, opt => opt.MapFrom(src => src.Endereço));
+                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
 
             CreateMap<ClienteUpdateCommand, Cliente>()
                 .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(x => x.Endereço, opt => opt.MapFrom(src => src.Endereço));
+                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
 
             CreateMap<Cliente, Cliente>();
         }

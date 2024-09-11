@@ -9,10 +9,11 @@ using Domain.EnumTypes;
 using FluentValidation.Results;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
+using Domain.Interfaces.Command.Base;
 
 namespace Domain.Commands.Supplier
 {
-    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : IRequest<Result>
+    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseInsertCommand
     {
         public string Nome { get; set; } = nome;
 

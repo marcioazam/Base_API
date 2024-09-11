@@ -17,6 +17,6 @@ namespace Infrastructure.Context.Tables
 
         public required char Sexo { get; set; }
 
-        public string? Endereço { get; set; }
+        public string? Endereco { get; set; }
     }
 }

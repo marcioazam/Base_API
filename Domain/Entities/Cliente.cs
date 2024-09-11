@@ -14,7 +14,7 @@ namespace Domain.Entities
         public string Nome { get; set; } = nome;
         public string Email { get; set; } = email;
         public char Sexo { get; set; } = sexo;
-        public string? Endereço { get; set; } = endereco;
+        public string? Endereco { get; set; } = endereco;
 
         public override Task<ValidationResult> Validate()
         {

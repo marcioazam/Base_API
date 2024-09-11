@@ -10,6 +10,7 @@ using Application.Services;
 using Domain.Commands.Base;
 using Domain.Commands.Cliente;
 using Domain.Commands.Supplier;
+using Domain.Entities;
 using Domain.Helpers;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation;
@@ -20,49 +21,9 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SupplierController(ISupplierService supplierService, IMediator mediator) : 
-        ControllerExtension<SupplierInsertCommand>(mediator)
+    public class SupplierController(ISupplierService supplierService, IMediator mediator) : ControllerExtension
+        <SupplierInsertCommand, SupplierUpdateCommand, SupplierDeleteCommand, SupplierFilterDTO, SupplierListDTO, SupplierListDTO, Supplier>
+        (mediator, supplierService)
     {
-        private readonly ISupplierService _supplierService = supplierService;
-
-        [HttpGet("List")]
-        public async Task<IActionResult> List([FromQuery]SupplierFilterDTO filter)
-        {
-            var result = await _supplierService.List<SupplierListDTO, SupplierFilterDTO>(filter);
-
-            return Ok(result);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get(long id)
-        {
-            var result = await _supplierService.GetById<SupplierListDTO>(id);
-
-            return Ok(result);
-        }
-
-        [HttpGet("exist")]
-        public async Task<IActionResult> Exist([FromQuery] SupplierFilterDTO filter)
-        {
-            var result = await _supplierService.Exist(filter);
-
-            return Ok(result);
-        }
-
-        [HttpGet("count")]
-        public async Task<IActionResult> Count([FromQuery] SupplierFilterDTO filter)
-        {
-            var result = await _supplierService.Count(filter);
-
-            return Ok(result);
-        }
-
-        [HttpGet("PagedList")]
-        public async Task<IActionResult> PagedList([FromQuery] SupplierFilterDTO filter, int pageNumber, int pageSize)
-        {
-            var result = await _supplierService.PagedList<SupplierListDTO, SupplierFilterDTO>(filter, pageNumber, pageSize);
-
-            return Ok(result);
-        }
     }
 }
