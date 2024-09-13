@@ -25,5 +25,6 @@ namespace API.Controllers
         <SupplierInsertCommand, SupplierUpdateCommand, SupplierDeleteCommand, SupplierFilterDTO, SupplierListDTO, SupplierListDTO, Supplier>
         (mediator, supplierService)
     {
+
     }
 }

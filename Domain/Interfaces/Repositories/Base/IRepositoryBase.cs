@@ -13,7 +13,7 @@ namespace Domain.Interfaces.Repositories.Base
 {
     public interface IRepositoryBase<TModel> where TModel : class, IEntity
     {
-        Task<TReturn> GetById<TReturn>(long id);
+        Task<TReturn?> GetById<TReturn>(long id);
 
         Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 

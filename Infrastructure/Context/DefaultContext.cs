@@ -16,6 +16,8 @@ namespace Infrastructure.Context
 
         public DbSet<ClienteTable> Cliente { get; set; }
 
+        public DbSet<UserTable> User { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

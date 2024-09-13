@@ -7,6 +7,7 @@ using Application.Interfaces.Services;
 using Application.Interfaces.Services.Base;
 using Application.Services;
 using Domain.Commands.Supplier;
+using Domain.EnumTypes;
 using Domain.Helpers;
 using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
@@ -20,7 +21,7 @@ namespace API.Controllers.Extension
     public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
         where TInsertCommand : IRequest<Result>, IBaseInsertCommand
         where TUpdateCommand : IRequest<Result>, IBaseUpdateCommand
-        where TDeleteCommand : IRequest<Result>
+        where TDeleteCommand : IRequest<Result>, IBaseDeleteCommand
         where TFilter : IFilter
         where TEntityListDTO : IEntityDTO
         where TEntityPagedListDTO : IEntityDTO
@@ -86,17 +87,27 @@ namespace API.Controllers.Extension
             return BuildResult(result, responseStatus);
         }
 
+        private static ResponseStatus VerifyNotFoundOrBadRequest(ResponseStatus responseStatus, Result result)
+        {
+            foreach (var resultError in result.Errors)
+            {
+                if (resultError.Message == EnumHelper.GetDesc(ErrorMessage.NotFound))
+                {
+                    responseStatus = ResponseStatus.NotFound;
+                }
+                else
+                {
+                    responseStatus = ResponseStatus.BadRequest;
+                }
+            }
+
+            return responseStatus;
+        }
+
         [NonAction]
         public IActionResult BuildResult(Result result, ResponseStatus responseStatus, string routeGet = "Get")
         {
-            if (result.Data == null && responseStatus != ResponseStatus.NoContent)
-            {
-                return NotFound(result.Errors);
-            }
-            else if (result.Failed())
-            {
-                return BadRequest(result.Errors);
-            }
+            responseStatus = VerifyNotFoundOrBadRequest(responseStatus, result);
             
             switch (responseStatus)
             {
@@ -112,6 +123,12 @@ namespace API.Controllers.Extension
 
                 case ResponseStatus.Ok:
                     return Ok(result.Data);
+
+                case ResponseStatus.BadRequest:
+                    return BadRequest(result.Errors);
+
+                case ResponseStatus.NotFound:
+                    return NotFound(result.Errors);
 
                 default:
                     return Ok(result.Data);
