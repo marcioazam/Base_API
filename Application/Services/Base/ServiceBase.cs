@@ -41,7 +41,7 @@ namespace Application.Services.Base
             {
                 return new Result(null,
                 [
-                    new("", "", EnumHelper.GetDesc(ErrorMessage.NotFound))
+                    new((int)GlobalError.NotFound, "", "", EnumHelper.GetDesc(GlobalError.NotFound))
                 ]);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.UoW;
 using Domain.Commands.Base;
+using Domain.EnumTypes;
 using Domain.Interfaces.Entities.Base;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
@@ -21,7 +22,7 @@ namespace Application.Handlers.Default
         {
             ValidationResult validationResult = await model.Validate();
 
-            validationResult.Errors.ToList().ForEach(x => result.Errors.Add(new ResultError(x.PropertyName, x.AttemptedValue?.ToString(), x.ErrorMessage)));
+            validationResult.Errors.ToList().ForEach(x => result.AddError(GlobalError.InvalidProperty, x.PropertyName, x.AttemptedValue?.ToString()??"", x.ErrorMessage));
         }
 
         public async Task<bool> Commit()

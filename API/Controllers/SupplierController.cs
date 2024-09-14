@@ -1,6 +1,6 @@
 using API.Controllers.Extension;
 using API.Interfaces;
-using Application.DTOs.Entities.Supplier;
+using Application.DTOs.Entities;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;

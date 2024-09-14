@@ -21,6 +21,9 @@ using Domain.Validators;
 using Domain.Entities;
 using Domain.Commands.Cliente;
 using Domain.ValueObjects.ResultInfo;
+using Domain.Commands.User;
+using Application.Services.Auth;
+using Application.Interfaces.Services.Auth;
 
 namespace Infrastructure
 {
@@ -37,20 +40,30 @@ namespace Infrastructure
             services.AddTransient<IRequestHandler<SupplierUpdateCommand, Result>, BaseUpdateHandler<Supplier, SupplierUpdateCommand>>();
             services.AddTransient<IRequestHandler<SupplierDeleteCommand, Result>, BaseDeleteHandler<Supplier, SupplierDeleteCommand>>();
 
+            services.AddTransient<IRequestHandler<UserInsertCommand, Result>, BaseInsertHandler<User, UserInsertCommand>>();
+            services.AddTransient<IRequestHandler<UserUpdateCommand, Result>, BaseUpdateHandler<User, UserUpdateCommand>>();
+            services.AddTransient<IRequestHandler<UserDeleteCommand, Result>, BaseDeleteHandler<User, UserDeleteCommand>>();
+
             // Repositories
             services.AddTransient<IRepositoryBase<Cliente>, ClienteRepository>();
             services.AddTransient<IRepositoryBase<Supplier>, SupplierRepository>();
+            services.AddTransient<IRepositoryBase<User>, UserRepository>();
 
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             // Services
+            services.AddTransient<IAuthService, AuthService>();
+
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<ISupplierService, SupplierService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Validators
             services.AddTransient<IValidator<Cliente>, ClienteValidator>();
             services.AddTransient<IValidator<Supplier>, SupplierValidator>();
+            services.AddTransient<IValidator<User>, UserValidator>();
 
             // Factories
             services.AddTransient<IValidationFactory, ValidationFactory>();

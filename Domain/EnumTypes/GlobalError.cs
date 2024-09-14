@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EnumTypes
 {
-    public enum ErrorMessage
+    public enum GlobalError
     {
         [Description("O campo [PROPERTY_NAME] é obrigatório.")]
         RequiredProperty = 0,
@@ -27,5 +27,9 @@ namespace Domain.EnumTypes
         UserNotFound = 7,
         [Description("Senha inválida.")]
         InvalidPassword = 8,
+        [Description("Erro interno.")]
+        InternalError = 9,
+        [Description("Propriedade inválida.")]
+        InvalidProperty = 10,
     }
 }

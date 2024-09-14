@@ -26,14 +26,14 @@ namespace Application.Services.Auth
         {
             if (string.IsNullOrEmpty(userLogin.Username))
             {
-                result.AddError(ErrorMessage.RequiredUsername, userLogin.Password);
+                result.AddError(GlobalError.RequiredUsername, userLogin.Password);
 
                 return result;
             }
 
             if (string.IsNullOrEmpty(userLogin.Password))
             {
-                result.AddError(ErrorMessage.RequiredPassword, userLogin.Password);
+                result.AddError(GlobalError.RequiredPassword, userLogin.Password);
 
                 return result;
             }
@@ -42,14 +42,14 @@ namespace Application.Services.Auth
 
             if (user == null)
             {
-                result.AddError(ErrorMessage.UserNotFound, userLogin.Password);
+                result.AddError(GlobalError.UserNotFound, userLogin.Password);
 
                 return result;
             }
 
             if(!VerifyPassword(userLogin.Password, user.PasswordHash))
             {
-                result.AddError(ErrorMessage.InvalidPassword, userLogin.Password);
+                result.AddError(GlobalError.InvalidPassword, userLogin.Password);
 
                 return result; 
             }

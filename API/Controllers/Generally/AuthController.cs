@@ -1,6 +1,10 @@
-﻿using Application.Interfaces.Services;
+﻿using API.Helpers;
+using Application.Interfaces.Services;
 using Application.Interfaces.Services.Auth;
 using Application.Services.Auth;
+using Domain.Entities;
+using Domain.EnumTypes;
+using Domain.Helpers;
 using Domain.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
 using Microsoft.AspNetCore.Http;
@@ -26,14 +30,23 @@ namespace API.Controllers.Generally
         {
             Result result = await _authService.ValidateUser(userLogin);
 
-            //if(result.Status != ResultStatus.Success)
-            //{
-            //    return BadRequest(result);
-            //}
-            //// Gere o token JWT
-            //var token = _authService.GenerateJwtToken(user);
-            //return Ok(new { Token = token });
+            if (result.Failed())
+            {
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.Ok);
+            }
+
+            var user = result.Data as User;
+
+            if (user == null)
+            {
+                result.AddError(GlobalError.InternalError, user);
+
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.InternalServerError);
+            };
+
+            var token = _authService.GenerateJwtToken(user);
+
+            return Ok(new { Token = token });
         }
     }
-
 }

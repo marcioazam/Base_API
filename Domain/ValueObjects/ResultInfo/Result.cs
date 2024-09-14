@@ -25,7 +25,7 @@ namespace Domain.ValueObjects.ResultInfo
             return false;
         }
 
-        public void AddError(ErrorMessage error, object? keyAndValue)
+        public void AddError(GlobalError error, object? keyAndValue)
         {
             string? value = null;
 
@@ -37,9 +37,20 @@ namespace Domain.ValueObjects.ResultInfo
             this.Errors.Add(new ResultError((int)error, nameof(keyAndValue), value, EnumHelper.GetDesc(error)));
         }
 
-        public void AddError(ErrorMessage error, string key, string value)
+        public void AddError(GlobalError error, string key, string value, string? customMessage = null)
         {
-            this.Errors.Add(new ResultError((int)error, key, value, EnumHelper.GetDesc(error)));
+            string? message;
+
+            if (!string.IsNullOrEmpty(customMessage))
+            {
+                message = customMessage;
+            }
+            else
+            {
+                message = EnumHelper.GetDesc(error);
+            }
+
+            this.Errors.Add(new ResultError((int)error, key, value, message));
         }
     }
 }

@@ -45,11 +45,11 @@ namespace API.Helpers
         {
             foreach (var resultError in result.Errors)
             {
-                if (resultError.Message == EnumHelper.GetDesc(ErrorMessage.NotFound))
+                if (resultError.Message == EnumHelper.GetDesc(GlobalError.NotFound))
                 {
                     responseStatus = ResponseStatus.NotFound;
                 }
-                else if(resultError.Message == EnumHelper.GetDesc(ErrorMessage.Unauthorized))
+                else if(resultError.Message == EnumHelper.GetDesc(GlobalError.Unauthorized))
                 {
                     responseStatus = ResponseStatus.Unauthorized;
                 }

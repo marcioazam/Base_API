@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Entities.Supplier
+namespace Application.DTOs.Entities
 {
-    public class SupplierListDTO(int? id, string nome) : IEntityDTO
+    public class UserListDTO(int? id, string nome) : IEntityDTO
     {
         public int? Id { get; set; } = id;
 

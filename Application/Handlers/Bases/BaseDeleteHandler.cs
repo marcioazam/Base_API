@@ -33,7 +33,7 @@ namespace Application.Handlers.Bases
             }
             catch(Exception ex)
             {
-                result.Errors.Add(new ResultError("Id", command.Id.ToString(), ex.Message));
+                result.AddError(GlobalError.InternalError, command.Id);
 
                 return result;
             }
