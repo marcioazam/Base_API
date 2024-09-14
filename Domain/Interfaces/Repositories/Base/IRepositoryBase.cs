@@ -15,6 +15,8 @@ namespace Domain.Interfaces.Repositories.Base
     {
         Task<TReturn?> GetById<TReturn>(long id);
 
+        Task<TReturn?> Get<TReturn, TFilter>(TFilter filter);
+
         Task<PagedResult<TReturn>> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
         Task<List<TReturn>> List<TReturn, TFilter>(TFilter filter);

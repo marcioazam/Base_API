@@ -4,7 +4,7 @@ using Application.Interfaces.Factories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
 
-namespace API.Controllers
+namespace API.Controllers.Generally
 {
     [ApiController]
     [Route("[controller]")]
@@ -24,7 +24,7 @@ namespace API.Controllers
             // Isso garante que a busca pelo tipo seja feita apenas uma vez por classe e que o resultado seja armazenado em cache para futuras requisições.
             var type = TypeCache.GetOrAdd(className, key =>
             {
-                #pragma warning disable CS8603 // Possível retorno de referência nula.
+#pragma warning disable CS8603 // Possível retorno de referência nula.
                 return AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(a => a.GetTypes())
                     .FirstOrDefault(t =>
@@ -35,7 +35,7 @@ namespace API.Controllers
                         }
                         return t.FullName == key;
                     });
-                #pragma warning restore CS8603 // Possível retorno de referência nula.
+#pragma warning restore CS8603 // Possível retorno de referência nula.
             });
 
             if (type == null)
@@ -43,9 +43,9 @@ namespace API.Controllers
                 return BadRequest("Classe não encontrada.");
             }
 
-            #pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula.
+#pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula.
             var method = typeof(ValidationFactory).GetMethod("ExtractValidationRules").MakeGenericMethod(type);
-            #pragma warning restore CS8602 // Desreferência de uma referência possivelmente nula.
+#pragma warning restore CS8602 // Desreferência de uma referência possivelmente nula.
 
             var rules = method.Invoke(_validationFactory, null) as List<ValidationRuleDTO>;
 

@@ -16,6 +16,16 @@ namespace Domain.EnumTypes
         [Description("O campo [PROPERTY_NAME] suporta até [LENGTH] caracteres.")]
         MaxnLenProperty = 2,
         [Description("Dados não encontrados, verifique o índice de sua busca.")]
-        NotFound = 3
+        NotFound = 3,
+        [Description("Acesso negado.")]
+        Unauthorized = 4,
+        [Description("O nome de usuário é obrigatório.")]
+        RequiredUsername = 5,
+        [Description("A senha é obrigatória.")]
+        RequiredPassword = 6,
+        [Description("Usuário não encontrado, verifique seu login e senha.")]
+        UserNotFound = 7,
+        [Description("Senha inválida.")]
+        InvalidPassword = 8,
     }
 }

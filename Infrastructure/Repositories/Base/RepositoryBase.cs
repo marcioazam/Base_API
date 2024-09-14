@@ -74,6 +74,15 @@ namespace Infrastructure.Repositories.Base
             };
         }
 
+        public async Task<TReturn?> Get<TReturn, TFilter>(TFilter filter)
+        {
+            var query = BuildQuery(filter);
+
+            var result = await query.FirstOrDefaultAsync();
+
+            return Mapper.Map<TReturn?>(result);
+        }
+
         public async Task<List<TReturn>> List<TReturn, TFilter>(TFilter filter)
         {
             var query = BuildQuery(filter);

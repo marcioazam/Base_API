@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.ValueObjects.ResultInfo
 {
-    public class ResultError(string? key = null, string? value = null, string? message = null)
+    public class ResultError(int errorCode, string? key = null, string? value = null, string? message = null)
     {
         public string? Key { get; set; } = key;
 
@@ -14,15 +14,6 @@ namespace Domain.ValueObjects.ResultInfo
 
         public string? Message { get; set; } = message;
 
-        public bool Failed()
-        {
-            // Se a propriedade e a mensagem estiverem vazias, não há erro
-            if (string.IsNullOrEmpty(Key) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(Message))
-            {
-                return false;
-            }
-
-            return true;
-        }
+        public int ErrorCode { get; set; } = errorCode;
     }
 }

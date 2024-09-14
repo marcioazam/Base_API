@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects;
+using Domain.ValueObjects.ResultInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Application.Interfaces.Services.Auth
 {
     public interface IAuthService
     {
-        bool ValidateUser(string password, User user);
+        Task<Result> ValidateUser(UserLogin userLogin);
 
         string GenerateJwtToken(User user);
     }
