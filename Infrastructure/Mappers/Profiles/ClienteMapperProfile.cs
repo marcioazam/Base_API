@@ -15,19 +15,7 @@ namespace Infrastructure.Mappers.Profiles
     {
         public ClienteMapperProfile()
         {
-            CreateMap<ClienteTable, Cliente>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
-                .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
-
-            CreateMap<Cliente, ClienteTable>()
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
-                .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco))
-                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<ClienteTable, Cliente>().ReverseMap();
 
             CreateMap<ClienteTable, ClienteListDTO>()
                 .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
@@ -45,8 +33,6 @@ namespace Infrastructure.Mappers.Profiles
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
-
-            CreateMap<Cliente, Cliente>();
         }
     }
 }

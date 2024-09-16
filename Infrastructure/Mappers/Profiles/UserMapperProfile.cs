@@ -1,5 +1,5 @@
-﻿using Application.DTOs.Entities.Supplier;
-using Domain.Commands.Supplier;
+﻿using Application.DTOs.Entities;
+using Domain.Commands.User;
 using Domain.Entities;
 using Infrastructure.Context.Tables;
 using System;
@@ -14,34 +14,19 @@ namespace Infrastructure.Mappers.Profiles
     {
         public UserMapperProfile()
         {
-            //CreateMap<SupplierTable, Supplier>()
-            //    .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-            //    .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-            //    .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+            CreateMap<UserTable, User>().ReverseMap();
 
-            //CreateMap<Supplier, SupplierTable>()
-            //    .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-            //    .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-            //    .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey))
-            //    .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id));
+            CreateMap<UserTable, UserListDTO>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(x => x.Username, opt => opt.MapFrom(src => src.Username)).ReverseMap();
 
-            //CreateMap<SupplierTable, SupplierListDTO>()
-            //    .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome)).ReverseMap();
+            CreateMap<UserInsertCommand, User>()
+                .ForMember(x => x.Username, opt => opt.MapFrom(src => src.Username))
+                .ForMember(x => x.Active, opt => opt.MapFrom(src => src.Active));
 
-            //CreateMap<SupplierInsertCommand, Supplier>()
-            //    .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-            //    .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-            //    .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
-
-            //CreateMap<SupplierUpdateCommand, Supplier>()
-            //    .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-            //    .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-            //    .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
-
-            //CreateMap<Supplier, Supplier>();
+            CreateMap<UserUpdateCommand, User>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(x => x.Active, opt => opt.MapFrom(src => src.Active));
         }
     }
 }

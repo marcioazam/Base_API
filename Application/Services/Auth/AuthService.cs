@@ -47,7 +47,7 @@ namespace Application.Services.Auth
                 return result;
             }
 
-            if(!VerifyPassword(userLogin.Password, user.PasswordHash))
+            if(!VerifyPassword(userLogin.Password, user.PasswordNoHash))
             {
                 result.AddError(GlobalError.InvalidPassword, userLogin.Password);
 

@@ -11,6 +11,6 @@ namespace Application.DTOs.Entities
     {
         public int? Id { get; set; } = id;
 
-        public string Nome { get; set; } = nome;
+        public string Username { get; set; } = nome;
     }
 }

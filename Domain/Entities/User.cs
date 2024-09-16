@@ -13,7 +13,7 @@ namespace Domain.Entities
     {
         public string Username { get; set; } = userName;
 
-        public string PasswordHash { get; set; } = passwordHash;
+        public string PasswordNoHash { get; set; } = passwordHash;
 
         public bool Active { get; set; } = active;
 

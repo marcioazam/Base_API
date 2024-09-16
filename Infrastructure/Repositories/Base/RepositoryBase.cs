@@ -134,15 +134,25 @@ namespace Infrastructure.Repositories.Base
             });
         }
 
-        public void Update(TGenericEntity newEntity, TGenericEntity oldEntity)
+        public void Update(TGenericEntity EntityUpdated, TGenericEntity EntityOfBD)
         {
-            // Atualizar a OldEntity com as informações da NewEntity
-            Mapper.Map(newEntity, oldEntity);
+            Mapper.Map(EntityUpdated, EntityOfBD);
 
-            TTable entity = Mapper.Map<TTable>(oldEntity);
+            // Mapear para a entidade de tabela
+            TTable entity = Mapper.Map<TTable>(EntityOfBD);
 
+            // Verificar se já existe uma entidade com o mesmo Id sendo rastreada
+            var trackedEntity = DbContext.ChangeTracker.Entries<TTable>().FirstOrDefault(e => e.Entity.Id == entity.Id);
+
+            if (trackedEntity != null)
+            {
+                // Desanexar a entidade rastreada existente
+                trackedEntity.State = EntityState.Detached;
+            }
+
+            // Anexar a nova entidade e marcar como Modified
+            DbSet.Attach(entity);
             DbContext.Entry(entity).State = EntityState.Modified;
-            DbSet.Update(entity);
         }
 
         public async Task Delete(long id)
