@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Validation;
+﻿using Application.DTOs.Validations;
 using Application.Interfaces.Factories;
 using Domain.Helpers;
 using Domain.Interfaces.Entities.Base;

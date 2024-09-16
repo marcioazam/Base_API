@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.ExternalAPI.SMMOficialReserva
+namespace Application.DTOs.Externals.SMMOficialReserva
 {
     public class OfferedServiceDTO(string? service, string? name, string? type, string? rate, string? min, string? max, bool dripfeed, bool refill, bool cancel, string? category)
     {

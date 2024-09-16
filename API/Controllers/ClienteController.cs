@@ -1,12 +1,12 @@
 ﻿using API.Controllers.Extension;
-using Application.DTOs.Entities.Supplier;
+using Application.DTOs.Entities;
 using Application.DTOs.Filters;
 using Application.DTOs.Validation;
 using Application.Factories;
 using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.Base;
-using Domain.Commands.Cliente;
+using Domain.Commands.ClientesCommands;
 using Domain.Commands.Supplier;
 using Domain.Entities;
 using Domain.Helpers;

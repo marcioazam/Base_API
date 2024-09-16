@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Entities;
-using Domain.Commands.User;
+using Domain.Commands.UsersCommands;
 using Domain.Entities;
 using Infrastructure.Context.Tables;
 using System;

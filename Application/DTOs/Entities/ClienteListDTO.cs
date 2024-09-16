@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Entities.Supplier
+namespace Application.DTOs.Entities
 {
     public class ClienteListDTO(string nome, char sexo) : IEntityDTO
     {
-        public string Nome { get;set; } = nome;
+        public string Nome { get; set; } = nome;
 
         public char Sexo { get; set; } = sexo;
     }

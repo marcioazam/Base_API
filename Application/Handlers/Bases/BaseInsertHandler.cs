@@ -8,12 +8,13 @@ using Domain.Interfaces.Entities.Base;
 using AutoMapper;
 using Application.Handlers.Default;
 using Domain.ValueObjects.ResultInfo;
+using Domain.Interfaces.Command.Base;
 
 namespace Application.Handlers.Bases
 {
     public class BaseInsertHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
         where TModel : class, IEntity
-        where TCommand : IRequest<Result>
+        where TCommand : IRequest<Result>, IBaseInsertCommand
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;
@@ -27,9 +28,13 @@ namespace Application.Handlers.Bases
             if (result.Failed())
                 return result;
 
+            await command.ExecuteBusinnesRulesAfterOperations(entity);
+
             var entityId = await _repository.Insert(entity);
 
             await Commit();
+
+            await command.ExecuteBusinnesRulesBeforeOperations(entity);
 
             return new Result(entityId, []);
         }

@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Base;
+﻿using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
 using FluentValidation.Results;
 using System;
@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User(string userName, string passwordHash, bool active) : EntityBase
+    public class User(long id, string userName, string passwordHash, bool active) : IEntity
     {
+        public long Id { get; set; } = id;
+
         public string Username { get; set; } = userName;
 
-        public string PasswordNoHash { get; set; } = passwordHash;
+        public string PasswordHash { get; set; } = passwordHash;      
 
         public bool Active { get; set; } = active;
 
-        public override Task<ValidationResult> Validate()
+        public string? PasswordNoHash { get; set; }
+
+        public Task<ValidationResult> Validate()
         {
             var validator = new UserValidator();
 

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.User
+namespace Domain.Commands.UsersCommands
 {
     public class UserDeleteCommand(long id) : BaseDeleteCommand(id), IRequest<Result>, IBaseDeleteCommand
     {

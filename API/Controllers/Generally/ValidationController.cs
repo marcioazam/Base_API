@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Validation;
+﻿using Application.DTOs.Validations;
 using Application.Factories;
 using Application.Interfaces.Factories;
 using Microsoft.AspNetCore.Mvc;

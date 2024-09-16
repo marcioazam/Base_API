@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Entities;
 using Application.DTOs.Filters;
-using Domain.Commands.Supplier;
+using Domain.Commands.SuppliersCommands;
 using Domain.Entities;
 using Infrastructure.Context.Tables;
 using Microsoft.EntityFrameworkCore.Metadata;

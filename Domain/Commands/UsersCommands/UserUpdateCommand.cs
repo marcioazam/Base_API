@@ -7,13 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.User
+namespace Domain.Commands.UsersCommands
 {
-    public class UserInsertCommand(string username, string password, bool active) : IRequest<Result>, IBaseInsertCommand
+    public class UserUpdateCommand(long id, bool active) : IRequest<Result>, IBaseUpdateCommand
     {
-        public string Username { get; set; } = username;
-
-        public string Password { get; set; } = password;
+        public long Id { get; set; } = id;
 
         public bool Active { get; set; } = active;
     }

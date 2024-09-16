@@ -11,7 +11,7 @@ using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
 using Domain.Interfaces.Command.Base;
 
-namespace Domain.Commands.Supplier
+namespace Domain.Commands.SuppliersCommands
 {
     public class SupplierUpdateCommand(long id, string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseUpdateCommand
     {

@@ -1,5 +1,5 @@
-﻿using Application.DTOs.Entities.Supplier;
-using Domain.Commands.Cliente;
+﻿using Application.DTOs.Entities;
+using Domain.Commands.ClientesCommands;
 using Domain.Commands.Supplier;
 using Domain.Entities;
 using Infrastructure.Context.Tables;

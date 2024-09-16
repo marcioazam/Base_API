@@ -2,7 +2,6 @@
 using Application.Interfaces.UoW;
 using Application.Services;
 using Domain.Commands.Base;
-using Domain.Commands.Supplier;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Repositories.Base;
@@ -19,11 +18,12 @@ using FluentValidation;
 using Application.Interfaces.Factories;
 using Domain.Validators;
 using Domain.Entities;
-using Domain.Commands.Cliente;
 using Domain.ValueObjects.ResultInfo;
-using Domain.Commands.User;
 using Application.Services.Auth;
 using Application.Interfaces.Services.Auth;
+using Domain.Commands.UsersCommands;
+using Domain.Commands.ClientesCommands;
+using Domain.Commands.SuppliersCommands;
 
 namespace Infrastructure
 {

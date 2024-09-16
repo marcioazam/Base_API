@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Validation
+namespace Application.DTOs.Validations
 {
     public class ValidationRuleDTO(string propertyName, string validationType, string errorMessage, object? parameters)
     {
