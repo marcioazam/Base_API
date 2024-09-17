@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces.UoW;
 using Domain.Commands.Base;
-using Domain.Commands.Supplier;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Domain.Interfaces.Repositories.Base;
@@ -14,7 +13,7 @@ namespace Application.Handlers.Bases
 {
     public class BaseInsertHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
         where TModel : class, IEntity
-        where TCommand : IRequest<Result>, IBaseInsertCommand
+        where TCommand : IRequest<Result>, IBaseInsertCommand<TModel>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;

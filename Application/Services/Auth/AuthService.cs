@@ -22,39 +22,43 @@ namespace Application.Services.Auth
         Result result = new(null, []);
 
         // Método para validar usuário e senha
-        public async Task<Result> ValidateUser(UserLogin userLogin)
+        public async Task<Result> ValidateUser(UserLogin sendUser)
         {
-            if (string.IsNullOrEmpty(userLogin.Username))
+            if (string.IsNullOrEmpty(sendUser.Username))
             {
-                result.AddError(GlobalError.RequiredUsername, userLogin.Password);
+                result.AddError(GlobalError.RequiredUsername, sendUser.Password);
 
                 return result;
             }
 
-            if (string.IsNullOrEmpty(userLogin.Password))
+            if (string.IsNullOrEmpty(sendUser.Password))
             {
-                result.AddError(GlobalError.RequiredPassword, userLogin.Password);
+                result.AddError(GlobalError.RequiredPassword, sendUser.Password);
 
                 return result;
             }
 
-            User? user = await _userRepository.Get<User, UserFilterDTO>(new UserFilterDTO(userLogin.Username));
+            User? userFromBD = await _userRepository.Get<User, UserFilterDTO>(new UserFilterDTO { Username = sendUser.Username });
 
-            if (user == null)
+            if (userFromBD == null)
             {
-                result.AddError(GlobalError.UserNotFound, userLogin.Password);
+                result.AddError(GlobalError.UserNotFound, sendUser.Password);
 
                 return result;
             }
 
-            if(!VerifyPassword(userLogin.Password, user.PasswordNoHash))
+            if(VerifyPassword(sendUser.Password, userFromBD.PasswordHash))
             {
-                result.AddError(GlobalError.InvalidPassword, userLogin.Password);
+                result = new(userFromBD, []);
 
-                return result; 
+                return result;
             }
+            else
+            {
+                result.AddError(GlobalError.InvalidPassword, sendUser.Password);
 
-            return result;
+                return result;
+            }
         }
 
         // Função para verificar o hash da senha

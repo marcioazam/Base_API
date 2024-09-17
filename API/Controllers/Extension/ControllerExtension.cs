@@ -1,13 +1,11 @@
 ﻿using API.Helpers;
 using API.Interfaces;
-using Application.DTOs.Entities.Supplier;
 using Application.DTOs.Filters;
 using Application.Interfaces.DTOs;
 using Application.Interfaces.Filters;
 using Application.Interfaces.Services;
 using Application.Interfaces.Services.Base;
 using Application.Services;
-using Domain.Commands.Supplier;
 using Domain.EnumTypes;
 using Domain.Helpers;
 using Domain.Interfaces.Command.Base;
@@ -20,13 +18,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Extension
 {
     public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
-        where TInsertCommand : IRequest<Result>, IBaseInsertCommand
+        where TInsertCommand : IRequest<Result>, IBaseInsertCommand<TEntity>
         where TUpdateCommand : IRequest<Result>, IBaseUpdateCommand
         where TDeleteCommand : IRequest<Result>, IBaseDeleteCommand
         where TFilter : IFilter
         where TEntityListDTO : IEntityDTO
         where TEntityPagedListDTO : IEntityDTO
-        where TEntity : IEntity
+        where TEntity : class, IEntity
     {
         private readonly IMediator _mediator = mediator;
         private readonly IServiceBase _service = service;

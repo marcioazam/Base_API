@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Entities
 {
-    public class UserListDTO(int? id, string nome) : IEntityDTO
+    public class UserListDTO(long id, string nome) : IEntityDTO
     {
-        public int? Id { get; set; } = id;
+        public long Id { get; set; } = id;
 
         public string Username { get; set; } = nome;
     }

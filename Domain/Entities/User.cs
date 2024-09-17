@@ -9,15 +9,23 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User(long id, string userName, string passwordHash, bool active) : IEntity
+    public class User : IEntity
     {
-        public long Id { get; set; } = id;
+        public User(string username, bool active, string passwordHash, string? passwordNoHash = null)
+        {
+            Username = username;
+            PasswordHash = passwordHash;
+            Active = active;
+            PasswordNoHash = passwordNoHash;
+        }
 
-        public string Username { get; set; } = userName;
+        public long Id { get; set; }
 
-        public string PasswordHash { get; set; } = passwordHash;      
+        public string Username { get; set; }
 
-        public bool Active { get; set; } = active;
+        public string PasswordHash { get; set; }   
+
+        public bool Active { get; set; }
 
         public string? PasswordNoHash { get; set; }
 

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Filters
 {
-    public class UserFilterDTO(string? userName) : IFilter
+    public class UserFilterDTO() : IFilter
     {
-        public string? Username { get; set; } = userName;
+        public string? Username { get; set; }
     }
 }

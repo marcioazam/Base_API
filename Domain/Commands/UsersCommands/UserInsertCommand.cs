@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.UsersCommands
 {
-    public class UserInsertCommand(string username, string password, bool active) : IRequest<Result>, IBaseInsertCommand<User>
+    public class UserInsertCommand(string username, string passwordNoHash, bool active) : IRequest<Result>, IBaseInsertCommand<User>
     {
         public string Username { get; set; } = username;
 
-        public string Password { get; set; } = password;
+        public string PasswordNoHash { get; set; } = passwordNoHash;
 
         public bool Active { get; set; } = active;
 
