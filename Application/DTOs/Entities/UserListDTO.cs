@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Entities
 {
-    public class UserListDTO(long id, string nome) : IEntityDTO
+    public class UserListDTO: IEntityDTO
     {
-        public long Id { get; set; } = id;
+        public long Id { get; set; }
 
-        public string Username { get; set; } = nome;
+        public required string Username { get; set; } 
     }
 }

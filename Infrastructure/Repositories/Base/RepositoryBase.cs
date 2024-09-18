@@ -4,6 +4,7 @@ using Domain.Aggregates;
 using Domain.Commands.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
+using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.Interfaces.Tables;
@@ -134,15 +135,13 @@ namespace Infrastructure.Repositories.Base
             });
         }
 
-        public void Update(TGenericEntity EntityUpdated, TGenericEntity EntityOfBD)
+        public void Update(TGenericEntity entity)
         {
-            Mapper.Map(EntityUpdated, EntityOfBD);
-
             // Mapear para a entidade de tabela
-            TTable entity = Mapper.Map<TTable>(EntityOfBD);
+            TTable entityTable = Mapper.Map<TTable>(entity);
 
             // Verificar se já existe uma entidade com o mesmo Id sendo rastreada
-            var trackedEntity = DbContext.ChangeTracker.Entries<TTable>().FirstOrDefault(e => e.Entity.Id == entity.Id);
+            var trackedEntity = DbContext.ChangeTracker.Entries<TTable>().FirstOrDefault(e => e.Entity.Id == entityTable.Id);
 
             if (trackedEntity != null)
             {
@@ -151,8 +150,8 @@ namespace Infrastructure.Repositories.Base
             }
 
             // Anexar a nova entidade e marcar como Modified
-            DbSet.Attach(entity);
-            DbContext.Entry(entity).State = EntityState.Modified;
+            DbSet.Attach(entityTable);
+            DbContext.Entry(entityTable).State = EntityState.Modified;
         }
 
         public async Task Delete(long id)

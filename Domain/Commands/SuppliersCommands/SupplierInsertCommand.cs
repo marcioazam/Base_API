@@ -23,12 +23,12 @@ namespace Domain.Commands.SuppliersCommands
 
         public string ApiKey { get; set; } = apiKey;
 
-        public Task<ResultError> ExecuteBusinnesRulesAfterOperations(Supplier entity) 
+        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Supplier entity) 
         {
             return null;
         }
 
-        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Supplier entity) 
+        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(Supplier entity) 
         {
             return null;
         }

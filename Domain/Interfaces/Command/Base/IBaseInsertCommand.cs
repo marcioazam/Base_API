@@ -10,8 +10,8 @@ namespace Domain.Interfaces.Command.Base
 {
     public interface IBaseInsertCommand<TEntity> where TEntity : class, IEntity
     {
-        public Task<ResultError> ExecuteBusinnesRulesAfterOperations(TEntity entity);
-
         public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(TEntity entity);
+
+        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(TEntity entity);
     }
 }

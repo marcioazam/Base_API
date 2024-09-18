@@ -22,12 +22,12 @@ namespace Domain.Commands.ClientesCommands
 
         public string? Endereco { get; set; } = endereco;
 
-        public Task<ResultError> ExecuteBusinnesRulesAfterOperations(Cliente entity)
+        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Cliente entity)
         {
             return null;
         }
 
-        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Cliente entity)
+        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(Cliente entity)
         {
             return null;
         }
