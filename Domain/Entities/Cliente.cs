@@ -22,14 +22,14 @@ namespace Domain.Entities
 
         public string? Endereco { get; set; } = endereco;
 
-        public async Task<Result> ExecuteBusinnesRuleAfterOperations(Result result)
+        public Task ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>()
         {
-            return result;
+            return Task.CompletedTask;
         }
 
-        public async Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result)
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(Result result)
         {
-            return result;
+            return Task.FromResult(result);
         }
 
         public Task<ValidationResult> Validate()

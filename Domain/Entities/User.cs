@@ -35,16 +35,16 @@ namespace Domain.Entities
         [JsonIgnore]
         public string? PasswordNoHash { get; set; }
 
-        public async Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result)
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(Result result)
         {
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordNoHash);
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public async Task<Result> ExecuteBusinnesRuleAfterOperations(Result result)
+        public Task ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>()
         {
-            return result;
+            return Task.CompletedTask;
         }
 
         public Task<ValidationResult> Validate()
