@@ -20,8 +20,16 @@ namespace Domain.Interfaces.Entities.Base
 
         Task<ValidationResult> Validate() => Task.FromResult(new ValidationResult());
 
-        Task<Result> ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(Result result);
+        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand);
 
-        Task ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>();
+        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand deleteCommand);
+
+        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand);
+
+        Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand);
+
+        Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand deleteCommand);
+
+        Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand);
     }
 }

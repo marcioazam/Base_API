@@ -13,10 +13,8 @@ using Domain.Interfaces.Command.Base;
 
 namespace Domain.Commands.SuppliersCommands
 {
-    public class SupplierUpdateCommand(long id, string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseUpdateCommand
+    public class SupplierUpdateCommand(long id, string nome, string apiUrl, string apiKey) : IBaseUpdateCommand(id), IRequest<Result>
     {
-        public long Id { get; set; } = id;
-
         public string Nome { get; set; } = nome;
 
         public string ApiUrl { get; set; } = apiUrl;

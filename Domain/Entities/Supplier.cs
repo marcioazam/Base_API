@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentValidation.Results;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
+using Domain.Interfaces.Command.Base;
 
 namespace Domain.Entities
 {
@@ -20,13 +21,39 @@ namespace Domain.Entities
 
         public string ApiKey { get; set; } = apiKey;
 
-        public Task ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>()
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand)
         {
             return Task.CompletedTask;
         }
 
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(Result result)
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand insertCommand)
         {
+            return Task.CompletedTask;
+        }
+
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand)
+        {
+            Result result = new(null, []);
+
+            return Task.FromResult(result);
+        }
+
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand insertCommand)
+        {
+            Result result = new(null, []);
+
+            return Task.FromResult(result);
+        }
+
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand)
+        {
+            Result result = new(null, []);
+
             return Task.FromResult(result);
         }
 

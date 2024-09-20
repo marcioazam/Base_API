@@ -25,7 +25,7 @@ namespace API.Controllers.Generally
             _userService = userService;
         }
 
-        [HttpPost("Token")]
+        [HttpPost("GenerateToken")]
         public async Task<IActionResult> TokenAsync([FromBody] UserLogin userLogin)
         {
             Result result = await _authService.ValidateUser(userLogin);

@@ -15,6 +15,8 @@ namespace Application.Interfaces.Services.Base
     {
         Task<Result> GetById<TEntity>(long id);
 
+        Task<Result> Get<TReturn, TFilter>(TFilter filter);
+
         Task<Result> PagedList<TReturn, TFilter>(TFilter filter, int pageNumber, int pageSize);
 
         Task<Result> List<TReturn, TFilter>(TFilter filter);

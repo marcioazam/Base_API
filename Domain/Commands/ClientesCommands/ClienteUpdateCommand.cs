@@ -10,10 +10,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.ClientesCommands
 {
-    public class ClienteUpdateCommand(long id, string nome, string email, char sexo, string? endereco = null) : IRequest<Result>, IBaseUpdateCommand
+    public class ClienteUpdateCommand(long id, string nome, string email, char sexo, string? endereco = null) : IBaseUpdateCommand(id), IRequest<Result>
     {
-        public long Id { get; set; } = id;
-
         public string Nome { get; set; } = nome;
 
         public string Email { get; set; } = email;

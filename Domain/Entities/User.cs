@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Entities.Base;
+﻿using Domain.Interfaces.Command.Base;
+using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
@@ -35,16 +36,42 @@ namespace Domain.Entities
         [JsonIgnore]
         public string? PasswordNoHash { get; set; }
 
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(Result result)
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand)
         {
+            return Task.CompletedTask;
+        }
+
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand insertCommand)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand)
+        {
+            Result result = new(null, []);
+
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordNoHash);
 
             return Task.FromResult(result);
         }
 
-        public Task ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>()
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand insertCommand)
         {
-            return Task.CompletedTask;
+            Result result = new(null, []);
+
+            return Task.FromResult(result);
+        }
+
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand)
+        {
+            Result result = new(null, []);
+
+            return Task.FromResult(result);
         }
 
         public Task<ValidationResult> Validate()

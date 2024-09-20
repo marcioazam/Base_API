@@ -5,12 +5,15 @@ using Domain.Commands.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
 using Domain.Interfaces.Command;
+using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +22,16 @@ namespace Application.Handlers.Bases
 {
     public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
             where TModel : class, IEntity
-            where TCommand : IRequest<Result>, IDeleteCommand
+            where TCommand : IRequest<Result>, IBaseDeleteCommand
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
 
         public override async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
+            TModel model = Activator.CreateInstance<TModel>();
+
+            result = await model.ExecuteBusinnesRulesBeforeOperations(command);
+
             try
             {
                 await _repository.Delete(command.Id);
@@ -37,6 +44,8 @@ namespace Application.Handlers.Bases
 
                 return result;
             }
+
+            await model.ExecuteBusinnesRulesAfterOperations(command);
 
             return result;
         }

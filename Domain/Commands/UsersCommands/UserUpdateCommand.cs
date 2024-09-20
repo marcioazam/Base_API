@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.UsersCommands
 {
-    public class UserUpdateCommand(long id, bool active) : IRequest<Result>, IBaseUpdateCommand
+    public class UserUpdateCommand(long id, bool active) : IBaseUpdateCommand(id), IRequest<Result>
     {
-        public long Id { get; set; } = id;
-
         public bool Active { get; set; } = active;
     }
 }

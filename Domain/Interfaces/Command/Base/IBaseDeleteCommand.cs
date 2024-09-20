@@ -8,5 +8,6 @@ namespace Domain.Interfaces.Command.Base
 {
     public interface IBaseDeleteCommand
     {
+        public long Id { get; set; }
     }
 }

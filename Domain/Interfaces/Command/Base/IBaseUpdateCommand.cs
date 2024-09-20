@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Command.Base
 {
-    public interface IBaseUpdateCommand
+    public abstract class IBaseUpdateCommand(long id)
     {
-        public long Id { get; set; }
+        public required long Id { get; set; } = id;
     }
 }

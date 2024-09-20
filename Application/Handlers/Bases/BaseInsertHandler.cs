@@ -26,14 +26,14 @@ namespace Application.Handlers.Bases
             if (result.Failed())
                 return result;
 
-            result = await ExecuteOperationsDataBaseAndBRs(entity);
+            result = await ExecuteOperationsDataBaseAndBRs(entity, command);
 
             return result;
         }
 
-        private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity)
+        private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity, TCommand command)
         {
-            result = await entity.ExecuteBusinnesRulesBeforeOperations<IBaseInsertCommand>(result);
+            result = await entity.ExecuteBusinnesRulesBeforeOperations(command);
 
             if (result.Failed())
                 return result;
@@ -42,7 +42,7 @@ namespace Application.Handlers.Bases
 
             result = new Result(entityId, []);
 
-            await entity.ExecuteBusinnesRuleAfterOperations<IBaseInsertCommand>();
+            await entity.ExecuteBusinnesRulesAfterOperations(command);
 
             return result;
         }

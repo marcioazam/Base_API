@@ -15,7 +15,7 @@ namespace API.Controllers.Generally
 
         // Talvez este nao sej ao melhor jeito para buscar regras de validação, porem so saberamos apos utilização em grande escala.
         // Se necessario pode trocar isso por um dicionario declarando cada classe e suas regras de validação.
-        [HttpGet]
+        [HttpGet("GetInfo")]
         public ActionResult<List<ValidationRuleDTO>> ValidationRulesModel(string className)
         {
             className = "Domain.Entities." + className;

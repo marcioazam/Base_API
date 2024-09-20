@@ -19,7 +19,7 @@ namespace API.Controllers.Extension
 {
     public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
         where TInsertCommand : IRequest<Result>, IBaseInsertCommand
-        where TUpdateCommand : IRequest<Result>, IBaseUpdateCommand
+        where TUpdateCommand : IBaseUpdateCommand, IRequest<Result>
         where TDeleteCommand : IRequest<Result>, IBaseDeleteCommand
         where TFilter : IFilter
         where TEntityListDTO : IEntityDTO
@@ -29,19 +29,19 @@ namespace API.Controllers.Extension
         private readonly IMediator _mediator = mediator;
         private readonly IServiceBase _service = service;
 
-        [HttpPost]
+        [HttpPost("Save")]
         public virtual async Task<IActionResult> Post(TInsertCommand command)
         {
             return await MediatorSend(command, ResponseStatus.Created);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public virtual async Task<IActionResult> Update(TUpdateCommand command)
         {
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
-        [HttpDelete]
+        [HttpDelete("Delete")]
         public virtual async Task<IActionResult> Delete(TDeleteCommand command)
         {
             return await MediatorSend(command, ResponseStatus.NoContent);
@@ -53,19 +53,25 @@ namespace API.Controllers.Extension
             return ResponseHelper.BuildResult(this, await _service.List<TEntityListDTO, TFilter>(filter), ResponseStatus.Ok);
         }
 
-        [HttpGet]
-        public virtual async Task<IActionResult> Get(long id)
+        [HttpGet("GetById")]
+        public virtual async Task<IActionResult> GetById(long id)
         {
             return ResponseHelper.BuildResult(this, await _service.GetById<TEntity>(id), ResponseStatus.Ok);
         }
 
-        [HttpGet("exist")]
+        [HttpGet("Get")]
+        public virtual async Task<IActionResult> Get([FromQuery] TFilter filter)
+        {
+            return ResponseHelper.BuildResult(this, await _service.Get<TEntity, TFilter>(filter), ResponseStatus.Ok);
+        }
+
+        [HttpGet("Exist")]
         public virtual async Task<IActionResult> Exist([FromQuery] TFilter filter)
         {
             return ResponseHelper.BuildResult(this, await _service.Exist(filter), ResponseStatus.Ok);
         }
 
-        [HttpGet("count")]
+        [HttpGet("Count")]
         public virtual async Task<IActionResult> Count([FromQuery] TFilter filter)
         {
             return ResponseHelper.BuildResult(this, await _service.Count(filter), ResponseStatus.Ok);
