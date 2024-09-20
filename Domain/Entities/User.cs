@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
+using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,18 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public string? PasswordNoHash { get; set; }
+
+        public async Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result)
+        {
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordNoHash);
+
+            return result;
+        }
+
+        public async Task<Result> ExecuteBusinnesRuleAfterOperations(Result result)
+        {
+            return result;
+        }
 
         public Task<ValidationResult> Validate()
         {

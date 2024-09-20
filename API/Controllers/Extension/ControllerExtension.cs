@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Extension
 {
     public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
-        where TInsertCommand : IRequest<Result>, IBaseInsertCommand<TEntity>
+        where TInsertCommand : IRequest<Result>, IBaseInsertCommand
         where TUpdateCommand : IRequest<Result>, IBaseUpdateCommand
         where TDeleteCommand : IRequest<Result>, IBaseDeleteCommand
         where TFilter : IFilter

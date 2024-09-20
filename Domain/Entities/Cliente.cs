@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
+using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,17 @@ namespace Domain.Entities
 
         public char Sexo { get; set; } = sexo;
 
-        public string? Endereco { get; set; } = endereco;     
+        public string? Endereco { get; set; } = endereco;
+
+        public async Task<Result> ExecuteBusinnesRuleAfterOperations(Result result)
+        {
+            return result;
+        }
+
+        public async Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result)
+        {
+            return result;
+        }
 
         public Task<ValidationResult> Validate()
         {

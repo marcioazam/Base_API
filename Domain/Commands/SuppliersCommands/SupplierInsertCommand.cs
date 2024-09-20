@@ -15,22 +15,12 @@ using Domain.Entities;
 
 namespace Domain.Commands.SuppliersCommands
 {
-    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseInsertCommand<Supplier>
+    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseInsertCommand
     {
         public string Nome { get; set; } = nome;
 
         public string ApiUrl { get; set; } = apiUrl;
 
         public string ApiKey { get; set; } = apiKey;
-
-        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Supplier entity) 
-        {
-            return null;
-        }
-
-        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(Supplier entity) 
-        {
-            return null;
-        }
     }
 }

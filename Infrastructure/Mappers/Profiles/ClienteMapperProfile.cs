@@ -16,22 +16,11 @@ namespace Infrastructure.Mappers.Profiles
         {
             CreateMap<ClienteTable, Cliente>().ReverseMap();
 
-            CreateMap<ClienteTable, ClienteListDTO>()
-                .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome)).ReverseMap();
+            CreateMap<ClienteTable, ClienteListDTO>();
 
-            CreateMap<ClienteInsertCommand, Cliente>()
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
-                .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
+            CreateMap<ClienteInsertCommand, Cliente>();
 
-            CreateMap<ClienteUpdateCommand, Cliente>()
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.Sexo, opt => opt.MapFrom(src => src.Sexo))
-                .ForMember(x => x.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(x => x.Endereco, opt => opt.MapFrom(src => src.Endereco));
+            CreateMap<ClienteUpdateCommand, Cliente>();
         }
     }
 }

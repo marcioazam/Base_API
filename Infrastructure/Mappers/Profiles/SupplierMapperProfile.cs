@@ -18,20 +18,11 @@ namespace Infrastructure.Mappers.Profiles
         {
             CreateMap<SupplierTable, Supplier>().ReverseMap();
 
-            CreateMap<SupplierTable, SupplierListDTO>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome)).ReverseMap();
+            CreateMap<SupplierTable, SupplierListDTO>();
 
-            CreateMap<SupplierInsertCommand, Supplier>()
-                .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+            CreateMap<SupplierInsertCommand, Supplier>();
 
-            CreateMap<SupplierUpdateCommand, Supplier>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(x => x.ApiUrl, opt => opt.MapFrom(src => src.ApiUrl))
-                .ForMember(x => x.Nome, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(x => x.ApiKey, opt => opt.MapFrom(src => src.ApiKey));
+            CreateMap<SupplierUpdateCommand, Supplier>();
         }
     }
 }

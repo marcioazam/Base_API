@@ -1,4 +1,6 @@
-﻿using FluentValidation.Results;
+﻿using Domain.Interfaces.Command.Base;
+using Domain.ValueObjects.ResultInfo;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +19,9 @@ namespace Domain.Interfaces.Entities.Base
         bool IsIDValid() => IDValid;
 
         Task<ValidationResult> Validate() => Task.FromResult(new ValidationResult());
+
+        Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result);
+
+        Task ExecuteBusinnesRuleAfterOperations();
     }
 }

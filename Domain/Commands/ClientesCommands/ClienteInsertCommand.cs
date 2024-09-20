@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.ClientesCommands
 {
-    public class ClienteInsertCommand(string nome, string email, char sexo, string? endereco = null) : IRequest<Result>, IBaseInsertCommand<Cliente>
+    public class ClienteInsertCommand(string nome, string email, char sexo, string? endereco = null) : IRequest<Result>, IBaseInsertCommand
     {
         public string Nome { get; set; } = nome;
 
@@ -21,15 +21,5 @@ namespace Domain.Commands.ClientesCommands
         public char Sexo { get; set; } = sexo;
 
         public string? Endereco { get; set; } = endereco;
-
-        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(Cliente entity)
-        {
-            return null;
-        }
-
-        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(Cliente entity)
-        {
-            return null;
-        }
     }
 }

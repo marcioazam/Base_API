@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Command.Base
 {
-    public interface IBaseInsertCommand<TEntity> where TEntity : class, IEntity
+    public interface IBaseInsertCommand
     {
-        public Task<ResultError> ExecuteBusinnesRulesBeforeOperations(TEntity entity);
-
-        public Task<ResultError> ExecuteBusinnesRuleAfterOperations(TEntity entity);
     }
 }

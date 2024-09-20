@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using Domain.Validators;
+using Domain.ValueObjects.ResultInfo;
 
 namespace Domain.Entities
 {
@@ -18,6 +19,16 @@ namespace Domain.Entities
         public string Nome { get; set; } = nome;
 
         public string ApiKey { get; set; } = apiKey;
+
+        public async Task<Result> ExecuteBusinnesRuleAfterOperations(Result result)
+        {
+            return result;
+        }
+
+        public async Task<Result> ExecuteBusinnesRulesBeforeOperations(Result result)
+        {
+            return result;
+        }
 
         public Task<ValidationResult> Validate()
         {
