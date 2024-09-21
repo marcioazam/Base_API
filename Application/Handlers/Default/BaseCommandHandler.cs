@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.UoW;
-using Domain.Commands.Base;
 using Domain.EnumTypes;
 using Domain.Interfaces.Entities.Base;
 using Domain.ValueObjects.ResultInfo;

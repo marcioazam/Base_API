@@ -1,5 +1,4 @@
-﻿using Domain.Commands.Base;
-using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.ClientesCommands
 {
-    public class ClienteDeleteCommand(long id) : BaseDeleteCommand(id), IRequest<Result>, IBaseDeleteCommand
+    public class ClienteDeleteCommand(long id) : BaseDeleteCommand(id), IRequest<Result>
     {
     }
 }

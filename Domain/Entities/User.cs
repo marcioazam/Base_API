@@ -1,4 +1,6 @@
-﻿using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
+using Domain.Entities.Base;
+using Domain.EnumTypes;
 using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
@@ -13,18 +15,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User : IEntity
+    public class User : BaseEntity, IEntity
     {
-        public User() { }
-
-        public User(long id, string username, bool active, string passwordHash)
-        {
-            Id = id;
-            Username = username;
-            PasswordHash = passwordHash;
-            Active = active;
-        }
-
         public required long Id { get; set; }
 
         public required string Username { get; set; }
@@ -36,42 +28,11 @@ namespace Domain.Entities
         [JsonIgnore]
         public string? PasswordNoHash { get; set; }
 
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand)
+        private protected override Result InsertCommandBeforeOperation(Result result)
         {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand insertCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand)
-        {
-            Result result = new(null, []);
-
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordNoHash);
 
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand insertCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
+            return result;
         }
 
         public Task<ValidationResult> Validate()

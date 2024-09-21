@@ -1,11 +1,10 @@
 ﻿using Application.Handlers.Default;
 using Application.Interfaces.UoW;
 using AutoMapper;
-using Domain.Commands.Base;
+using Domain.Abstracts.Command.Base;
+using Domain.Entities.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
-using Domain.Interfaces.Command;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.ValueObjects.ResultInfo;
@@ -21,8 +20,8 @@ using System.Threading.Tasks;
 namespace Application.Handlers.Bases
 {
     public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-            where TModel : class, IEntity
-            where TCommand : IRequest<Result>, IBaseDeleteCommand
+            where TModel : BaseEntity, IEntity
+            where TCommand : BaseDeleteCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
 
@@ -30,7 +29,7 @@ namespace Application.Handlers.Bases
         {
             TModel model = Activator.CreateInstance<TModel>();
 
-            result = await model.ExecuteBusinnesRulesBeforeOperations(command);
+            result = await model.ExecuteBusinnesRulesBeforeOperations(command.Type);
 
             try
             {
@@ -45,7 +44,7 @@ namespace Application.Handlers.Bases
                 return result;
             }
 
-            await model.ExecuteBusinnesRulesAfterOperations(command);
+            await model.ExecuteBusinnesRulesAfterOperations(command.Type);
 
             return result;
         }

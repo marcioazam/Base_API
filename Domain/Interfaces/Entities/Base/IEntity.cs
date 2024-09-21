@@ -1,8 +1,10 @@
-﻿using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
+using Domain.EnumTypes;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -19,17 +21,5 @@ namespace Domain.Interfaces.Entities.Base
         bool IsIDValid() => IDValid;
 
         Task<ValidationResult> Validate() => Task.FromResult(new ValidationResult());
-
-        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand);
-
-        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand deleteCommand);
-
-        Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand);
-
-        Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand);
-
-        Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand deleteCommand);
-
-        Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand);
     }
 }

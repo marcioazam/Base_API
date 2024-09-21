@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces.Services;
 using Application.Interfaces.UoW;
 using Application.Services;
-using Domain.Commands.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Repositories.Base;

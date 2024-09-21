@@ -1,5 +1,4 @@
-﻿using Domain.Commands.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +8,13 @@ using Domain.EnumTypes;
 using FluentValidation.Results;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Entities;
+using Domain.Abstracts.Command.Base;
 
 namespace Domain.Commands.SuppliersCommands
 {
-    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : IRequest<Result>, IBaseInsertCommand
+    public class SupplierInsertCommand(string nome, string apiUrl, string apiKey) : BaseInsertCommand, IRequest<Result>
     {
         public string Nome { get; set; } = nome;
 

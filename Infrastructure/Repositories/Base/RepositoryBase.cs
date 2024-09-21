@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Aggregates;
-using Domain.Commands.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.Interfaces.Tables;

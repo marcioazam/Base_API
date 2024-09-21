@@ -1,63 +1,30 @@
-﻿using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
+using Domain.Entities.Base;
+using Domain.EnumTypes;
 using Domain.Interfaces.Entities.Base;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Cliente(long id, string nome, string email, char sexo, string? endereco = null) : IEntity
+    public class Cliente : BaseEntity, IEntity
     {
-        public long Id { get; set; } = id;
+        public required long Id { get; set; } 
 
-        public string Nome { get; set; } = nome;
+        public required string Nome { get; set; } 
 
-        public string Email { get; set; } = email;
+        public required string Email { get; set; } 
 
-        public char Sexo { get; set; } = sexo;
+        public required char Sexo { get; set; }
 
-        public string? Endereco { get; set; } = endereco;
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand insertCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand insertCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand)
-        {
-            Result result = new(null, []); 
-
-            return Task.FromResult(result);
-        }
+        public string? Endereco { get; set; } 
 
         public Task<ValidationResult> Validate()
         {

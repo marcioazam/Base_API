@@ -6,9 +6,9 @@ using Application.Interfaces.Filters;
 using Application.Interfaces.Services;
 using Application.Interfaces.Services.Base;
 using Application.Services;
+using Domain.Abstracts.Command.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
@@ -18,9 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Extension
 {
     public class ControllerExtension<TInsertCommand, TUpdateCommand, TDeleteCommand, TFilter, TEntityListDTO, TEntityPagedListDTO, TEntity>(IMediator mediator, IServiceBase service) : ControllerBase
-        where TInsertCommand : IRequest<Result>, IBaseInsertCommand
-        where TUpdateCommand : IBaseUpdateCommand, IRequest<Result>
-        where TDeleteCommand : IRequest<Result>, IBaseDeleteCommand
+        where TInsertCommand : BaseInsertCommand, IRequest<Result>
+        where TUpdateCommand : BaseUpdateCommand, IRequest<Result>
+        where TDeleteCommand : BaseDeleteCommand, IRequest<Result>
         where TFilter : IFilter
         where TEntityListDTO : IEntityDTO
         where TEntityPagedListDTO : IEntityDTO
@@ -32,18 +32,24 @@ namespace API.Controllers.Extension
         [HttpPost("Save")]
         public virtual async Task<IActionResult> Post(TInsertCommand command)
         {
+            command.Type = TypeCommand.Insert;
+
             return await MediatorSend(command, ResponseStatus.Created);
         }
 
         [HttpPut("Update")]
         public virtual async Task<IActionResult> Update(TUpdateCommand command)
         {
+            command.Type = TypeCommand.Update;
+
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
         [HttpDelete("Delete")]
         public virtual async Task<IActionResult> Delete(TDeleteCommand command)
         {
+            command.Type = TypeCommand.Delete;
+
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 

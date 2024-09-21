@@ -1,6 +1,4 @@
-﻿using Domain.Commands.Base;
-using Domain.Interfaces.Command;
-using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
@@ -11,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.SuppliersCommands
 {
-    public class SupplierDeleteCommand(long id) : BaseDeleteCommand(id), IRequest<Result>, IBaseDeleteCommand
+    public class SupplierDeleteCommand(long id) : BaseDeleteCommand(id), IRequest<Result>
     {
     }
 }

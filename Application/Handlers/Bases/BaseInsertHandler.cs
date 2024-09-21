@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.UoW;
-using Domain.Commands.Base;
 using Domain.Interfaces.Repositories;
 using MediatR;
 using Domain.Interfaces.Repositories.Base;
@@ -7,14 +6,15 @@ using Domain.Interfaces.Entities.Base;
 using AutoMapper;
 using Application.Handlers.Default;
 using Domain.ValueObjects.ResultInfo;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.ValueObjects;
+using Domain.Abstracts.Command.Base;
+using Domain.Entities.Base;
 
 namespace Application.Handlers.Bases
 {
     public class BaseInsertHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-        where TModel : class, IEntity
-        where TCommand : IRequest<Result>, IBaseInsertCommand
+        where TModel : BaseEntity, IEntity
+        where TCommand : BaseInsertCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;
@@ -33,7 +33,7 @@ namespace Application.Handlers.Bases
 
         private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity, TCommand command)
         {
-            result = await entity.ExecuteBusinnesRulesBeforeOperations(command);
+            result = await entity.ExecuteBusinnesRulesBeforeOperations(command.Type);
 
             if (result.Failed())
                 return result;
@@ -42,7 +42,7 @@ namespace Application.Handlers.Bases
 
             result = new Result(entityId, []);
 
-            await entity.ExecuteBusinnesRulesAfterOperations(command);
+            await entity.ExecuteBusinnesRulesAfterOperations(command.Type);
 
             return result;
         }

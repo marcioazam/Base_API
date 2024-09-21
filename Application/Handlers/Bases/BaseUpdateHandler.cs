@@ -1,10 +1,10 @@
 ﻿using Application.Handlers.Default;
 using Application.Interfaces.UoW;
 using AutoMapper;
-using Domain.Commands.Base;
+using Domain.Abstracts.Command.Base;
+using Domain.Entities.Base;
 using Domain.EnumTypes;
 using Domain.Helpers;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.Repositories.Base;
 using Domain.Interfaces.ValueObjects;
@@ -19,8 +19,8 @@ using System.Threading.Tasks;
 namespace Application.Handlers.Bases
 {
     public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-        where TModel : class, IEntity
-        where TCommand : IBaseUpdateCommand, IRequest<Result>
+        where TModel : BaseEntity, IEntity
+        where TCommand : BaseUpdateCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;
         private readonly IMapper _mapper = mapper;
@@ -39,14 +39,14 @@ namespace Application.Handlers.Bases
 
         private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity, TCommand command)
         {
-            result = await entity.ExecuteBusinnesRulesBeforeOperations(command);
+            result = await entity.ExecuteBusinnesRulesBeforeOperations(command.Type);
 
             if (result.Failed())
                 return result;
 
             await InsertIntoBD(entity);
 
-            await entity.ExecuteBusinnesRulesAfterOperations(command);
+            await entity.ExecuteBusinnesRulesAfterOperations(command.Type);
 
             return result;
         }

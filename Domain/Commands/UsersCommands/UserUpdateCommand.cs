@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Command.Base;
+﻿using Domain.Abstracts.Command.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.UsersCommands
 {
-    public class UserUpdateCommand(long id, bool active) : IBaseUpdateCommand(id), IRequest<Result>
+    public class UserUpdateCommand(long id, bool active) : BaseUpdateCommand(id), IRequest<Result>
     {
         public bool Active { get; set; } = active;
     }

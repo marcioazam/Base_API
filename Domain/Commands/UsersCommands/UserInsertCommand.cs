@@ -1,6 +1,6 @@
 ﻿using BCrypt.Net;
+using Domain.Abstracts.Command.Base;
 using Domain.Entities;
-using Domain.Interfaces.Command.Base;
 using Domain.Interfaces.Entities.Base;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.UsersCommands
 {
-    public class UserInsertCommand(string username, string passwordNoHash, bool active) : IRequest<Result>, IBaseInsertCommand
+    public class UserInsertCommand(string username, string passwordNoHash, bool active) : BaseInsertCommand, IRequest<Result>
     {
         public required string Username { get; set; } = username;
 

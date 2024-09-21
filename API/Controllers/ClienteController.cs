@@ -4,7 +4,6 @@ using Application.DTOs.Filters;
 using Application.Factories;
 using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
-using Domain.Commands.Base;
 using Domain.Commands.ClientesCommands;
 using Domain.Entities;
 using Domain.Helpers;

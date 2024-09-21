@@ -7,55 +7,21 @@ using System.Threading.Tasks;
 using FluentValidation.Results;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
-using Domain.Interfaces.Command.Base;
+using Domain.Abstracts.Command.Base;
+using Domain.EnumTypes;
+using Domain.Entities.Base;
 
 namespace Domain.Entities
 {
-    public class Supplier(long id, string apiUrl, string nome, string apiKey) : IEntity
+    public class Supplier : BaseEntity, IEntity
     {
-        public long Id { get; set; } = id;
+        public required long Id { get; set; } 
 
-        public string ApiUrl { get; set; } = apiUrl;
+        public required string ApiUrl { get; set; } 
 
-        public string Nome { get; set; } = nome;
+        public required string Nome { get; set; } 
 
-        public string ApiKey { get; set; } = apiKey;
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseInsertCommand insertCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseUpdateCommand insertCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ExecuteBusinnesRulesAfterOperations(IBaseDeleteCommand deleteCommand)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseInsertCommand insertCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseUpdateCommand insertCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
-
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(IBaseDeleteCommand deleteCommand)
-        {
-            Result result = new(null, []);
-
-            return Task.FromResult(result);
-        }
+        public required string ApiKey { get; set; } 
 
         public Task<ValidationResult> Validate()
         {

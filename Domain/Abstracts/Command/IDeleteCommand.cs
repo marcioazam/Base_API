@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces.Command.Base
+namespace Domain.Abstracts.Command
 {
-    public interface IBaseDeleteCommand
+    public interface IDeleteCommand
     {
         public long Id { get; set; }
     }
