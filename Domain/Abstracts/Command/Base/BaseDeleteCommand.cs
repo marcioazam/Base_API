@@ -11,8 +11,5 @@ namespace Domain.Abstracts.Command.Base
     public abstract class BaseDeleteCommand(long id)
     {
         public long Id { get; set; } = id;
-
-        [JsonIgnore]
-        public TypeCommand Type { get; set; }
     }
 }

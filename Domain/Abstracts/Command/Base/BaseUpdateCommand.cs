@@ -11,8 +11,5 @@ namespace Domain.Abstracts.Command.Base
     public abstract class BaseUpdateCommand(long id)
     {
         public required long Id { get; set; } = id;
-
-        [JsonIgnore]
-        public TypeCommand Type { get; set; }
     }
 }

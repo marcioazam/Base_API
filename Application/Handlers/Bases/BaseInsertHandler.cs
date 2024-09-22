@@ -33,7 +33,7 @@ namespace Application.Handlers.Bases
 
         private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity, TCommand command)
         {
-            result = await entity.ExecuteBusinnesRulesBeforeOperations(command.Type);
+            result = await entity.ExecuteBusinnesRulesBeforeOperations(command);
 
             if (result.Failed())
                 return result;
@@ -42,7 +42,7 @@ namespace Application.Handlers.Bases
 
             result = new Result(entityId, []);
 
-            await entity.ExecuteBusinnesRulesAfterOperations(command.Type);
+            await entity.ExecuteBusinnesRulesAfterOperations(command);
 
             return result;
         }

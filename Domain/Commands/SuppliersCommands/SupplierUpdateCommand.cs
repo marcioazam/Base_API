@@ -9,6 +9,7 @@ using FluentValidation.Results;
 using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
 using Domain.Abstracts.Command.Base;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.SuppliersCommands
 {

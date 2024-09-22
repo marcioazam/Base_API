@@ -39,14 +39,14 @@ namespace Application.Handlers.Bases
 
         private async Task<Result> ExecuteOperationsDataBaseAndBRs(TModel entity, TCommand command)
         {
-            result = await entity.ExecuteBusinnesRulesBeforeOperations(command.Type);
+            result = await entity.ExecuteBusinnesRulesBeforeOperations(command);
 
             if (result.Failed())
                 return result;
 
             await InsertIntoBD(entity);
 
-            await entity.ExecuteBusinnesRulesAfterOperations(command.Type);
+            await entity.ExecuteBusinnesRulesAfterOperations(command);
 
             return result;
         }

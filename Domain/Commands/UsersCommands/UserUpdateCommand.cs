@@ -1,4 +1,5 @@
 ﻿using Domain.Abstracts.Command.Base;
+using Domain.EnumTypes;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
 using System;

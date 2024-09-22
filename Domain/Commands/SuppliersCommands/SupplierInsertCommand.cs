@@ -11,6 +11,7 @@ using Domain.ValueObjects.ResultInfo;
 using Domain.Interfaces.Entities.Base;
 using Domain.Entities;
 using Domain.Abstracts.Command.Base;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.SuppliersCommands
 {

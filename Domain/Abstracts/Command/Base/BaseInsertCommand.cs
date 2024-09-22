@@ -12,7 +12,5 @@ namespace Domain.Abstracts.Command.Base
 {
     public abstract class BaseInsertCommand
     {
-        [JsonIgnore]
-        public TypeCommand Type { get; set; }
     }
 }

@@ -32,24 +32,18 @@ namespace API.Controllers.Extension
         [HttpPost("Save")]
         public virtual async Task<IActionResult> Post(TInsertCommand command)
         {
-            command.Type = TypeCommand.Insert;
-
             return await MediatorSend(command, ResponseStatus.Created);
         }
 
         [HttpPut("Update")]
         public virtual async Task<IActionResult> Update(TUpdateCommand command)
         {
-            command.Type = TypeCommand.Update;
-
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
         [HttpDelete("Delete")]
         public virtual async Task<IActionResult> Delete(TDeleteCommand command)
         {
-            command.Type = TypeCommand.Delete;
-
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 

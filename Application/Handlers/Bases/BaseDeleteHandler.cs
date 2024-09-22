@@ -29,7 +29,7 @@ namespace Application.Handlers.Bases
         {
             TModel model = Activator.CreateInstance<TModel>();
 
-            result = await model.ExecuteBusinnesRulesBeforeOperations(command.Type);
+            result = await model.ExecuteBusinnesRulesBeforeOperations(command);
 
             try
             {
@@ -44,7 +44,7 @@ namespace Application.Handlers.Bases
                 return result;
             }
 
-            await model.ExecuteBusinnesRulesAfterOperations(command.Type);
+            await model.ExecuteBusinnesRulesAfterOperations(command);
 
             return result;
         }

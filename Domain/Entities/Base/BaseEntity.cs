@@ -1,4 +1,5 @@
-﻿using Domain.EnumTypes;
+﻿using Domain.Abstracts.Command.Base;
+using Domain.EnumTypes;
 using Domain.ValueObjects.ResultInfo;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,21 @@ namespace Domain.Entities.Base
 {
     public abstract class BaseEntity
     {
-        public Task ExecuteBusinnesRulesAfterOperations(TypeCommand insertCommand)
+        public Task ExecuteBusinnesRulesAfterOperations<T>(T command) where T : class
         {
-            switch (insertCommand)
+            switch (command)
             {
-                case TypeCommand.Insert:
+                case BaseInsertCommand:
                     InsertCommandAfterOperation();
                     break;
-                case TypeCommand.Update:
+                case BaseUpdateCommand:
                     UpdateCommandAfterOperation();
                     break;
-                case TypeCommand.Delete:
+                case BaseDeleteCommand:
                     DeleteCommandAfterOperation();
                     break;
                 default:
-                    throw new NotImplementedException("TypeCommand não definido!");
+                    throw new NotImplementedException("BaseCommand não definido!");
             }
 
             return Task.CompletedTask;
@@ -45,23 +46,23 @@ namespace Domain.Entities.Base
             
         }
 
-        public Task<Result> ExecuteBusinnesRulesBeforeOperations(TypeCommand insertCommand)
+        public Task<Result> ExecuteBusinnesRulesBeforeOperations<T>(T command) where T : class
         {
             Result result = new(null, []);
 
-            switch (insertCommand)
+            switch (command)
             {
-                case TypeCommand.Insert:
+                case BaseInsertCommand:
                     result = InsertCommandBeforeOperation(result);
                     break;
-                case TypeCommand.Update:
+                case BaseUpdateCommand:
                     result = UpdateCommandBeforeOperation(result);
                     break;
-                case TypeCommand.Delete:
+                case BaseDeleteCommand:
                     result = DeleteCommandBeforeOperation(result);
                     break;
                 default:
-                    throw new NotImplementedException("TypeCommand não definido!");
+                    throw new NotImplementedException("BaseCommand não definido!");
             }
 
             return Task.FromResult(result);
