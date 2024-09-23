@@ -78,17 +78,26 @@ namespace Application.Services.Auth
                 throw new InvalidOperationException("A chave secreta para o JWT não está configurada.");
             }
 
+            if (!double.TryParse(_configuration["Jwt:ExpiryMinutes"], out double expiryMinutes) || expiryMinutes <= 0)
+            {
+                expiryMinutes = 90; // Define um valor padrão de 30 minutos se a configuração for inválida
+            }
+
             var key = Encoding.UTF8.GetBytes(secretKey);  // Chave secreta
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpiryMinutes"] ?? "30")),  // Expiração configurável
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(expiryMinutes),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                IssuedAt = DateTime.UtcNow,
+                NotBefore = DateTime.UtcNow
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
