@@ -13,7 +13,7 @@ using Domain.Entities.Base;
 namespace Application.Handlers.Bases
 {
     public class BaseInsertHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-        where TModel : BaseEntity, IEntity
+        where TModel : EntityBusinessRules, IEntity
         where TCommand : BaseInsertCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;

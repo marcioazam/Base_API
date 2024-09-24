@@ -1,14 +1,17 @@
 ﻿using API.Helpers;
 using Application.Interfaces.Services;
-using Application.Interfaces.Services.Auth;
-using Application.Services.Auth;
+using Application.Interfaces.Services.Security;
+using Application.Security;
+using Domain.Commands.TokensCommands;
 using Domain.Entities;
 using Domain.EnumTypes;
 using Domain.Helpers;
-using Domain.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
+using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Controllers.Generally
 {
@@ -17,22 +20,24 @@ namespace API.Controllers.Generally
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IUserService _userService; 
+        private readonly IUserService _userService;
+        private readonly IMediator _mediator;
 
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService, IUserService userService, IMediator mediator)
         {
             _authService = authService;
             _userService = userService;
+            _mediator = mediator;
         }
 
         [HttpPost("GenerateToken")]
-        public async Task<IActionResult> TokenAsync([FromBody] UserLogin userLogin)
+        public async Task<IActionResult> TokenAsync([FromBody] Login login)
         {
-            Result result = await _authService.ValidateUser(userLogin);
+            Result result = await _authService.ValidateUser(login);
 
             if (result.Failed())
             {
-                return ResponseHelper.BuildResult(this, result, ResponseStatus.Ok);
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.Unauthorized);
             }
 
             var user = result.Data as User;
@@ -45,8 +50,18 @@ namespace API.Controllers.Generally
             };
 
             var token = _authService.GenerateJwtToken(user);
+            var refreshToken = _authService.GenerateRefreshToken(user.Id);
 
-            return Ok(new { Token = token });
+            TokenInsertCommand command = new TokenInsertCommand(refreshToken.Token, refreshToken.UserId, refreshToken.ExpiryDate, refreshToken.IsRevoked);
+
+            result = await _mediator.Send(command);
+
+            if (result.Failed())
+            {
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.BadRequest);
+            }
+
+            return Ok(new { AcessToken = token, RefreshToken = refreshToken.Token });
         }
     }
 }

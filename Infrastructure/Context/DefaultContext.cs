@@ -18,6 +18,8 @@ namespace Infrastructure.Context
 
         public DbSet<UserTable> User { get; set; }
 
+        public DbSet<TokenTable> Token { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

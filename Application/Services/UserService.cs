@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class UserService(IUserRepository genericRepository) : ServiceBase<IUserRepository, User>(genericRepository), IUserService
+    public class UserService(IUserRepository repository) : ServiceBase<IUserRepository, User>(repository), IUserService
     {
     }
 }

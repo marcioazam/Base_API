@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 namespace Application.Handlers.Bases
 {
     public class BaseDeleteHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-            where TModel : BaseEntity, IEntity
+            where TModel : EntityBusinessRules, IEntity
             where TCommand : BaseDeleteCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;

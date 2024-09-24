@@ -4,15 +4,15 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Application.Interfaces.Services.Auth;
-using Domain.ValueObjects;
+using Application.Interfaces.Services.Security;
 using Domain.Interfaces.Repositories;
 using Application.DTOs.Filters;
 using Domain.ValueObjects.ResultInfo;
 using Domain.EnumTypes;
 using Domain.Helpers;
+using Application.Security;
 
-namespace Application.Services.Auth
+namespace Application.Services.Security
 {
     public class AuthService(IConfiguration configuration, IUserRepository userRepository) : IAuthService
     {
@@ -22,7 +22,7 @@ namespace Application.Services.Auth
         Result result = new(null, []);
 
         // Método para validar usuário e senha
-        public async Task<Result> ValidateUser(UserLogin sendUser)
+        public async Task<Result> ValidateUser(Login sendUser)
         {
             if (string.IsNullOrEmpty(sendUser.Username))
             {
@@ -80,7 +80,7 @@ namespace Application.Services.Auth
 
             if (!double.TryParse(_configuration["Jwt:ExpiryMinutes"], out double expiryMinutes) || expiryMinutes <= 0)
             {
-                expiryMinutes = 90; // Define um valor padrão de 30 minutos se a configuração for inválida
+                expiryMinutes = 120; 
             }
 
             var key = Encoding.UTF8.GetBytes(secretKey);  // Chave secreta
@@ -101,7 +101,19 @@ namespace Application.Services.Auth
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken(long userId)
+        {
+            return new RefreshToken
+            {
+                Token = Guid.NewGuid().ToString(),
+                UserId = userId,
+                ExpiryDate = DateTime.UtcNow.AddHours(6),
+                IsRevoked = false
+            };
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ValueObjects
+namespace Application.Security
 {
-    public class UserLogin(string username, string password)
+    public class Login(string username, string password)
     {
         public required string Username { get; set; } = username;
 

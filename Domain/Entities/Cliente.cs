@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Cliente : BaseEntity, IEntity
+    public class Cliente : EntityBusinessRules, IEntity
     {
         public required long Id { get; set; } 
 

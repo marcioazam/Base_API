@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace Application.Handlers.Bases
 {
     public class BaseUpdateHandler<TModel, TCommand>(IUnitOfWork unitOfWork, IRepositoryBase<TModel> repository, IMapper mapper) : BaseCommandHandler<TCommand, Result, IRepositoryBase<TModel>, TModel>(unitOfWork)
-        where TModel : BaseEntity, IEntity
+        where TModel : EntityBusinessRules, IEntity
         where TCommand : BaseUpdateCommand, IRequest<Result>
     {
         private readonly IRepositoryBase<TModel> _repository = repository;

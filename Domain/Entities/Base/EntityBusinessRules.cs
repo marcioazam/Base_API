@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Base
 {
-    public abstract class BaseEntity
+    public abstract class EntityBusinessRules
     {
         public Task ExecuteBusinnesRulesAfterOperations<T>(T command) where T : class
         {

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User : BaseEntity, IEntity
+    public class User : EntityBusinessRules, IEntity
     {
         public required long Id { get; set; }
 

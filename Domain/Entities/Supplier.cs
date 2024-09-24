@@ -13,7 +13,7 @@ using Domain.Entities.Base;
 
 namespace Domain.Entities
 {
-    public class Supplier : BaseEntity, IEntity
+    public class Supplier : EntityBusinessRules, IEntity
     {
         public required long Id { get; set; } 
 
