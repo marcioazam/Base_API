@@ -31,5 +31,9 @@ namespace Domain.EnumTypes
         InternalError = 9,
         [Description("Propriedade inválida.")]
         InvalidProperty = 10,
+        [Description("O request foi identificado como uma operação maliciosa.")]
+        RequestMalicious = 11,
+        [Description("Refresh Token expirado.")]
+        RefreshTokenExpired = 12,
     }
 }

@@ -33,6 +33,7 @@ namespace Infrastructure
         {
             // Handlers e Commands
             services.AddTransient<IRequestHandler<TokenInsertCommand, Result>, BaseInsertHandler<Token, TokenInsertCommand>>();
+            services.AddTransient<IRequestHandler<TokenUpdateRevokedCommand, Result>, BaseUpdateHandler<Token, TokenUpdateRevokedCommand>>();
 
             services.AddTransient<IRequestHandler<ClienteInsertCommand, Result>, BaseInsertHandler<Cliente, ClienteInsertCommand>>();
             services.AddTransient<IRequestHandler<ClienteUpdateCommand, Result>, BaseUpdateHandler<Cliente, ClienteUpdateCommand>>();

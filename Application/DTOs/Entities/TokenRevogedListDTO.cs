@@ -1,14 +1,13 @@
-﻿using Domain.EnumTypes;
-using System.Text.Json.Serialization;
+using Application.Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Abstracts.Command.Base
+namespace Application.DTOs.Entities
 {
-    public abstract class BaseUpdateCommand(long id)
+    public class TokenRevogedListDTO(long id) : IEntityDTO
     {
         public long Id { get; set; } = id;
     }

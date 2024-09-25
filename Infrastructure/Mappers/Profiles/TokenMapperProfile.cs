@@ -17,11 +17,11 @@ namespace Infrastructure.Mappers.Profiles
         {
             CreateMap<TokenTable, Token>().ReverseMap();
 
-            //CreateMap<TokenTable, TokenDTO>();
+            CreateMap<TokenTable, TokenRevogedListDTO>();
 
             CreateMap<TokenInsertCommand, Token>();
 
-            //CreateMap<TokenUpdateCommand, Token>();
+            CreateMap<TokenUpdateRevokedCommand, Token>();
         }
     }
 }

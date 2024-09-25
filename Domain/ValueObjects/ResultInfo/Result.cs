@@ -25,16 +25,14 @@ namespace Domain.ValueObjects.ResultInfo
             return false;
         }
 
-        public void AddError(GlobalError error, object? keyAndValue)
+        public void AddError(GlobalError error)
         {
-            string? value = null;
+            this.Errors.Add(new ResultError((int)error, null, null, EnumHelper.GetDesc(error)));
+        }
 
-            if(keyAndValue != null)
-            {
-                value = keyAndValue.ToString();
-            }
-
-            this.Errors.Add(new ResultError((int)error, nameof(keyAndValue), value, EnumHelper.GetDesc(error)));
+        public void AddError(GlobalError error, string key, string value)
+        {
+            this.Errors.Add(new ResultError((int)error, key, value, EnumHelper.GetDesc(error)));
         }
 
         public void AddError(GlobalError error, string key, string value, string? customMessage = null)

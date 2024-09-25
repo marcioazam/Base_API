@@ -26,14 +26,14 @@ namespace Application.Services.Security
         {
             if (string.IsNullOrEmpty(sendUser.Username))
             {
-                result.AddError(GlobalError.RequiredUsername, sendUser.Password);
+                result.AddError(GlobalError.RequiredUsername, "Username", sendUser.Username);
 
                 return result;
             }
 
             if (string.IsNullOrEmpty(sendUser.Password))
             {
-                result.AddError(GlobalError.RequiredPassword, sendUser.Password);
+                result.AddError(GlobalError.RequiredPassword, "Password", sendUser.Password);
 
                 return result;
             }
@@ -42,7 +42,7 @@ namespace Application.Services.Security
 
             if (userFromBD == null)
             {
-                result.AddError(GlobalError.UserNotFound, sendUser.Password);
+                result.AddError(GlobalError.UserNotFound);
 
                 return result;
             }
@@ -55,7 +55,7 @@ namespace Application.Services.Security
             }
             else
             {
-                result.AddError(GlobalError.InvalidPassword, sendUser.Password);
+                result.AddError(GlobalError.InvalidPassword, "Password", sendUser.Password);
 
                 return result;
             }
@@ -67,10 +67,11 @@ namespace Application.Services.Security
         // Método para gerar JWT
         public Tuple<string, DateTime> GenerateJwtToken(User user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            ArgumentNullException.ThrowIfNull(user);
 
             DateTime expires;
+            double expiryHours;
+            DateTime dataAtual = DateTime.UtcNow;
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = _configuration["Jwt:SecretKey"];
 
@@ -79,12 +80,9 @@ namespace Application.Services.Security
                 throw new InvalidOperationException("A chave secreta para o JWT não está configurada.");
             }
 
-            if (!double.TryParse(_configuration["Jwt:ExpiryHours"], out double expiryHours) || expiryHours <= 0)
-            {
-                expiryHours = 2; 
-            }
+            expiryHours = SecurityHelper.GetExpiryToken(_configuration["Jwt:ExpiryHours"]);
 
-            var key = Encoding.UTF8.GetBytes(secretKey);  // Chave secreta
+            var key = Encoding.UTF8.GetBytes(secretKey);  
 
             var claims = new List<Claim>
             {
@@ -99,13 +97,13 @@ namespace Application.Services.Security
                 Subject = new ClaimsIdentity(claims),
                 Expires = expires,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                IssuedAt = DateTime.UtcNow,
-                NotBefore = DateTime.UtcNow
+                IssuedAt = dataAtual,
+                NotBefore = dataAtual
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new Tuple<string, DateTime>(tokenHandler.WriteToken(token), expires);
+            return new Tuple<string, DateTime>(tokenHandler.WriteToken(token),dataAtual);
         }
 
         public RefreshToken GenerateRefreshToken(long userId)

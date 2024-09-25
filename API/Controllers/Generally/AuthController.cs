@@ -1,4 +1,6 @@
 ﻿using API.Helpers;
+using Application.DTOs.Entities;
+using Application.DTOs.Filters;
 using Application.Interfaces.Services;
 using Application.Interfaces.Services.Security;
 using Application.Security;
@@ -9,10 +11,13 @@ using Domain.EnumTypes;
 using Domain.Helpers;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
+using MediatR.NotificationPublishers;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers.Generally
 {
@@ -47,52 +52,127 @@ namespace API.Controllers.Generally
 
             if (user == null)
             {
-                result.AddError(GlobalError.InternalError, user);
+                result.AddError(GlobalError.InternalError);
 
                 return ResponseHelper.BuildResult(this, result, ResponseStatus.InternalServerError);
             };
 
-            var tokenInfo = _authService.GenerateJwtToken(user);
-            var refreshToken = _authService.GenerateRefreshToken(user.Id);
-
-            TokenInsertCommand command = new(refreshToken.RefreshTokenGuid, refreshToken.UserId, tokenInfo.Item2, refreshToken.Expiry, refreshToken.IsRevoked);
-
-            result = await _mediator.Send(command);
-
-            TokenRequest tokenRequest = new(tokenInfo.Item1, refreshToken.RefreshTokenGuid);
+            result = await GenerateTokenAndSaveRefreshToken(user);
 
             if (result.Failed())
             {
                 return ResponseHelper.BuildResult(this, result, ResponseStatus.BadRequest);
             }
 
-            return Ok(tokenRequest);
+            return Ok(result.Data);
         }
 
-        [HttpPost("refresh")]
+        [HttpPost("Refresh")]
         public async Task<IActionResult> Refresh([FromBody] TokenRequest request)
         {
-            var refreshToken = await _tokenService.RefreshTokenValidate(request.RefreshToken);
+            Result result;
 
-            if (refreshToken == null || refreshToken.IsRevoked || refreshToken.ExpiryDate <= DateTime.UtcNow)
-                return Unauthorized("Invalid or expired refresh token");
+            result = await _tokenService.RefreshTokenValidate(request);
 
-            var user = await _userService.GetUserById(refreshToken.UserId);
-            var newAccessToken = _authService.GenerateJwtToken(user);
-            var newRefreshToken = _authService.GenerateRefreshToken(user.Id);
-
-            // Revogar o Refresh Token antigo
-            refreshToken.IsRevoked = true;
-            await _tokenService.UpdateRefreshToken(refreshToken);
-
-            // Salvar o novo Refresh Token no banco de dados
-            await _tokenService.SaveRefreshToken(newRefreshToken);
-
-            return Ok(new
+            if (result.Failed())
             {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken.Token
-            });
+                return Unauthorized();
+            }
+
+            var token = result.Data as Token;
+
+            if (token == null)
+            {
+                result.AddError(GlobalError.InternalError);
+
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.InternalServerError);
+            };
+
+            var userResult = await _userService.GetById<User>(token.UserId);
+
+            if (result.Failed())
+            {
+                return Unauthorized();
+            }
+
+            var user = userResult.Data as User;
+
+            if (user == null)
+            {
+                result.AddError(GlobalError.InternalError);
+
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.InternalServerError);
+            };
+
+            result = await GenerateTokenAndSaveRefreshToken(user);
+
+            if (result.Failed())
+            {
+                return ResponseHelper.BuildResult(this, result, ResponseStatus.BadRequest);
+            }
+
+            return Ok(result.Data);
+        }
+
+        [NonAction]
+        public async Task<Result> GenerateTokenAndSaveRefreshToken(User user)
+        {
+            Result result = new(null, []);
+
+            var tokenDetail = _authService.GenerateJwtToken(user);
+            var refreshToken = _authService.GenerateRefreshToken(user.Id);
+
+            result = await RevokedOldTokens(user);
+
+            if (result.Failed())
+            {
+                return result;
+            }
+
+            result = await CreateNewToken(refreshToken, tokenDetail.Item2);
+
+            result.Data = new TokenRequest(tokenDetail.Item1, refreshToken.RefreshTokenGuid);
+
+            return result;
+        }
+
+        [NonAction]
+        private async Task<Result> CreateNewToken(RefreshToken refreshToken, DateTime tokenCreationDate)
+        {
+            TokenInsertCommand command = new(refreshToken.RefreshTokenGuid, refreshToken.UserId, refreshToken.Expiry, tokenCreationDate, refreshToken.IsRevoked);
+
+            Result result = await _mediator.Send(command);
+
+            return result;
+        }
+
+        [NonAction]
+        public async Task<Result> RevokedOldTokens(User user)
+        {
+            Result result = new(null, []);
+
+            var TokensResult = await _tokenService.List<TokenRevogedListDTO, RefreshTokenFilterDTO>(new RefreshTokenFilterDTO { UserId = user.Id });
+
+            if (TokensResult.Failed())
+            {
+                return TokensResult;
+            }
+
+            var TokensNotRevokedList = TokensResult.Data as List<TokenRevogedListDTO>;
+
+            if (TokensNotRevokedList == null)
+            {
+                result.AddError(GlobalError.InternalError);
+
+                return result;
+            };
+
+            foreach (var token in TokensNotRevokedList)
+            {
+                await _mediator.Send(new TokenUpdateRevokedCommand(token.Id));
+            }
+
+            return result;
         }
     }
 }

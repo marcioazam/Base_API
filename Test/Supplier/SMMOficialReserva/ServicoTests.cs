@@ -1,4 +1,3 @@
-using Domain.Models.ExternalAPI.SMMOficialReserva;
 using Infrastructure.ExternalService.Generic;
 using Infrastructure.Repositories;
 

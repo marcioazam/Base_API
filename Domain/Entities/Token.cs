@@ -18,9 +18,9 @@ namespace Domain.Entities
 
         public required long UserId { get; set; }
 
-        public required DateTime AcessTokenExpiry { get; set; }
+        public required DateTime Expiry { get; set; }
 
-        public required DateTime RefreshTokenExpiry { get; set; }
+        public required DateTime CreationDate { get; set; }
 
         public required bool IsRevoked { get; set; }
 
@@ -29,6 +29,11 @@ namespace Domain.Entities
             var validator = new TokenValidator();
 
             return Task.FromResult(validator.Validate(this));
+        }
+
+        public bool IsTokenExpired(double hoursForExpired)
+        {
+            return DateTime.Now >= CreationDate.AddHours(hoursForExpired);
         }
     }
 }
