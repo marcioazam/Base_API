@@ -1,5 +1,6 @@
 ﻿using Domain.Aggregates;
 using Domain.Interfaces.Entities.Base;
+using Domain.Interfaces.Tables;
 using Domain.Interfaces.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
 using System;

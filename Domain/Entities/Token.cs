@@ -18,7 +18,9 @@ namespace Domain.Entities
 
         public required long UserId { get; set; }
 
-        public required DateTime ExpiryDate { get; set; }
+        public required DateTime AcessTokenExpiry { get; set; }
+
+        public required DateTime RefreshTokenExpiry { get; set; }
 
         public required bool IsRevoked { get; set; }
 

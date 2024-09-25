@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.TokensCommands
 {
-    public class TokenInsertCommand(string token, long userId, DateTime expiryDate, bool isRevoked) : BaseInsertCommand, IRequest<Result>
+    public class TokenInsertCommand(string refreshToken, long userId, DateTime acessTokenExpiry, DateTime refreshTokenExpiry, bool isRevoked) : BaseInsertCommand, IRequest<Result>
     {
-        public string RefreshToken { get; set; } = token;
+        public string RefreshToken { get; set; } = refreshToken;
 
         public long UserId { get; set; } = userId;
 
-        public DateTime ExpiryDate { get; set; } = expiryDate;
+        public DateTime AcessTokenExpiry { get; set; } = acessTokenExpiry;
+
+        public DateTime RefreshTokenExpiry { get; set; } = refreshTokenExpiry;
 
         public bool IsRevoked { get; set; } = isRevoked;
     }

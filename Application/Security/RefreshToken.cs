@@ -8,11 +8,11 @@ namespace Application.Security
 {
     public class RefreshToken
     {
-        public required string Token { get; set; }
+        public required string RefreshTokenGuid { get; set; }
 
         public required long UserId { get; set; }
 
-        public required DateTime ExpiryDate { get; set; }
+        public required DateTime Expiry { get; set; }
 
         public required bool IsRevoked { get; set; }
     }

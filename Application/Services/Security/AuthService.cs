@@ -65,11 +65,12 @@ namespace Application.Services.Security
         private bool VerifyPassword(string password, string storedHash) => BCrypt.Net.BCrypt.Verify(password, storedHash);
 
         // Método para gerar JWT
-        public string GenerateJwtToken(User user)
+        public Tuple<string, DateTime> GenerateJwtToken(User user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
+            DateTime expires;
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = _configuration["Jwt:SecretKey"];
 
@@ -78,9 +79,9 @@ namespace Application.Services.Security
                 throw new InvalidOperationException("A chave secreta para o JWT não está configurada.");
             }
 
-            if (!double.TryParse(_configuration["Jwt:ExpiryMinutes"], out double expiryMinutes) || expiryMinutes <= 0)
+            if (!double.TryParse(_configuration["Jwt:ExpiryHours"], out double expiryHours) || expiryHours <= 0)
             {
-                expiryMinutes = 120; 
+                expiryHours = 2; 
             }
 
             var key = Encoding.UTF8.GetBytes(secretKey);  // Chave secreta
@@ -91,10 +92,12 @@ namespace Application.Services.Security
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
+            expires = DateTime.UtcNow.AddHours(expiryHours);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(expiryMinutes),
+                Expires = expires,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 IssuedAt = DateTime.UtcNow,
                 NotBefore = DateTime.UtcNow
@@ -102,16 +105,16 @@ namespace Application.Services.Security
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return new Tuple<string, DateTime>(tokenHandler.WriteToken(token), expires);
         }
 
         public RefreshToken GenerateRefreshToken(long userId)
         {
             return new RefreshToken
             {
-                Token = Guid.NewGuid().ToString(),
+                RefreshTokenGuid = Guid.NewGuid().ToString(),
                 UserId = userId,
-                ExpiryDate = DateTime.UtcNow.AddHours(6),
+                Expiry = DateTime.UtcNow.AddHours(6),
                 IsRevoked = false
             };
         }

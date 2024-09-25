@@ -13,9 +13,11 @@ namespace Infrastructure.Context.Tables
 
         public required string RefreshToken { get; set; }
 
-        public required long UserId { get; set; }
+        public required DateTime AcessTokenExpiry { get; set; }
 
-        public required DateTime ExpiryDate { get; set; }
+        public required DateTime RefreshTokenExpiry { get; set; }
+
+        public required long UserId { get; set; }
 
         public required bool IsRevoked { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿using Application.Interfaces.Services.Base;
+﻿using Application.DTOs.Filters;
+using Application.Interfaces.Services.Base;
+using Domain.ValueObjects.ResultInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,6 @@ namespace Application.Interfaces.Services
 {
     public interface ITokenService : IServiceBase
     {
+        Task<Result> RefreshTokenValidate(RefreshTokenFilterDTO filter);
     }
 }

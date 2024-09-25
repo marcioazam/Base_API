@@ -18,10 +18,10 @@ using System.Windows.Input;
 
 namespace Application.Services.Base
 {
-    public class ServiceBase<TRepository, TModel>(TRepository genericRepository) : IServiceBase where TRepository : IRepositoryBase<TModel>
+    public class ServiceBase<TRepository, TModel>(TRepository repository) : IServiceBase where TRepository : IRepositoryBase<TModel>
             where TModel : class, IEntity
     {
-        private readonly TRepository _genericRepository = genericRepository;
+        private readonly TRepository _genericRepository = repository;
 
         public async Task<Result> Count<TFilter>(TFilter filter) => new Result(await _genericRepository.Count(filter), []);
 

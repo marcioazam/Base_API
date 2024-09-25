@@ -13,7 +13,7 @@ namespace Application.Interfaces.Services.Security
     {
         Task<Result> ValidateUser(Login userLogin);
 
-        string GenerateJwtToken(User user);
+        Tuple<string, DateTime> GenerateJwtToken(User user);
 
         RefreshToken GenerateRefreshToken(long userId);
     }
