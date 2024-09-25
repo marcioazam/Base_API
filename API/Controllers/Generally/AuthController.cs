@@ -72,14 +72,14 @@ namespace API.Controllers.Generally
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] TokenRequest request)
         {
-            var refreshToken = await _tokenService.GetRefreshToken(request.RefreshToken);
+            var refreshToken = await _tokenService.RefreshTokenValidate(request.RefreshToken);
 
             if (refreshToken == null || refreshToken.IsRevoked || refreshToken.ExpiryDate <= DateTime.UtcNow)
                 return Unauthorized("Invalid or expired refresh token");
 
             var user = await _userService.GetUserById(refreshToken.UserId);
-            var newAccessToken = GenerateAccessToken(user);
-            var newRefreshToken = GenerateRefreshToken(user.Id);
+            var newAccessToken = _authService.GenerateJwtToken(user);
+            var newRefreshToken = _authService.GenerateRefreshToken(user.Id);
 
             // Revogar o Refresh Token antigo
             refreshToken.IsRevoked = true;
