@@ -13,6 +13,7 @@ using Domain.Interfaces.Entities.Base;
 using Domain.Interfaces.ValueObjects;
 using Domain.ValueObjects.ResultInfo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Extension
@@ -47,6 +48,7 @@ namespace API.Controllers.Extension
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
+        [Authorize]
         [HttpGet("List")]
         public virtual async Task<IActionResult> List([FromQuery] TFilter filter)
         {
