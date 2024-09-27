@@ -98,7 +98,9 @@ namespace Application.Services.Security
                 Expires = expires,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 IssuedAt = dataAtual,
-                NotBefore = dataAtual
+                NotBefore = dataAtual,
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"]
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

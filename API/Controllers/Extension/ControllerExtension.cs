@@ -30,18 +30,21 @@ namespace API.Controllers.Extension
         private readonly IMediator _mediator = mediator;
         private readonly IServiceBase _service = service;
 
+        [Authorize]
         [HttpPost("Save")]
         public virtual async Task<IActionResult> Post(TInsertCommand command)
         {
             return await MediatorSend(command, ResponseStatus.Created);
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public virtual async Task<IActionResult> Update(TUpdateCommand command)
         {
             return await MediatorSend(command, ResponseStatus.NoContent);
         }
 
+        [Authorize]
         [HttpDelete("Delete")]
         public virtual async Task<IActionResult> Delete(TDeleteCommand command)
         {
@@ -55,30 +58,35 @@ namespace API.Controllers.Extension
             return ResponseHelper.BuildResult(this, await _service.List<TEntityListDTO, TFilter>(filter), ResponseStatus.Ok);
         }
 
+        [Authorize]
         [HttpGet("GetById")]
         public virtual async Task<IActionResult> GetById(long id)
         {
             return ResponseHelper.BuildResult(this, await _service.GetById<TEntity>(id), ResponseStatus.Ok);
         }
 
+        [Authorize]
         [HttpGet("Get")]
         public virtual async Task<IActionResult> Get([FromQuery] TFilter filter)
         {
             return ResponseHelper.BuildResult(this, await _service.Get<TEntity, TFilter>(filter), ResponseStatus.Ok);
         }
 
+        [Authorize]
         [HttpGet("Exist")]
         public virtual async Task<IActionResult> Exist([FromQuery] TFilter filter)
         {
             return ResponseHelper.BuildResult(this, await _service.Exist(filter), ResponseStatus.Ok);
         }
 
+        [Authorize]
         [HttpGet("Count")]
         public virtual async Task<IActionResult> Count([FromQuery] TFilter filter)
         {
             return ResponseHelper.BuildResult(this, await _service.Count(filter), ResponseStatus.Ok);
         }
 
+        [Authorize]
         [HttpGet("PagedList")]
         public virtual async Task<IActionResult> PagedList([FromQuery] TFilter filter, int pageNumber = 1, int pageSize = 10)
         {

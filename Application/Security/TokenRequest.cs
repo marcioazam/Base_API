@@ -9,7 +9,7 @@ namespace Application.Security
 {
     public class TokenRequest(string acessToken, string refreshToken)
     {
-        public string AcessToken { get; set; } = acessToken;
+        public string AcessToken { get; set; } = "Bearer " + acessToken;
 
         public string RefreshToken { get; set; } = refreshToken;
     }
