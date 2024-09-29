@@ -20,6 +20,8 @@ namespace Infrastructure.Context
 
         public DbSet<TokenTable> Token { get; set; }
 
+        public DbSet<ProdutoTable> Produto { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

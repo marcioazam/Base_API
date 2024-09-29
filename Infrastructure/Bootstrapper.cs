@@ -24,6 +24,7 @@ using Domain.Commands.UsersCommands;
 using Domain.Commands.ClientesCommands;
 using Domain.Commands.SuppliersCommands;
 using Domain.Commands.TokensCommands;
+using Domain.Commands.ProdutosCommands;
 
 namespace Infrastructure
 {
@@ -47,16 +48,20 @@ namespace Infrastructure
             services.AddTransient<IRequestHandler<UserUpdateCommand, Result>, BaseUpdateHandler<User, UserUpdateCommand>>();
             services.AddTransient<IRequestHandler<UserDeleteCommand, Result>, BaseDeleteHandler<User, UserDeleteCommand>>();
 
+            services.AddTransient<IRequestHandler<ProdutoInsertCommand, Result>, BaseInsertHandler<Produto, ProdutoInsertCommand>>();
+
             // Repositories
             services.AddTransient<IRepositoryBase<Cliente>, ClienteRepository>();
             services.AddTransient<IRepositoryBase<Supplier>, SupplierRepository>();
             services.AddTransient<IRepositoryBase<User>, UserRepository>();
             services.AddTransient<IRepositoryBase<Token>, TokenRepository>();
+            services.AddTransient<IRepositoryBase<Produto>, ProdutoRepository>();
 
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITokenRepository, TokenRepository>();
+            services.AddTransient<IProdutoRepository, ProdutoRepository>();
 
             // Services
             services.AddTransient<IAuthService, AuthService>();
@@ -65,12 +70,14 @@ namespace Infrastructure
             services.AddTransient<ISupplierService, SupplierService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IProdutoService, ProdutoService>();
 
             // Validators
             services.AddTransient<IValidator<Cliente>, ClienteValidator>();
             services.AddTransient<IValidator<Supplier>, SupplierValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Token>, TokenValidator>();
+            services.AddTransient<IValidator<Produto>, ProdutoValidator>();
 
             // Factories
             services.AddTransient<IValidationFactory, ValidationFactory>();

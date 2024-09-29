@@ -24,6 +24,11 @@ public class DefaultResponsesOperationFilter : IOperationFilter
             Description = "Bad Request"
         });
 
+        operation.Responses.TryAdd("401", new OpenApiResponse
+        {
+            Description = "Unauthorized"
+        });
+
         operation.Responses.TryAdd("404", new OpenApiResponse
         {
             Description = "Not Found"
