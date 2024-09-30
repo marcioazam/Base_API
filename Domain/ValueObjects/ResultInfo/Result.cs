@@ -27,12 +27,12 @@ namespace Domain.ValueObjects.ResultInfo
 
         public void AddError(GlobalError error)
         {
-            this.Errors.Add(new ResultError((int)error, null, null, EnumHelper.GetDesc(error)));
+            Errors.Add(new ResultError((int)error, null, null, EnumHelper.GetDesc(error)));
         }
 
         public void AddError(GlobalError error, string key, string value)
         {
-            this.Errors.Add(new ResultError((int)error, key, value, EnumHelper.GetDesc(error)));
+            Errors.Add(new ResultError((int)error, key, value, EnumHelper.GetDesc(error)));
         }
 
         public void AddError(GlobalError error, string key, string value, string? customMessage = null)
@@ -48,7 +48,7 @@ namespace Domain.ValueObjects.ResultInfo
                 message = EnumHelper.GetDesc(error);
             }
 
-            this.Errors.Add(new ResultError((int)error, key, value, message));
+            Errors.Add(new ResultError((int)error, key, value, message));
         }
     }
 }

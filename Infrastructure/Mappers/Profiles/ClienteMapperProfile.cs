@@ -2,6 +2,7 @@
 using Domain.Commands.ClientesCommands;
 using Domain.Entities;
 using Infrastructure.Context.Tables;
+using Infrastructure.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -11,8 +11,8 @@ namespace Application.DTOs.Filters
     {
         public string? ApiUrl { get; set; }
 
-        public string? Nome { get; set; } 
+        public string? Nome { get; set; }
 
-        public string? ApiKey { get; set; } 
+        public string? ApiKey { get; set; }
     }
 }

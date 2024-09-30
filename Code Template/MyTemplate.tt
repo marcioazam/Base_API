@@ -1,0 +1,14 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+// Código gerado automaticamente - Não modifique manualmente.
+
+namespace MeuProjeto
+{
+    public class MinhaClasseGerada
+    {
+        public void Executar()
+        {
+            System.Console.WriteLine("Olá, mundo!");
+        }
+    }
+}

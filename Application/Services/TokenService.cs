@@ -22,7 +22,7 @@ namespace Application.Services
     {
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task<Result> RefreshTokenValidate(TokenRequest tokenRequest) 
+        public async Task<Result> RefreshTokenValidate(TokenRequest tokenRequest)
         {
             Result result = new(null, []);
 
@@ -30,7 +30,7 @@ namespace Application.Services
 
             var token = await repository.Get<Token, RefreshTokenFilterDTO>(filter);
 
-            if(token == null)
+            if (token == null)
             {
                 result.AddError(GlobalError.NotFound);
 

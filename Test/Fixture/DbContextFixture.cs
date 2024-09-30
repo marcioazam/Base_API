@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure.Mappers;
+using Context;
+using Mappers;
 
 namespace Test.Fixture
 {

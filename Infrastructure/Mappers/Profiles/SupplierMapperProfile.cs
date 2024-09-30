@@ -3,6 +3,7 @@ using Application.DTOs.Filters;
 using Domain.Commands.SuppliersCommands;
 using Domain.Entities;
 using Infrastructure.Context.Tables;
+using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;

@@ -52,11 +52,11 @@ namespace Application.Factories
             // Identifica tipos específicos de validação e extrai o valor da regra, se aplicável.
             if (validator is ILengthValidator lengthValidator)
             {
-                return new { Min = lengthValidator.Min, Max = lengthValidator.Max };
+                return new { lengthValidator.Min, lengthValidator.Max };
             }
             else if (validator is IComparisonValidator comparisonValidator)
             {
-                return new { ValueToCompare = comparisonValidator.ValueToCompare };
+                return new { comparisonValidator.ValueToCompare };
             }
 
             return null;

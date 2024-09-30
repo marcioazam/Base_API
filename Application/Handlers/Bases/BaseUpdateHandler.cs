@@ -33,7 +33,7 @@ namespace Application.Handlers.Bases
                 return result;
 
             result = await ExecuteOperationsDataBaseAndBRs(entity, command);
-            
+
             return result;
         }
 

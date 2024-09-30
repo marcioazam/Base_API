@@ -25,7 +25,7 @@ namespace Application.Services.Base
 
         public async Task<Result> Count<TFilter>(TFilter filter) => new Result(await _genericRepository.Count(filter), []);
 
-        public async Task<Result> Get<TReturn, TFilter>(TFilter filter) => new Result(await _genericRepository.Get<TReturn, TFilter>(filter), []); 
+        public async Task<Result> Get<TReturn, TFilter>(TFilter filter) => new Result(await _genericRepository.Get<TReturn, TFilter>(filter), []);
 
         public async Task<Result> Exist<TFilter>(TFilter filter) => new Result(await _genericRepository.Exist(filter), []);
 

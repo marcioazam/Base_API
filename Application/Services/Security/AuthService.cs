@@ -1,15 +1,15 @@
-﻿using Domain.Entities;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Application.Interfaces.Services.Security;
 using Domain.Interfaces.Repositories;
-using Application.DTOs.Filters;
-using Domain.ValueObjects.ResultInfo;
 using Domain.EnumTypes;
+using Domain.ValueObjects.ResultInfo;
+using Domain.Entities;
 using Domain.Helpers;
+using Application.DTOs.Filters;
+using Application.Interfaces.Services.Security;
 using Application.Security;
 
 namespace Application.Services.Security
@@ -47,7 +47,7 @@ namespace Application.Services.Security
                 return result;
             }
 
-            if(VerifyPassword(sendUser.Password, userFromBD.PasswordHash))
+            if (VerifyPassword(sendUser.Password, userFromBD.PasswordHash))
             {
                 result = new(userFromBD, []);
 
@@ -82,7 +82,7 @@ namespace Application.Services.Security
 
             expiryHours = SecurityHelper.GetExpiryToken(_configuration["Jwt:ExpiryHours"]);
 
-            var key = Encoding.UTF8.GetBytes(secretKey);  
+            var key = Encoding.UTF8.GetBytes(secretKey);
 
             var claims = new List<Claim>
             {
@@ -105,7 +105,7 @@ namespace Application.Services.Security
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new Tuple<string, DateTime>(tokenHandler.WriteToken(token),dataAtual);
+            return new Tuple<string, DateTime>(tokenHandler.WriteToken(token), dataAtual);
         }
 
         public RefreshToken GenerateRefreshToken(long userId)

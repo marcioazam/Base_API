@@ -13,7 +13,7 @@ namespace Domain.Helpers
         {
             double expiryHours;
 
-            if (!double.TryParse(expiryInConfig , out expiryHours) || expiryHours <= 0)
+            if (!double.TryParse(expiryInConfig, out expiryHours) || expiryHours <= 0)
             {
                 expiryHours = 2;
             }

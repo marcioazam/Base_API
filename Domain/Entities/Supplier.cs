@@ -1,5 +1,4 @@
-﻿using Domain.Interfaces.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,19 +8,20 @@ using Domain.Validators;
 using Domain.ValueObjects.ResultInfo;
 using Domain.Abstracts.Command.Base;
 using Domain.EnumTypes;
+using Domain.Interfaces.Entities.Base;
 using Domain.Entities.Base;
 
 namespace Domain.Entities
 {
     public class Supplier : EntityBusinessRules, IEntity
     {
-        public required long Id { get; set; } 
+        public required long Id { get; set; }
 
-        public required string ApiUrl { get; set; } 
+        public required string ApiUrl { get; set; }
 
-        public required string Nome { get; set; } 
+        public required string Nome { get; set; }
 
-        public required string ApiKey { get; set; } 
+        public required string ApiKey { get; set; }
 
         public Task<ValidationResult> Validate()
         {

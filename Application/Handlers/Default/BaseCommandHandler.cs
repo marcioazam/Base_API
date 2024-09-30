@@ -21,7 +21,7 @@ namespace Application.Handlers.Default
         {
             ValidationResult validationResult = await model.Validate();
 
-            validationResult.Errors.ToList().ForEach(x => result.AddError(GlobalError.InvalidProperty, x.PropertyName, x.AttemptedValue?.ToString()??"", x.ErrorMessage));
+            validationResult.Errors.ToList().ForEach(x => result.AddError(GlobalError.InvalidProperty, x.PropertyName, x.AttemptedValue?.ToString() ?? "", x.ErrorMessage));
         }
 
         public async Task<bool> Commit()

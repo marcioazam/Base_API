@@ -33,17 +33,17 @@ namespace Domain.Entities.Base
 
         private protected virtual void DeleteCommandAfterOperation()
         {
-            
+
         }
 
         private protected virtual void UpdateCommandAfterOperation()
         {
-            
+
         }
 
         private protected virtual void InsertCommandAfterOperation()
         {
-            
+
         }
 
         public Task<Result> ExecuteBusinnesRulesBeforeOperations<T>(T command) where T : class
