@@ -18,7 +18,9 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
+    #pragma warning disable CS9107 // O parâmetro é capturado no estado do tipo delimitador e seu valor também é passado para o construtor base. O valor também pode ser capturado pela classe base.
     public class TokenService(ITokenRepository repository, IConfiguration configuration) : ServiceBase<ITokenRepository, Token>(repository), ITokenService
+    #pragma warning restore CS9107 // O parâmetro é capturado no estado do tipo delimitador e seu valor também é passado para o construtor base. O valor também pode ser capturado pela classe base.
     {
         private readonly IConfiguration _configuration = configuration;
 

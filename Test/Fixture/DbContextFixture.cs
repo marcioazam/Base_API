@@ -8,14 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Context;
-using Mappers;
 
 namespace Test.Fixture
 {
     public class DbContextFixture : IDisposable
     {
-        public DefaultContext Context { get; private set; }
         public IMapper Mapper { get; private set; }
 
         public DbContextFixture()
@@ -29,24 +26,13 @@ namespace Test.Fixture
             // Configurar os serviços
             var services = new ServiceCollection();
 
-            services.AddDbContext<DefaultContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            // Adicionar AutoMapper ao serviço
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             var serviceProvider = services.BuildServiceProvider();
 
-            // Obter o contexto configurado
-            Context = serviceProvider.GetRequiredService<DefaultContext>();
-
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                // Escaneia o assembly atual para todos os profiles e os adiciona
-                //cfg.AddMaps(Assembly.GetExecutingAssembly());
-
-                // Se os profiles estiverem em outro assembly, você pode especificar assim:
-                cfg.AddMaps(typeof(ProfileBase).Assembly);
-            });
-
-            Mapper = mapperConfig.CreateMapper();
+            // Inicializar o Mapper
+            Mapper = serviceProvider.GetRequiredService<IMapper>();
         }
 
         public string? GetConnectionString()
@@ -63,7 +49,7 @@ namespace Test.Fixture
         public void Dispose()
         {
             // Limpeza de recursos
-            Context.Dispose();
+         
         }
     }
 }

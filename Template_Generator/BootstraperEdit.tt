@@ -1,0 +1,112 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#
+    // Definição da dependência
+    string dependecyName = "NovaDependencia";
+    
+    // Caminho do arquivo Bootstrapper.cs
+    string bootstrapperPath = @"C:\Users\Márcio\source\repos\Base_API\Infrastructure\Bootstrapper.cs";
+
+    // Verificar se o arquivo existe
+    if (File.Exists(bootstrapperPath))
+    {
+        // Ler o conteúdo atual do arquivo
+        string originalContent = File.ReadAllText(bootstrapperPath);
+
+        // Definir o 'using' a ser adicionado
+        string newUsing = $"using Domain.Commands.{dependecyName}Commands;";
+
+        // Lista de novas dependências com a marcação [NOME]
+        var newDependenciesTemplate = new List<string>
+        {
+            $"// {dependecyName}",
+            $"services.AddTransient<IRequestHandler<{dependecyName}InsertCommand, Result>, BaseInsertHandler<{dependecyName}, {dependecyName}InsertCommand>>();",
+            $"services.AddTransient<IRequestHandler<{dependecyName}UpdateCommand, Result>, BaseUpdateHandler<{dependecyName}, {dependecyName}UpdateCommand>>();",
+            $"services.AddTransient<IRequestHandler<{dependecyName}DeleteCommand, Result>, BaseDeleteHandler<{dependecyName}, {dependecyName}DeleteCommand>>();",
+            $"services.AddTransient<IRepositoryBase<{dependecyName}>, {dependecyName}Repository>();",
+            $"services.AddTransient<I{dependecyName}Repository, {dependecyName}Repository>();",
+            $"services.AddTransient<I{dependecyName}Service, {dependecyName}Service>();",
+            $"services.AddTransient<IValidator<{dependecyName}>, {dependecyName}Validator>();"
+        };
+
+        // Expressão regular para localizar os 'using' no início do arquivo
+        var usingRegex = new Regex(@"^(using\s+[^\s;]+;\s*$)+", RegexOptions.Multiline);
+
+        var usingMatch = usingRegex.Match(originalContent);
+
+        string usingsSection = usingMatch.Success ? usingMatch.Value : "";
+        string restOfFile = originalContent.Substring(usingsSection.Length);
+
+        // Verificar se o 'using' já existe
+        if (!usingsSection.Contains(newUsing))
+        {
+            // Inserir o novo 'using' em ordem alfabética
+            var usingsList = usingsSection.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            usingsList.Add(newUsing);
+            usingsList = usingsList.Distinct().OrderBy(u => u).ToList();
+
+            // Recriar a seção de 'using's
+            usingsSection = string.Join("\n", usingsList);
+        }
+
+        // Atualizar o conteúdo do arquivo com os novos 'using's
+        originalContent = usingsSection + restOfFile;
+
+        // Expressão regular para localizar o método AddDependencies
+        var regex = new Regex(
+            @"(public\s+static\s+void\s+AddDependencies\s*\(\s*this\s+IServiceCollection\s+services\s*\)\s*\{)([\s\S]*?)(^\s*\}\s*$)",
+            RegexOptions.Multiline);
+
+        var match = regex.Match(originalContent);
+
+        if (match.Success)
+        {
+            // Capturar as partes do método
+            string methodStart = match.Groups[1].Value;
+            string methodBody = match.Groups[2].Value;
+            string methodEnd = match.Groups[3].Value;
+
+            string ajustTab = "\n            ";
+
+            // Iterar sobre a lista de dependências
+            foreach (var dependency in newDependenciesTemplate)
+            {
+                // Verificar se a dependência já existe para evitar duplicações
+                if (!methodBody.Contains(dependency))
+                {
+                    // Inserir a nova dependência
+                    methodBody += ajustTab + dependency;
+                }
+            }
+
+            // Adicionar uma linha em branco no final do método, se necessário
+            if (methodBody != match.Groups[2].Value)
+            {
+                methodBody += "\n";
+            }
+
+            // Reunir o conteúdo modificado
+            string modifiedContent = originalContent.Substring(0, match.Index) +
+                                     methodStart + methodBody + methodEnd +
+                                     originalContent.Substring(match.Index + match.Length);
+
+            // Gravar o arquivo modificado
+            File.WriteAllText(bootstrapperPath, modifiedContent);
+        }
+        else
+        {
+            // Reportar erro se o método não for encontrado
+            this.Errors.Add(new CompilerError(null, 0, 0, null, "Método AddDependencies não encontrado no arquivo Bootstrapper.cs."));
+        }
+    }
+    else
+    {
+        // Reportar erro se o arquivo não for encontrado
+        this.Errors.Add(new CompilerError(null, 0, 0, null, $"Arquivo '{bootstrapperPath}' não encontrado."));
+    }
+#>

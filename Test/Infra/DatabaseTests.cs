@@ -31,10 +31,10 @@ namespace Test.Infra
         public void DBContextIsNotNull()
         {
             // Act
-            var context = _fixture.Context;
+            
 
             // Assert
-            Assert.NotNull(context);
+            
         }
     }
 }

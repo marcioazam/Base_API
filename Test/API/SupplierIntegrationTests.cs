@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Moq;
-using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +12,6 @@ namespace Test.API
 {
     public class SupplierIntegrationTests : IClassFixture<DbContextFixture>
     {
-        private readonly SupplierService _service;
-
         public SupplierIntegrationTests(DbContextFixture fixture)
         {
             //var repository = new ISupplierRepository(fixture.Context, fixture.Mapper);

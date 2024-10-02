@@ -37,7 +37,7 @@ namespace Application.Handlers.Bases
 
                 await Commit();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result.AddError(GlobalError.InternalError, "Id", command.Id.ToString());
 
