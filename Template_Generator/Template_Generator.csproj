@@ -51,25 +51,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootstraperEdit.cs">
+    <Compile Include="Templates\Bootstraper.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BootstraperEdit.tt</DependentUpon>
+      <DependentUpon>Bootstraper.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\Repository.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repository.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblyInfo.cs" />
     <None Include="ProjectTemplate.csproj" />
+    <None Include="Templates\Configuration\DependencyName.ttinclude" />
     <None Include="Template_Generator.ico" />
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="Template_Generator.vstemplate" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BootstraperEdit.tt">
+    <Content Include="Templates\Bootstraper.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BootstraperEdit.cs</LastGenOutput>
+      <LastGenOutput>Bootstraper.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\Repository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Repository.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
