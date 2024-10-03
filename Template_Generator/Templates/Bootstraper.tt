@@ -5,9 +5,13 @@
 <#@ import namespace="System.CodeDom.Compiler" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ include file="Configuration/DependencyName.ttinclude" #>
 <#
-    // Definição da dependência
-    string dependecyName = "NovaDependencia";
+    // Verificar se dependecyName foi definido
+    if (string.IsNullOrEmpty(dependecyName))
+    {
+        this.Errors.Add(new CompilerError(null, 0, 0, null, "A variável dependecyName não foi definida no arquivo DependencyName.ttinclude."));
+    }
     
     // Caminho do arquivo Bootstrapper.cs
     string bootstrapperPath = @"C:\Users\Márcio\source\repos\Base_API\Infrastructure\Bootstrapper.cs";
