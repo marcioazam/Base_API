@@ -57,16 +57,36 @@
       <DependentUpon>Bootstraper.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\DefaultContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DefaultContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\MapperProfile.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapperProfile.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\Repository.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Repository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Templates\Table1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Table.tt</DependentUpon>
+    </Compile>
+    <Content Include="Templates\Table.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Table1.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblyInfo.cs" />
     <None Include="ProjectTemplate.csproj" />
-    <None Include="Templates\Configuration\DependencyName.ttinclude" />
+    <None Include="Templates\Configuration\PropertyTableDefinition.ttinclude" />
+    <None Include="Templates\Configuration\TemplateConfig.ttinclude" />
     <None Include="Template_Generator.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +96,14 @@
     <Content Include="Templates\Bootstraper.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Bootstraper.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\DefaultContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DefaultContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\MapperProfile.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MapperProfile.cs</LastGenOutput>
     </Content>
     <Content Include="Templates\Repository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

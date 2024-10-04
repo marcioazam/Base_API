@@ -1,0 +1,20 @@
+<#
+    // Classe para definir uma propriedade
+    public class Property
+    {
+        public string Type { get; set; }
+        public string Name { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsNullable { get; set; }
+    }
+
+    // Definir a lista de propriedades para a entidade
+    List<Property> properties = new List<Property>
+    {
+        new Property { Type = "long", Name = "Id", IsRequired = true, IsNullable = false },
+        new Property { Type = "string", Name = "Nome", IsRequired = true, IsNullable = false },
+        new Property { Type = "string", Name = "Email", IsRequired = true, IsNullable = false },
+        new Property { Type = "char", Name = "Sexo", IsRequired = true, IsNullable = false },
+        new Property { Type = "string", Name = "Endereco", IsRequired = false, IsNullable = true }
+    };
+#>

@@ -5,37 +5,50 @@
 <#@ import namespace="System.CodeDom.Compiler" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
-<#@ include file="Configuration/DependencyName.ttinclude" #>
+<#@ include file="Configuration\TemplateConfig.ttinclude" #>
+<#@ import namespace="System.Diagnostics" #>
 <#
-    // Verificar se dependecyName foi definido
-    if (string.IsNullOrEmpty(dependecyName))
+
+ if (string.IsNullOrEmpty(solutionDir))
     {
-        this.Errors.Add(new CompilerError(null, 0, 0, null, "A variável dependecyName não foi definida no arquivo DependencyName.ttinclude."));
+        Debug.WriteLine($"[Erro] Diretório da solução '{solutionDirName}' não encontrado a partir de '{templateDir}'.");
     }
-    
-    // Caminho do arquivo Bootstrapper.cs
-    string bootstrapperPath = @"C:\Users\Márcio\source\repos\Base_API\Infrastructure\Bootstrapper.cs";
+    else if(executarTemplate)
+    {
+    // Verificar se entityName foi definido
+    if (string.IsNullOrEmpty(entityName))
+    {
+        this.Errors.Add(new CompilerError(null, 0, 0, null, "A variável entityName não foi definida no arquivo DependencyName.ttinclude."));
+    }
+    // Definir o diretório de saída relativo à solução
+        string outputDir = Path.Combine(solutionDir, "Infrastructure");
+
+        // Nome do arquivo baseado na entidade
+        string fileName = "Bootstrapper.cs";
+
+        // Caminho completo do arquivo
+        string outputPath = Path.Combine(outputDir, fileName);
 
     // Verificar se o arquivo existe
-    if (File.Exists(bootstrapperPath))
+    if (File.Exists(outputPath))
     {
         // Ler o conteúdo atual do arquivo
-        string originalContent = File.ReadAllText(bootstrapperPath);
+        string originalContent = File.ReadAllText(outputPath);
 
         // Definir o 'using' a ser adicionado
-        string newUsing = $"using Domain.Commands.{dependecyName}Commands;";
+        string newUsing = $"using Domain.Commands.{entityName}Commands;";
 
         // Lista de novas dependências com a marcação [NOME]
         var newDependenciesTemplate = new List<string>
         {
-            $"// {dependecyName}",
-            $"services.AddTransient<IRequestHandler<{dependecyName}InsertCommand, Result>, BaseInsertHandler<{dependecyName}, {dependecyName}InsertCommand>>();",
-            $"services.AddTransient<IRequestHandler<{dependecyName}UpdateCommand, Result>, BaseUpdateHandler<{dependecyName}, {dependecyName}UpdateCommand>>();",
-            $"services.AddTransient<IRequestHandler<{dependecyName}DeleteCommand, Result>, BaseDeleteHandler<{dependecyName}, {dependecyName}DeleteCommand>>();",
-            $"services.AddTransient<IRepositoryBase<{dependecyName}>, {dependecyName}Repository>();",
-            $"services.AddTransient<I{dependecyName}Repository, {dependecyName}Repository>();",
-            $"services.AddTransient<I{dependecyName}Service, {dependecyName}Service>();",
-            $"services.AddTransient<IValidator<{dependecyName}>, {dependecyName}Validator>();"
+            $"// {entityName}",
+            $"services.AddTransient<IRequestHandler<{entityName}InsertCommand, Result>, BaseInsertHandler<{entityName}, {entityName}InsertCommand>>();",
+            $"services.AddTransient<IRequestHandler<{entityName}UpdateCommand, Result>, BaseUpdateHandler<{entityName}, {entityName}UpdateCommand>>();",
+            $"services.AddTransient<IRequestHandler<{entityName}DeleteCommand, Result>, BaseDeleteHandler<{entityName}, {entityName}DeleteCommand>>();",
+            $"services.AddTransient<IRepositoryBase<{entityName}>, {entityName}Repository>();",
+            $"services.AddTransient<I{entityName}Repository, {entityName}Repository>();",
+            $"services.AddTransient<I{entityName}Service, {entityName}Service>();",
+            $"services.AddTransient<IValidator<{entityName}>, {entityName}Validator>();"
         };
 
         // Expressão regular para localizar os 'using' no início do arquivo
@@ -56,6 +69,12 @@
 
             // Recriar a seção de 'using's
             usingsSection = string.Join("\n", usingsList);
+        }
+        else
+        {
+                     var warning = new CompilerError(null, 0, 0, null, $"O using '{entityName}' já existe. Nenhuma ação foi tomada.");
+                    warning.IsWarning = true; // Define como aviso
+                    this.Errors.Add(warning);
         }
 
         // Atualizar o conteúdo do arquivo com os novos 'using's
@@ -86,6 +105,12 @@
                     // Inserir a nova dependência
                     methodBody += ajustTab + dependency;
                 }
+                else
+                {
+                    var warning = new CompilerError(null, 0, 0, null, $"A Dependencia '{dependency}' já existe. Nenhuma ação foi tomada.");
+                    warning.IsWarning = true; // Define como aviso
+                    this.Errors.Add(warning);
+                }
             }
 
             // Adicionar uma linha em branco no final do método, se necessário
@@ -100,7 +125,7 @@
                                      originalContent.Substring(match.Index + match.Length);
 
             // Gravar o arquivo modificado
-            File.WriteAllText(bootstrapperPath, modifiedContent);
+            File.WriteAllText(outputPath, modifiedContent);
         }
         else
         {
@@ -111,6 +136,7 @@
     else
     {
         // Reportar erro se o arquivo não for encontrado
-        this.Errors.Add(new CompilerError(null, 0, 0, null, $"Arquivo '{bootstrapperPath}' não encontrado."));
+        this.Errors.Add(new CompilerError(null, 0, 0, null, $"Arquivo '{outputPath}' não encontrado."));
+    }
     }
 #>

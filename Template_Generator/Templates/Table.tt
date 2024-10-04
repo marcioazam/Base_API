@@ -1,0 +1,84 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ include file="Configuration\TemplateConfig.ttinclude" #>
+<#@ include file="Configuration\PropertyTableDefinition.ttinclude" #>
+<#@ import namespace="System.Diagnostics" #>
+<#
+   if (string.IsNullOrEmpty(solutionDir))
+    {
+        Debug.WriteLine($"[Erro] Diretório da solução '{solutionDirName}' não encontrado a partir de '{templateDir}'.");
+    }
+    else if(executarTemplate)
+    {
+        // Definir o diretório de saída relativo à solução
+        string outputDir = Path.Combine(solutionDir, "Infrastructure", "Context", "Tables");
+
+        // Nome do arquivo baseado na entidade
+        string fileName = entityName + "Table.cs";
+
+        // Caminho completo do arquivo
+        string outputPath = Path.Combine(outputDir, fileName);
+
+        // Verificar se o arquivo já existe
+        if (File.Exists(outputPath))
+        {
+            Debug.WriteLine($"[Info] Arquivo '{fileName}' já existe em '{outputDir}'. Nenhuma ação foi tomada.");
+        }
+        else
+        {
+            // Definir os 'using' a serem adicionados
+            string usings = @"using Domain.Interfaces.Tables;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;";
+
+            // Iniciar o conteúdo do arquivo
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(usings);
+            sb.AppendLine();
+            sb.AppendLine("namespace Infrastructure.Context.Tables");
+            sb.AppendLine("{");
+            sb.AppendLine($"    public class {entityName}Table : ITable");
+            sb.AppendLine("    {");
+
+            // Iterar sobre a lista de propriedades e adicionar cada uma
+            foreach (var prop in properties)
+            {
+                string modifiers = "";
+                if (prop.IsRequired)
+                {
+                    modifiers += "required ";
+                }
+
+                string nullable = prop.IsNullable ? "?" : "";
+
+                sb.AppendLine($"        public {modifiers}{prop.Type}{nullable} {prop.Name} {{ get; set; }}");
+                sb.AppendLine();
+            }
+
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+
+            string fileContent = sb.ToString();
+
+            try
+            {
+                // Gravar o arquivo
+                File.WriteAllText(outputPath, fileContent);
+                Debug.WriteLine($"[Info] Arquivo '{fileName}' criado com sucesso em '{outputDir}'.");
+            }
+            catch (Exception ex)
+            {
+                // Logar erro caso a escrita falhe
+                Debug.WriteLine($"[Erro] Erro ao criar o arquivo '{fileName}': {ex.Message}");
+            }
+        }
+    }
+#>

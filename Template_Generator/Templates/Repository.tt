@@ -1,20 +1,27 @@
 <#@ template language="C#" hostspecific="true" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.IO" #>
-<#@ include file="Configuration/DependencyName.ttinclude" #>
+<#@ include file="Configuration/TemplateConfig.ttinclude" #>
 <#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Diagnostics" #>
 <#
-    // Caminho onde os arquivos serão gerados
-    string outputDir = @"C:\Users\Márcio\source\repos\Base_API\Infrastructure\Repositories";
+    if (string.IsNullOrEmpty(solutionDir))
+    {
+        Debug.WriteLine($"[Erro] Diretório da solução '{solutionDirName}' não encontrado a partir de '{templateDir}'.");
+    }
+    else if(executarTemplate)
+    {
+     // Definir o diretório de saída relativo à solução
+        string outputDir = Path.Combine(solutionDir, "Infrastructure", "Repositories");
 
-    // Nome do arquivo
-    string fileName = dependecyName + "Repository.cs";
+        // Nome do arquivo baseado na entidade
+        string fileName = entityName + "Repository.cs";
 
-    // Caminho completo do arquivo
-    string outputPath = Path.Combine(outputDir, fileName);
+        // Caminho completo do arquivo
+        string outputPath = Path.Combine(outputDir, fileName);
 
     // Definir o 'using' a ser adicionado
-    string newUsing = $"using Domain.Commands.{dependecyName}Commands;";
+    string newUsing = $"using Domain.Commands.{entityName}Commands;";
 
     // Verificar se o diretório existe, se não, criar
     if (!Directory.Exists(outputDir))
@@ -33,7 +40,7 @@ using Infrastructure.Repositories.Base;
 
 namespace Infrastructure.Repositories
 {{
-    public class {dependecyName}Repository(DefaultContext context, IMapper imapper) : BaseRepository<{dependecyName}Table, {dependecyName}>(context, imapper), I{dependecyName}Repository
+    public class {entityName}Repository(DefaultContext context, IMapper imapper) : BaseRepository<{entityName}Table, {entityName}>(context, imapper), I{entityName}Repository
     {{
     }}
 }}";
@@ -48,4 +55,5 @@ namespace Infrastructure.Repositories
         warning.IsWarning = true; // Define como aviso
         this.Errors.Add(warning);
   }
+    }
 #>

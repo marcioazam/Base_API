@@ -1,0 +1,28 @@
+<#
+    string entityName = "NovaEntity";
+    bool executarTemplate = true;
+
+    // Nome do diretório da solução (sem extensão)
+    string solutionDirName = "Base_API";
+
+    // Função para encontrar o diretório da solução
+    string FindSolutionDirectory(string startingDir, string solutionName)
+    {
+        DirectoryInfo dir = new DirectoryInfo(startingDir);
+        while (dir != null)
+        {
+            if (dir.Name.Equals(solutionName, StringComparison.OrdinalIgnoreCase))
+            {
+                return dir.FullName;
+            }
+            dir = dir.Parent;
+        }
+        return null;
+    }
+
+    // Caminho do template
+    string templateDir = Path.GetDirectoryName(Host.TemplateFile);
+
+    // Encontrar o diretório da solução
+    string solutionDir = FindSolutionDirectory(templateDir, solutionDirName);
+#>

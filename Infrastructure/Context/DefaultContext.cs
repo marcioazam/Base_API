@@ -1,4 +1,4 @@
-﻿using Infrastructure.Context.Tables;
+using Infrastructure.Context.Tables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
