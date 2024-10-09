@@ -1,20 +1,41 @@
 <#
-    // Classe para definir uma propriedade
-    public class Property
+    // Definir a lista de propriedades usando dicionários
+    List<Dictionary<string, object>> properties = new List<Dictionary<string, object>>
     {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public bool IsRequired { get; set; }
-        public bool IsNullable { get; set; }
-    }
-
-    // Definir a lista de propriedades para a entidade
-    List<Property> properties = new List<Property>
-    {
-        new Property { Type = "long", Name = "Id", IsRequired = true, IsNullable = false },
-        new Property { Type = "string", Name = "Nome", IsRequired = true, IsNullable = false },
-        new Property { Type = "string", Name = "Email", IsRequired = true, IsNullable = false },
-        new Property { Type = "char", Name = "Sexo", IsRequired = true, IsNullable = false },
-        new Property { Type = "string", Name = "Endereco", IsRequired = false, IsNullable = true }
+        new Dictionary<string, object>
+        {
+            { "Type", "long" },
+            { "Name", "Id" },
+            { "IsRequired", true },
+            { "IsNullable", false }
+        },
+        new Dictionary<string, object>
+        {
+            { "Type", "string" },
+            { "Name", "Nome" },
+            { "IsRequired", true },
+            { "IsNullable", false }
+        },
+        new Dictionary<string, object>
+        {
+            { "Type", "decimal" },
+            { "Name", "Preco" },
+            { "IsRequired", true },
+            { "IsNullable", false }
+        },
+        new Dictionary<string, object>
+        {
+            { "Type", "int" },
+            { "Name", "Quantidade" },
+            { "IsRequired", true },
+            { "IsNullable", false }
+        },
+        new Dictionary<string, object>
+        {
+            { "Type", "string" },
+            { "Name", "Descricao" },
+            { "IsRequired", false },
+            { "IsNullable", true }
+        }
     };
 #>
