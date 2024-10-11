@@ -85,7 +85,7 @@
                         sb.AppendLine();
                     }
                 }               
-            }
+            }  
 
             sb.AppendLine("        }");
             sb.AppendLine("    }");
