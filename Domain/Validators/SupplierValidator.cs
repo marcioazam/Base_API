@@ -1,10 +1,7 @@
 ﻿using Domain.Entities;
+using Domain.EnumTypes;
+using Domain.Helpers;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Validators
 {
@@ -17,7 +14,7 @@ namespace Domain.Validators
                 .Length(3, 100).WithMessage("O nome deve ter entre 3 e 100 caracteres.");
 
             RuleFor(command => command.ApiUrl)
-                .NotEmpty().WithMessage("A URL da API é obrigatória.")
+                .NotEmpty().WithMessage(BuildErrorHelper.BuildError(GlobalError.RequiredProperty, "ApiUrl"))
                 .Length(20, 50).WithMessage("A URL da API deve ter entre 20 e 50 caracteres.");
 
             RuleFor(command => command.ApiKey)
