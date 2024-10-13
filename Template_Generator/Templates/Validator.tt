@@ -69,7 +69,7 @@
                     if(Convert.ToBoolean(prop["IsRequired"]) == true)
                     {
                         conditionValidation += $"                .NotEmpty().WithMessage(BuildErrorHelper.BuildError(GlobalError.RequiredProperty, \"{prop["Name"].ToString()}\"))";
-                    }
+                    } 
 
                     if(!String.IsNullOrEmpty(conditionValidation))
                     {
