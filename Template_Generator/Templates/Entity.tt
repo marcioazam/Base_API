@@ -1,0 +1,109 @@
+﻿<#@ template language="C#" hostspecific="true"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ include file="Configuration\TemplateConfig.ttinclude" #>
+<#@ include file="Configuration\PropertyTableDefinition.ttinclude" #>
+<#@ import namespace="System.Diagnostics" #>
+<#
+   if (string.IsNullOrEmpty(solutionDir))
+    {
+        Debug.WriteLine($"[Erro] Diretório da solução '{solutionDirName}' não encontrado a partir de '{templateDir}'.");
+    }
+    else if(executarTemplate)
+    {
+        // Definir o diretório de saída relativo à solução
+        string outputDir = Path.Combine(solutionDir, "Domain", "Entities");
+
+        // Nome do arquivo baseado na entidade
+        string fileName = entityName + ".cs";
+
+        // Caminho completo do arquivo
+        string outputPath = Path.Combine(outputDir, fileName);
+
+        // Verificar se o arquivo já existe
+        if (File.Exists(outputPath))
+        {
+            Debug.WriteLine($"[Info] Arquivo '{fileName}' já existe em '{outputDir}'. Nenhuma ação foi tomada.");
+        }
+        else
+        {
+            // Definir os 'using' a serem adicionados
+            string usings = @"using Domain.Entities.Base;
+using Domain.Interfaces.Entities.Base;
+using Domain.Validators;
+using FluentValidation.Results;";
+
+            // Iniciar o conteúdo do arquivo
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(usings);
+            sb.AppendLine();
+            sb.AppendLine("namespace Domain.Entities");
+            sb.AppendLine("{");
+            sb.AppendLine($"    public class {entityName} : EntityBusinessRules, IEntity");
+            sb.AppendLine("    {");
+
+            int x = 1;
+
+            // Iterar sobre a lista de propriedades e adicionar cada uma
+            foreach (var prop in properties)
+            {
+                
+                string modifiers = "";
+                if (Convert.ToBoolean(prop["IsRequired"]))
+                {
+                    modifiers += "required ";
+                }
+
+                string nullable = Convert.ToBoolean(prop["IsNullable"]) ? "?" : "";
+
+                sb.AppendLine($"        public {modifiers}{prop["Type"].ToString()}{nullable} {prop["Name"].ToString()} {{ get; set; }}");
+
+                x++;
+
+                sb.AppendLine();
+
+                if(properties.Count() < x)
+                {
+                    sb.AppendLine("        public Task<ValidationResult> Validate()");
+                    sb.AppendLine("        {");
+                    sb.AppendLine("            var validator = new {entityName}Validator();");
+                    sb.AppendLine();
+                    sb.AppendLine("            return Task.FromResult(validator.Validate(this));");    
+                    sb.AppendLine("        }");
+                }
+            }
+
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+
+            string fileContent = sb.ToString();
+
+            int lastNewLineIndex = fileContent.LastIndexOf(Environment.NewLine);
+
+            if (lastNewLineIndex != -1)
+            {
+                sb.Remove(lastNewLineIndex, fileContent.Length - lastNewLineIndex);
+            }
+
+            fileContent = sb.ToString();
+
+            try
+            {
+                // Gravar o arquivo
+                File.WriteAllText(outputPath, fileContent);
+                Debug.WriteLine($"[Info] Arquivo '{fileName}' criado com sucesso em '{outputDir}'.");
+            }
+            catch (Exception ex)
+            {
+                // Logar erro caso a escrita falhe
+                Debug.WriteLine($"[Erro] Erro ao criar o arquivo '{fileName}': {ex.Message}");
+            }
+        }
+    }
+#>
