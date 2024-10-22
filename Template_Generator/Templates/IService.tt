@@ -1,0 +1,55 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="Configuration/TemplateConfig.ttinclude" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Diagnostics" #>
+<#
+    if (string.IsNullOrEmpty(solutionDir))
+    {
+        Debug.WriteLine($"[Erro] Diretório da solução '{solutionDirName}' não encontrado a partir de '{templateDir}'.");
+    }
+    else if(executarTemplate)
+    {
+     // Definir o diretório de saída relativo à solução
+        string outputDir = Path.Combine(solutionDir, "Application", "Interfaces", "Services");
+
+        // Nome do arquivo baseado na entidade
+        string fileName = "I" + entityName + "Service.cs";
+
+        // Caminho completo do arquivo
+        string outputPath = Path.Combine(outputDir, fileName);
+
+
+    // Verificar se o diretório existe, se não, criar
+    if (!Directory.Exists(outputDir))
+    {
+        Directory.CreateDirectory(outputDir);
+    }
+
+    // Verificar se o arquivo já existe
+    if (!File.Exists(outputPath))
+    {
+
+        // Conteúdo do arquivo
+        string fileContent = $@"using Application.Interfaces.Services.Base;
+
+namespace Application.Interfaces.Services
+{{
+    public interface I{entityName}Service : IServiceBase
+    {{
+    }}
+}}";
+
+        // Gravar o arquivo
+        File.WriteAllText(outputPath, fileContent);
+  }
+  else
+  {
+        // Gerar um aviso informando que o arquivo já existe
+        var warning = new CompilerError(null, 0, 0, null, $"Arquivo '{fileName}' já existe. Nenhuma ação foi tomada.");
+        warning.IsWarning = true; // Define como aviso
+        this.Errors.Add(warning);
+  }
+    }
+#>

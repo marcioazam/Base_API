@@ -57,19 +57,55 @@
       <DependentUpon>Bootstraper.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templates\Commands.cs">
+    <Compile Include="Templates\Controller.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Commands.tt</DependentUpon>
+      <DependentUpon>Controller.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DeleteCommand.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeleteCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DTO.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Filter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Filter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\InsertCommand.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsertCommand.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\DefaultContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DefaultContext.tt</DependentUpon>
     </Compile>
-    <Content Include="Templates\Commands.tt">
+    <Content Include="Templates\Controller.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Commands.cs</LastGenOutput>
+      <LastGenOutput>Controller.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\DeleteCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DeleteCommand.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\DTO.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DTO.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\Filter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Filter.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\InsertCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InsertCommand.cs</LastGenOutput>
     </Content>
     <Content Include="Templates\Entity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -90,6 +126,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Templates\IService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IService.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\MapperProfile.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,10 +146,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Repository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Templates\Service.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Service.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\Table1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Table.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\UpdateCommand.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateCommand.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\Validator.cs">
       <AutoGen>True</AutoGen>
@@ -119,13 +170,25 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IRepository.cs</LastGenOutput>
     </Content>
+    <Content Include="Templates\IService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IService.cs</LastGenOutput>
+    </Content>
     <Content Include="Templates\MappingConfiguration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MappingConfiguration.cs</LastGenOutput>
     </Content>
+    <Content Include="Templates\Service.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Service.cs</LastGenOutput>
+    </Content>
     <Content Include="Templates\Table.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Table1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\UpdateCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpdateCommand.cs</LastGenOutput>
     </Content>
     <Content Include="Templates\Validator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

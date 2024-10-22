@@ -1,14 +1,9 @@
 ﻿using API.Controllers.Extension;
 using Application.DTOs.Entities;
 using Application.DTOs.Filters;
-using Application.Factories;
-using Application.Interfaces.Factories;
 using Application.Interfaces.Services;
 using Domain.Commands.ClientesCommands;
 using Domain.Entities;
-using Domain.Helpers;
-using Domain.ValueObjects.ResultInfo;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
