@@ -1,6 +1,6 @@
 <#
     string entityName = "NovaEntity";
-    bool executarTemplate = true;
+    bool executarTemplate = false;
 
     // Nome do diretório da solução (sem extensão)
     string solutionDirName = "Base_API";

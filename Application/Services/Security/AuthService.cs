@@ -87,8 +87,15 @@ namespace Application.Services.Security
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.GivenName, ""),
+                new Claim(ClaimTypes.Email, "")
             };
+
+            foreach(var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
 
             expires = DateTime.UtcNow.AddHours(expiryHours);
 

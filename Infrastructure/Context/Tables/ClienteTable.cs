@@ -11,11 +11,11 @@ namespace Infrastructure.Context.Tables
     {
         public required long Id { get; set; }
 
-        public required string Nome { get; set; }
+        public required string Name { get; set; }
 
         public required string Email { get; set; }
 
-        public required char Sexo { get; set; }
+        public required char Gender { get; set; }
 
         public string? Endereco { get; set; }
     }

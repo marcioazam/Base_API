@@ -25,6 +25,8 @@ namespace Domain.Entities
 
         public required bool Active { get; set; }
 
+        public List<int> Roles { get; set; }
+
         [JsonIgnore]
         public string? PasswordNoHash { get; set; }
 

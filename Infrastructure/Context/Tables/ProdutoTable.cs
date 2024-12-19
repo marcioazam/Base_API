@@ -1,4 +1,5 @@
 using Domain.Interfaces.Tables;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace Infrastructure.Context.Tables
 
         public required string Nome { get; set; }
 
+        [Precision(18, 4)]
         public required decimal Valor { get; set; }
 
         public required bool Ativo { get; set; }

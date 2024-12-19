@@ -12,7 +12,26 @@ namespace Infrastructure.Context.Mappings
 
             builder.HasKey(nameof(ClienteTable.Id));
 
-            builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.Id).UseIdentityColumn()
+                .HasColumnName("Id")
+                .HasColumnType("bigint");
+
+            builder.Property(x => x.Name)
+                .HasColumnName("Name")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(100)
+                .IsRequired(true);
+
+            builder.Property(x => x.Gender)
+                .HasColumnName("Gender")
+                .HasColumnType("CHAR")
+                .IsRequired(true);
+
+            builder.Property(x => x.Email)
+                .HasColumnName("Email")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(100)
+                .IsRequired(true);
         }
     }
 }
